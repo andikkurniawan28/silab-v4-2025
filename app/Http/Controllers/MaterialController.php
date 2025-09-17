@@ -17,15 +17,33 @@ class MaterialController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Material::with('station');
+            $data = Material::with(['station', 'parameters']);
 
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('station', function ($row) {
                     return $row->station->name ?? '-';
                 })
+                ->addColumn('parameters', function ($row) {
+                    if ($row->parameters->isEmpty()) {
+                        return '-';
+                    }
+                    // tampilkan dalam list HTML
+                    $list = '<ul class="mb-0 ps-3">';
+                    foreach ($row->parameters as $param) {
+                        $list .= '<li>' . e($param->name);
+                        if ($param->unit) {
+                            $list .= '<sub>(' . e($param->unit->name) . ')</sub>';
+                        }
+                        $list .= '</li>';
+                    }
+                    $list .= '</ul>';
+                    return $list;
+                })
                 ->addColumn('status', function ($row) {
-                    return $row->is_active ? '<span class="badge bg-success">Aktif</span>' : '<span class="badge bg-secondary">Nonaktif</span>';
+                    return $row->is_active
+                        ? '<span class="badge bg-success text-white">Aktif</span>'
+                        : '<span class="badge bg-secondary text-white">Nonaktif</span>';
                 })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
@@ -45,12 +63,13 @@ class MaterialController extends Controller
                     $buttons .= '</div>';
                     return $buttons;
                 })
-                ->rawColumns(['status', 'action'])
+                ->rawColumns(['parameters', 'status', 'action'])
                 ->make(true);
         }
 
         return view('materials.index');
     }
+
 
     public function create()
     {

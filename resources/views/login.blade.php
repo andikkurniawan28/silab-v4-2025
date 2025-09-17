@@ -101,7 +101,7 @@
 
                                         <!-- Offline math captcha (server-generated) -->
                                         <div class="mb-3">
-                                            <label class="form-label">Bukti bukan bot</label>
+                                            <label class="form-label">Captcha</label>
                                             <div class="d-flex align-items-center">
                                                 <div class="me-2 fw-bold fs-6" id="captchaQuestion">
                                                     {{-- server renders $captchaQuestion --}}

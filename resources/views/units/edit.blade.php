@@ -23,10 +23,8 @@
                         @enderror
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('units.index') }}" class="btn btn-secondary">Kembali</a>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <a href="{{ route('units.index') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

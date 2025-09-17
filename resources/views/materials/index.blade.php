@@ -20,6 +20,8 @@
                     <thead>
                         <tr>
                             <th>Nama</th>
+                            <th>Stasiun</th>
+                            <th>Parameter</th>
                             <th>Status</th>
                             <th>Aksi</th>
                         </tr>
@@ -41,7 +43,9 @@
             order: [[0, 'asc']],
             columns: [
                 { data: 'name', name: 'name' },
-                { data: 'is_active', name: 'is_active', render: data => data ? 'Aktif' : 'Nonaktif' },
+                { data: 'station', name: 'station.name' },
+                { data: 'parameters', name: 'parameters', orderable: false, searchable: false },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });
