@@ -17,17 +17,26 @@ class AuthController extends Controller
         $request->validate([
             'username' => 'required',
             'password' => 'required',
+            'captcha'  => 'required|numeric',
         ]);
 
+        if ($request->captcha != session('captcha_answer')) {
+            return back()
+                ->withInput($request->only('username'))
+                ->withErrors(['captcha' => 'Jawaban captcha salah.']);
+        }
+
         $credentials = $request->only('username', 'password');
+        $credentials['is_active'] = 1;
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended();
         }
 
-        return back()->with('error', 'Invalid credentials or your account is inactive.');
+        return back()->with('error', 'Username atau password salah, atau akun Anda tidak aktif.');
     }
+
 
     public function logout(Request $request)
     {

@@ -16,10 +16,6 @@
                 </a>
             </li>
 
-            <li class="sidebar-header">
-                Master
-            </li>
-
             @if (Auth()->user()->role->akses_daftar_jabatan)
                 <li class="sidebar-item @yield('roles-active')">
                     <a class="sidebar-link" href="{{ route('roles.index') }}">
@@ -34,6 +30,24 @@
                     <a class="sidebar-link" href="{{ route('users.index') }}">
                         <i class="bi bi-people align-middle"></i>
                         <span class="align-middle">User</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_stasiun)
+                <li class="sidebar-item @yield('stations-active')">
+                    <a class="sidebar-link" href="{{ route('stations.index') }}">
+                        <i class="bi bi-diagram-3 align-middle"></i>
+                        <span class="align-middle">Stasiun</span>
+                    </a>
+                </li>
+            @endif
+
+            @if (Auth()->user()->role->akses_daftar_satuan)
+                <li class="sidebar-item @yield('units-active')">
+                    <a class="sidebar-link" href="{{ route('units.index') }}">
+                        <i class="bi bi-rulers align-middle"></i>
+                        <span class="align-middle">Satuan</span>
                     </a>
                 </li>
             @endif

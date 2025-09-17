@@ -18,6 +18,18 @@ class Role extends Model
             ['id' => 'akses_tambah_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_jabatan'))],
             ['id' => 'akses_edit_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_jabatan'))],
             ['id' => 'akses_hapus_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_jabatan'))],
+            ['id' => 'akses_daftar_user', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_user'))],
+            ['id' => 'akses_tambah_user', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_user'))],
+            ['id' => 'akses_edit_user', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_user'))],
+            ['id' => 'akses_hapus_user', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_user'))],
+            ['id' => 'akses_daftar_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_stasiun'))],
+            ['id' => 'akses_tambah_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_stasiun'))],
+            ['id' => 'akses_edit_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_stasiun'))],
+            ['id' => 'akses_hapus_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_stasiun'))],
+            ['id' => 'akses_daftar_satuan', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_satuan'))],
+            ['id' => 'akses_tambah_satuan', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_satuan'))],
+            ['id' => 'akses_edit_satuan', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_satuan'))],
+            ['id' => 'akses_hapus_satuan', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_satuan'))],
         ];
     }
 }
