@@ -3,63 +3,110 @@
 namespace App\Http\Controllers;
 
 use App\Models\Parameter;
+use App\Models\Unit;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ParameterController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($response = $this->checkIzin('akses_daftar_parameter')) {
+            return $response;
+        }
+
+        if ($request->ajax()) {
+            $data = Parameter::with('unit');
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('unit', function ($row) {
+                    return $row->unit ? $row->unit->name : '-';
+                })
+                ->addColumn('action', function ($row) {
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_edit_parameter) {
+                        $editUrl = route('parameters.edit', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+                    if (Auth()->user()->role->akses_hapus_parameter) {
+                        $deleteUrl = route('parameters.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('parameters.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        if ($response = $this->checkIzin('akses_tambah_parameter')) {
+            return $response;
+        }
+
+        $units = Unit::pluck('name', 'id');
+        return view('parameters.create', compact('units'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        if ($response = $this->checkIzin('akses_tambah_parameter')) {
+            return $response;
+        }
+
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'unit_id' => 'required|exists:units,id',
+        ]);
+
+        Parameter::create($request->all());
+
+        return redirect()->route('parameters.index')->with('success', 'Parameter berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Parameter $parameter)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(Parameter $parameter)
     {
-        //
+        if ($response = $this->checkIzin('akses_edit_parameter')) {
+            return $response;
+        }
+
+        $units = Unit::pluck('name', 'id');
+        return view('parameters.edit', compact('parameter', 'units'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, Parameter $parameter)
     {
-        //
+        if ($response = $this->checkIzin('akses_edit_parameter')) {
+            return $response;
+        }
+
+        $request->validate([
+            'name'    => 'required|string|max:255',
+            'unit_id' => 'required|exists:units,id',
+        ]);
+
+        $parameter->update($request->all());
+
+        return redirect()->route('parameters.index')->with('success', 'Parameter berhasil diperbarui.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Parameter $parameter)
     {
-        //
+        if ($response = $this->checkIzin('akses_hapus_parameter')) {
+            return $response;
+        }
+
+        $parameter->delete();
+        return redirect()->route('parameters.index')->with('success', 'Parameter berhasil dihapus.');
     }
 }

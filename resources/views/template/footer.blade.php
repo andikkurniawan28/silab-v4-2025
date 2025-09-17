@@ -1,14 +1,9 @@
-<footer class="footer">
-    <div class="container-fluid">
-        <div class="row text-muted">
-            <div class="col-6 text-start">
-                <p class="mb-0">
-                    <a class="text-muted" href="" target="_blank"><strong>&copy; Andik Kurniawan</strong></a>
-                </p>
-            </div>
-            <div class="col-6 text-end">
-                {{--  --}}
-            </div>
+<!-- Footer -->
+<footer class="sticky-footer bg-white">
+    <div class="container my-auto">
+        <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2020</span>
         </div>
     </div>
 </footer>
+<!-- End of Footer -->

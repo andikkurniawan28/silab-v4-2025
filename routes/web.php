@@ -3,10 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StationController;
-use App\Http\Controllers\UnitController;
+use App\Http\Controllers\ParameterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,3 +41,5 @@ Route::resource('roles', RoleController::class)->middleware(['auth']);
 Route::resource('users', UserController::class)->middleware(['auth']);
 Route::resource('stations', StationController::class)->middleware(['auth']);
 Route::resource('units', UnitController::class)->middleware(['auth']);
+Route::resource('parameters', ParameterController::class)->middleware(['auth']);
+Route::resource('materials', MaterialController::class)->middleware(['auth']);

@@ -1,6 +1,7 @@
 @extends('template.master')
 
 @section('users-active', 'active')
+@section('users-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">

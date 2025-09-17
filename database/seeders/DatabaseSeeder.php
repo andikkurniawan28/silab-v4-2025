@@ -7,6 +7,7 @@ use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Station;
+use App\Models\Parameter;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -87,6 +88,17 @@ class DatabaseSeeder extends Seeder
             ['name' => 'IU'],
             ['name' => 'MCU'],
             ['name' => 'pH'],
+        ]);
+
+        Parameter::insert([
+            ['name' => 'Brix', 'unit_id' => 1],
+            ['name' => 'Pol', 'unit_id' => 1],
+            ['name' => 'Pol_baca', 'unit_id' => 2],
+            ['name' => 'HK', 'unit_id' => 1],
+            ['name' => 'R', 'unit_id' => 1],
+            ['name' => 'IU', 'unit_id' => 4],
+            ['name' => 'MC', 'unit_id' => 1],
+            ['name' => 'ZK', 'unit_id' => 1],
         ]);
 
     }

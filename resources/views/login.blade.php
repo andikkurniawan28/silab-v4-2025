@@ -208,7 +208,7 @@
 
 
     <script src="/adminkit-main/static/js/app.js"></script>
-    @include('template.js')
+    @include('template-admin-kit.js')
 </body>
 
 </html>

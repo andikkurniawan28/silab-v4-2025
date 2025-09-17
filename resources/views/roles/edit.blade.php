@@ -1,6 +1,7 @@
 @extends('template.master')
 
 @section('roles-active', 'active')
+@section('roles-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -49,10 +50,8 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('roles.index') }}" class="btn btn-secondary">Kembali</a>
-                        <button type="submit" class="btn btn-primary">Update</button>
-                    </div>
+                    <button type="submit" class="btn btn-success">Update</button>
+                    <a href="{{ route('roles.index') }}" class="btn btn-secondary">Batal</a>
                 </form>
             </div>
         </div>

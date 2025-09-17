@@ -26,8 +26,8 @@ class UserController extends Controller
                 })
                 ->addColumn('status', function ($row) {
                     return $row->is_active
-                        ? '<span class="badge bg-success">Aktif</span>'
-                        : '<span class="badge bg-danger">Nonaktif</span>';
+                        ? '<span class="badge bg-success text-white">Aktif</span>'
+                        : '<span class="badge bg-danger text-white">Nonaktif</span>';
                 })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
@@ -75,20 +75,13 @@ class UserController extends Controller
             'name'         => 'required|string|max:255',
             'username'        => 'required|string|max:255|unique:users,username',
             'password'     => 'required|string|min:8|confirmed',
-            'organization' => 'required|string|max:255',
-            'whatsapp'     => 'required|string|max:20',
-            // 'is_active'    => 'required|boolean',
         ]);
-
-        $app_key = Str::random(8);
 
         User::create([
             'role_id'   => $request->role_id,
             'name'      => $request->name,
             'username'  => $request->username,
             'password'  => bcrypt($request->password),
-            // 'is_active' => $request->is_active ?? 1,
-            'app_key'   => $app_key,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
@@ -115,12 +108,10 @@ class UserController extends Controller
             'name'         => 'required|string|max:255',
             'username'        => 'required|string|max:255|unique:users,username,' . $user->id,
             'password'     => 'nullable|string|min:8|confirmed',
-            'organization' => 'required|string|max:255',
-            'whatsapp'     => 'required|string|max:20',
             'is_active'    => 'boolean',
         ]);
 
-        $data = $request->only(['role_id', 'name', 'username', 'is_active', 'organization', 'whatsapp']);
+        $data = $request->only(['role_id', 'name', 'username', 'is_active']);
 
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
@@ -128,17 +119,6 @@ class UserController extends Controller
 
         // Update user utama
         $user->update($data);
-
-        // Handle akses produk
-        $aksesProduk = User::akses_produk();
-        $updateAkses = [];
-        foreach ($aksesProduk as $akses) {
-            $col = $akses['id']; // contoh: access_to_product_1
-            $updateAkses[$col] = isset($request->akses_produk[$col]) ? 1 : 0;
-        }
-
-        // Simpan ke database
-        $user->update($updateAkses);
 
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }

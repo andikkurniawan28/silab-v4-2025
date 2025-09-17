@@ -69,7 +69,7 @@ class RoleController extends Controller
 
         foreach (Role::semua_akses() as $akses) {
             $field = $akses['id'];
-            $data[$field] = $request->has("akses.$field") ? 1 : 0;
+            $data[$field] = $request->has($field) ? 1 : 0;
         }
 
         Role::create($data);
@@ -101,7 +101,7 @@ class RoleController extends Controller
 
         foreach (Role::semua_akses() as $akses) {
             $field = $akses['id'];
-            $data[$field] = $request->has("akses.$field") ? 1 : 0;
+            $data[$field] = $request->has($field) ? 1 : 0;
         }
 
         $role->update($data);
