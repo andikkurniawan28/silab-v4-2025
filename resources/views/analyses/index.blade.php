@@ -1,23 +1,22 @@
 @extends('template.master')
 
-@section('barcodePrinting-active', 'active')
-@section('barcodePrinting-show', 'show')
-@section('barcode_printing.list-active', 'active')
+@section('analyses-active', 'active')
+@section('analyses-show', 'show')
 
 @section('content')
-<div class="container-fluid py-0 px-0">
-    <h1 class="h3 mb-3"><strong>Daftar Barcode</strong></h1>
+    <div class="container-fluid py-0 px-0">
+        <h1 class="h3 mb-3"><strong>Daftar Analisa</strong></h1>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="roleTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <table id="analysesTable" class="table table-bordered table-striped w-100">
                     <thead>
                         <tr>
                             <th>ID</th>
                             <th>Material</th>
+                            <th>Hasil</th>
+                            <th>Status</th>
                             <th>User</th>
-                            <th>Timestamp</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -25,22 +24,22 @@
             </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('script')
 <script>
     $(function() {
-        $('#roleTable').DataTable({
+        $('#analysesTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('barcode_printing.list') }}",
+            ajax: "{{ route('analyses.index') }}",
             order: [[0, 'desc']],
             columns: [
                 { data: 'id', name: 'id' },
                 { data: 'material', name: 'material.name' },
+                { data: 'result', name: 'result', orderable: false, searchable: false },
+                { data: 'status', name: 'status', orderable: false, searchable: false },
                 { data: 'user', name: 'user.name' },
-                { data: 'created_at', name: 'created_at' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

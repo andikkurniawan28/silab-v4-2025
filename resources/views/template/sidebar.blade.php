@@ -199,6 +199,23 @@
         </li>
     @endif
 
+    @if (Auth()->user()->role->akses_input_data)
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#inputData"
+                    aria-expanded="true" aria-controls="inputData">
+                    <i class="fas fa-fw fa-edit"></i>
+                    <span>Input Data</span>
+                </a>
+                <div id="inputData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Sub-Menu:</h6>
+                        <a class="collapse-item" href="{{ route('analyses.index') }}">Analisa</a>
+                    </div>
+                </div>
+            </li>
+    @endif
+
     {{-- <!-- Nav Item - Charts -->
     <li class="nav-item">
         <a class="nav-link" href="charts.html">

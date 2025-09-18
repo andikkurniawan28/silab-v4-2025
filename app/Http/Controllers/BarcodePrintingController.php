@@ -81,6 +81,15 @@ class BarcodePrintingController extends Controller
                         $reprintUrl = route('barcode_printing.reprint', $row->id);
                         $buttons .= '<a href="' . $reprintUrl . '" class="btn btn-sm btn-info">Cetak Ulang</a>';
                     }
+                    if (Auth()->user()->role->akses_hapus_analisa) {
+                        $deleteUrl = route('analyses.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        ';
+                    }
                     $buttons .= '</div>';
                     return $buttons;
                 })

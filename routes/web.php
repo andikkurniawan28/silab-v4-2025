@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalysisController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -64,3 +65,4 @@ Route::get('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingContr
 Route::get('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterial'])->name('barcode_printing.editMaterial')->middleware(['auth']);
 Route::post('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestampProcess'])->name('barcode_printing.editTimestampProcess')->middleware(['auth']);
 Route::post('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterialProcess'])->name('barcode_printing.editMaterialProcess')->middleware(['auth']);
+Route::resource('analyses', AnalysisController::class)->middleware(['auth']);

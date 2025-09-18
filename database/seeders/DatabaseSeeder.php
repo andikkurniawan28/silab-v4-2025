@@ -7,6 +7,7 @@ namespace Database\Seeders;
 use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Factor;
 use App\Models\Station;
 use App\Models\Parameter;
 use Illuminate\Database\Seeder;
@@ -128,6 +129,11 @@ class DatabaseSeeder extends Seeder
                 DB::statement("ALTER TABLE analyses ADD COLUMN `$colName` FLOAT NULL AFTER is_verified");
             }
         }
+
+        Factor::insert([
+            ['name' => 'Faktor Rendemen NPP', 'value' => 0.7],
+            ['name' => 'Faktor Mellase NPP', 'value' => 0.4],
+        ]);
 
     }
 }
