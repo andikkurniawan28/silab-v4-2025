@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\MonitoringHourlySpot;
 use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
@@ -88,6 +90,9 @@ class DatabaseSeeder extends Seeder
             ['name' => 'IU'],
             ['name' => 'MCU'],
             ['name' => 'pH'],
+            ['name' => 'Ku'],
+            ['name' => 'm3/H'],
+            ['name' => 'm3'],
         ]);
 
         Parameter::insert([
@@ -99,6 +104,19 @@ class DatabaseSeeder extends Seeder
             ['name' => 'IU', 'unit_id' => 4],
             ['name' => 'MC', 'unit_id' => 1],
             ['name' => 'ZK', 'unit_id' => 1],
+        ]);
+
+        MonitoringHourlySpot::insert([
+            ['name' => 'Tebu Tergiling', 'unit_id' => 7],
+            ['name' => 'Totalizer NMP', 'unit_id' => 9],
+            ['name' => 'Totalizer NMG', 'unit_id' => 9],
+            ['name' => 'Totalizer IMB', 'unit_id' => 9],
+            ['name' => 'Flow NMP', 'unit_id' => 8],
+            ['name' => 'Flow NMG', 'unit_id' => 8],
+            ['name' => 'Flow IMB', 'unit_id' => 8],
+            ['name' => 'NMP%Tebu', 'unit_id' => 1],
+            ['name' => 'NMG%Tebu', 'unit_id' => 1],
+            ['name' => 'IMB%Tebu', 'unit_id' => 1],
         ]);
 
     }

@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('parameters', function (Blueprint $table) {
+        Schema::create('estimation_spots', function (Blueprint $table) {
             $table->id();
             $table->foreignId('unit_id')->constrained();
-            $table->string('name');
-            $table->boolean('is_hidden')->default(0);
+            $table->string('name')->unique();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('parameters');
+        Schema::dropIfExists('estimation_spots');
     }
 };

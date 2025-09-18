@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('items-active', 'active')
-@section('items-show', 'show')
+@section('regions-active', 'active')
+@section('regions-show', 'show')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
-    <h1 class="h3 mb-3"><strong>Daftar Barang</strong></h1>
+    <h1 class="h3 mb-3"><strong>Daftar Wilayah</strong></h1>
 
-    @if(Auth()->user()->role->akses_tambah_barang)
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('items.create') }}" class="btn btn-primary">
+    @if(Auth()->user()->role->akses_tambah_wilayah)
+    <div class="d-flex justify-content-between align-roles-center mb-3">
+        <a href="{{ route('regions.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah
         </a>
     </div>
@@ -18,11 +18,11 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="itemTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
+                <table id="roleTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
+                            {{-- <th>ID</th> --}}
                             <th>Nama</th>
-                            <th>Satuan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -36,14 +36,14 @@
 @section('script')
 <script>
     $(function() {
-        $('#itemTable').DataTable({
+        $('#roleTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('items.index') }}",
+            ajax: "{{ route('regions.index') }}",
             order: [[0, 'asc']],
             columns: [
+                // { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
-                { data: 'unit', name: 'unit.name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('items-active', 'active')
-@section('items-show', 'show')
+@section('estimation_spots-active', 'active')
+@section('estimation_spots-show', 'show')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
-    <h1 class="h3 mb-3"><strong>Daftar Barang</strong></h1>
+    <h1 class="h3 mb-3"><strong>Daftar Titik Taksasi</strong></h1>
 
-    @if(Auth()->user()->role->akses_tambah_barang)
+    @if(Auth()->user()->role->akses_tambah_titik_taksasi)
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <a href="{{ route('items.create') }}" class="btn btn-primary">
+        <a href="{{ route('estimation_spots.create') }}" class="btn btn-primary">
             <i class="bi bi-plus-circle"></i> Tambah
         </a>
     </div>
@@ -18,7 +18,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="itemTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
+                <table id="estimation_spotTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
                             <th>Nama</th>
@@ -36,10 +36,10 @@
 @section('script')
 <script>
     $(function() {
-        $('#itemTable').DataTable({
+        $('#estimation_spotTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('items.index') }}",
+            ajax: "{{ route('estimation_spots.index') }}",
             order: [[0, 'asc']],
             columns: [
                 { data: 'name', name: 'name' },

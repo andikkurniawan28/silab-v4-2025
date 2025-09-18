@@ -3,12 +3,17 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MaterialController;
+use App\Http\Controllers\EstimationSpotController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ParameterController;
+use App\Http\Controllers\MonitoringHourlySpotController;
+use App\Http\Controllers\MonitoringShiftlySpotController;
+use App\Http\Controllers\RegionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,3 +48,8 @@ Route::resource('stations', StationController::class)->middleware(['auth']);
 Route::resource('units', UnitController::class)->middleware(['auth']);
 Route::resource('parameters', ParameterController::class)->middleware(['auth']);
 Route::resource('materials', MaterialController::class)->middleware(['auth']);
+Route::resource('monitoring_hourly_spots', MonitoringHourlySpotController::class)->middleware(['auth']);
+Route::resource('monitoring_shiftly_spots', MonitoringShiftlySpotController::class)->middleware(['auth']);
+Route::resource('estimation_spots', EstimationSpotController::class)->middleware(['auth']);
+Route::resource('items', ItemController::class)->middleware(['auth']);
+Route::resource('regions', RegionController::class)->middleware(['auth']);

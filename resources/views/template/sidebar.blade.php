@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
@@ -27,6 +27,11 @@
         @yield('units-active')
         @yield('parameters-active')
         @yield('materials-active')
+        @yield('monitoring_hourly_spots-active')
+        @yield('monitoring_shiftly_spots-active')
+        @yield('estimation_spots-active')
+        @yield('items-active')
+        @yield('regions-active')
     ">
         <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true"
             aria-controls="collapseMaster">
@@ -40,6 +45,11 @@
             @yield('units-show')
             @yield('parameters-show')
             @yield('materials-show')
+            @yield('monitoring_hourly_spots-show')
+            @yield('monitoring_shiftly_spots-show')
+            @yield('estimation_spots-show')
+            @yield('items-show')
+            @yield('regions-show')
         " aria-labelledby="headingMaster" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
 
@@ -88,6 +98,46 @@
                     @yield('materials-active')"
                     href="{{ route('materials.index') }}">
                     Material
+                </a>
+                @endif
+
+                @if (Auth()->user()->role->akses_daftar_titik_monitoring_perjam)
+                <a class="collapse-item
+                    @yield('monitoring_hourly_spots-active')"
+                    href="{{ route('monitoring_hourly_spots.index') }}">
+                    Titik Monitoring Perjam
+                </a>
+                @endif
+
+                @if (Auth()->user()->role->akses_daftar_titik_monitoring_pershift)
+                <a class="collapse-item
+                    @yield('monitoring_shiftly_spots-active')"
+                    href="{{ route('monitoring_shiftly_spots.index') }}">
+                    Titik Monitoring Pershift
+                </a>
+                @endif
+
+                @if (Auth()->user()->role->akses_daftar_titik_taksasi)
+                <a class="collapse-item
+                    @yield('estimation_spots-active')"
+                    href="{{ route('estimation_spots.index') }}">
+                    Titik Taksasi
+                </a>
+                @endif
+
+                @if (Auth()->user()->role->akses_daftar_barang)
+                <a class="collapse-item
+                    @yield('items-active')"
+                    href="{{ route('items.index') }}">
+                    Barang
+                </a>
+                @endif
+
+                @if (Auth()->user()->role->akses_daftar_wilayah)
+                <a class="collapse-item
+                    @yield('regions-active')"
+                    href="{{ route('regions.index') }}">
+                    Wilayah
                 </a>
                 @endif
 

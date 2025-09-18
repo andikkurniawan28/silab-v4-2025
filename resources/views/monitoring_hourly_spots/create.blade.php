@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('items-active', 'active')
-@section('items-show', 'show')
+@section('monitoring_hourly_spots-active', 'active')
+@section('monitoring_hourly_spots-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
-        <h1 class="h3 mb-3"><strong>Tambah Barang</strong></h1>
+        <h1 class="h3 mb-3"><strong>Tambah Titik Monitoring Perjam</strong></h1>
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('items.store') }}" method="POST">
+                <form action="{{ route('monitoring_hourly_spots.store') }}" method="POST">
                     @csrf
 
                     {{-- Satuan --}}
@@ -35,7 +35,7 @@
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save"></i> Simpan
                     </button>
-                    <a href="{{ route('items.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('monitoring_hourly_spots.index') }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left"></i> Batal
                     </a>
                 </form>
