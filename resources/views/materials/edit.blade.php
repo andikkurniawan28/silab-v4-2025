@@ -36,9 +36,8 @@
                         </select>
                     </div>
 
-
                     <div class="mb-3">
-                        <label class="form-label d-block">Parameter</label>
+                        <label class="form-label d-block">Parameter yang Dianalisa</label>
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" id="checkAll">
                             <label class="form-check-label fw-bold" for="checkAll">Pilih Semua</label>
@@ -69,6 +68,18 @@
                             </option>
                             <option value="0" {{ old('is_active', $material->is_active) == 0 ? 'selected' : '' }}>
                                 Nonaktif
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="sampling_method" class="form-label">Metode Sampling</label>
+                        <select name="sampling_method" id="sampling_method" class="form-select select2" required>
+                            <option value="request" {{ old('sampling_method', $material->sampling_method) == "request" ? 'selected' : '' }}>
+                                request
+                            </option>
+                            <option value="terjadwal" {{ old('sampling_method', $material->sampling_method) == "terjadwal" ? 'selected' : '' }}>
+                                terjadwal
                             </option>
                         </select>
                     </div>

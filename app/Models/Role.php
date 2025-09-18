@@ -14,6 +14,7 @@ class Role extends Model
     public static function semua_akses()
     {
         return [
+            ['id' => 'akses_master', 'name' => ucwords(str_replace('_', ' ', 'akses_master'))],
             ['id' => 'akses_daftar_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_jabatan'))],
             ['id' => 'akses_tambah_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_jabatan'))],
             ['id' => 'akses_edit_jabatan', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_jabatan'))],
@@ -58,6 +59,14 @@ class Role extends Model
             ['id' => 'akses_tambah_wilayah', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_wilayah'))],
             ['id' => 'akses_edit_wilayah', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_wilayah'))],
             ['id' => 'akses_hapus_wilayah', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_wilayah'))],
+            ['id' => 'akses_daftar_faktor', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_faktor'))],
+            ['id' => 'akses_tambah_faktor', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_faktor'))],
+            ['id' => 'akses_edit_faktor', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_faktor'))],
+            ['id' => 'akses_hapus_faktor', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_faktor'))],
+            ['id' => 'akses_daftar_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_barcode'))],
+            ['id' => 'akses_cetak_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_cetak_barcode'))],
+            ['id' => 'akses_edit_timestamp_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_timestamp_barcode'))],
+            ['id' => 'akses_edit_material_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_material_barcode'))],
         ];
     }
 }

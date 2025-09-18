@@ -134,6 +134,7 @@ class MaterialController extends Controller
             'station_id' => 'required|exists:stations,id',
             'name'       => 'required|string|max:255',
             'is_active'  => 'nullable|boolean',
+            'sampling_method'  => 'required',
             'parameters' => 'array',
             'parameters.*' => 'exists:parameters,id',
         ]);
@@ -142,6 +143,7 @@ class MaterialController extends Controller
             'station_id' => $request->station_id,
             'name'       => $request->name,
             'is_active'  => $request->boolean('is_active', true),
+            'sampling_method'       => $request->sampling_method,
         ]);
 
         $material->parameters()->sync($request->parameters ?? []);

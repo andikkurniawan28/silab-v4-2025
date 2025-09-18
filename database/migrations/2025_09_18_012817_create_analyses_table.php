@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('analyses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('station_id')->constrained();
-            $table->string('name');
-            $table->boolean('is_active')->default(1);
-            $table->enum('sampling_method', ['terjadwal', 'request'])->default('request');
+            $table->foreignId('material_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->float('volume')->nullable();
+            $table->tinyInteger('pan')->nullable();
+            $table->tinyInteger('reef')->nullable();
+            $table->boolean('is_verified')->default(0);
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('analyses');
     }
 };

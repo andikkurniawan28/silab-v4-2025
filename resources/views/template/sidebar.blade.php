@@ -1,5 +1,5 @@
 <!-- Sidebar -->
-<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
@@ -19,8 +19,10 @@
             <span>Dashboard</span></a>
     </li>
 
-    <!-- Nav Item - Master Collapse Menu -->
-    <li class="nav-item
+    @if (Auth()->user()->role->akses_master)
+        <!-- Nav Item - Master Collapse Menu -->
+        <li
+            class="nav-item
         @yield('roles-active')
         @yield('users-active')
         @yield('stations-active')
@@ -32,13 +34,15 @@
         @yield('estimation_spots-active')
         @yield('items-active')
         @yield('regions-active')
+        @yield('factors-active')
     ">
-        <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true"
-            aria-controls="collapseMaster">
-            <i class="fas fa-fw fa-database"></i>
-            <span>Master</span>
-        </a>
-        <div id="collapseMaster" class="collapse
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true"
+                aria-controls="collapseMaster">
+                <i class="fas fa-fw fa-database"></i>
+                <span>Master</span>
+            </a>
+            <div id="collapseMaster"
+                class="collapse
             @yield('roles-show')
             @yield('users-show')
             @yield('stations-show')
@@ -50,100 +54,150 @@
             @yield('estimation_spots-show')
             @yield('items-show')
             @yield('regions-show')
-        " aria-labelledby="headingMaster" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
+            @yield('factors-show')
+        "
+                aria-labelledby="headingMaster" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
 
-                @if (Auth()->user()->role->akses_daftar_jabatan)
-                <a class="collapse-item
+                    <h6 class="collapse-header">Sub-Menu :</h6>
+
+                    @if (Auth()->user()->role->akses_daftar_jabatan)
+                        <a class="collapse-item
                     @yield('roles-active')"
-                    href="{{ route('roles.index') }}">
-                    Jabatan
-                </a>
-                @endif
+                            href="{{ route('roles.index') }}">
+                            Jabatan
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_user)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_user)
+                        <a class="collapse-item
                     @yield('users-active')"
-                    href="{{ route('users.index') }}">
-                    User
-                </a>
-                @endif
+                            href="{{ route('users.index') }}">
+                            User
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_stasiun)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_stasiun)
+                        <a class="collapse-item
                     @yield('stations-active')"
-                    href="{{ route('stations.index') }}">
-                    Stasiun
-                </a>
-                @endif
+                            href="{{ route('stations.index') }}">
+                            Stasiun
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_satuan)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_satuan)
+                        <a class="collapse-item
                     @yield('units-active')"
-                    href="{{ route('units.index') }}">
-                    Satuan
-                </a>
-                @endif
+                            href="{{ route('units.index') }}">
+                            Satuan
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_parameter)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_parameter)
+                        <a class="collapse-item
                     @yield('parameters-active')"
-                    href="{{ route('parameters.index') }}">
-                    Parameter
-                </a>
-                @endif
+                            href="{{ route('parameters.index') }}">
+                            Parameter
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_material)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_material)
+                        <a class="collapse-item
                     @yield('materials-active')"
-                    href="{{ route('materials.index') }}">
-                    Material
-                </a>
-                @endif
+                            href="{{ route('materials.index') }}">
+                            Material
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_titik_monitoring_perjam)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_titik_monitoring_perjam)
+                        <a class="collapse-item
                     @yield('monitoring_hourly_spots-active')"
-                    href="{{ route('monitoring_hourly_spots.index') }}">
-                    Titik Monitoring Perjam
-                </a>
-                @endif
+                            href="{{ route('monitoring_hourly_spots.index') }}">
+                            Titik Monitoring Perjam
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_titik_monitoring_pershift)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_titik_monitoring_pershift)
+                        <a class="collapse-item
                     @yield('monitoring_shiftly_spots-active')"
-                    href="{{ route('monitoring_shiftly_spots.index') }}">
-                    Titik Monitoring Pershift
-                </a>
-                @endif
+                            href="{{ route('monitoring_shiftly_spots.index') }}">
+                            Titik Monitoring Pershift
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_titik_taksasi)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_titik_taksasi)
+                        <a class="collapse-item
                     @yield('estimation_spots-active')"
-                    href="{{ route('estimation_spots.index') }}">
-                    Titik Taksasi
-                </a>
-                @endif
+                            href="{{ route('estimation_spots.index') }}">
+                            Titik Taksasi
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_barang)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_barang)
+                        <a class="collapse-item
                     @yield('items-active')"
-                    href="{{ route('items.index') }}">
-                    Barang
-                </a>
-                @endif
+                            href="{{ route('items.index') }}">
+                            Barang
+                        </a>
+                    @endif
 
-                @if (Auth()->user()->role->akses_daftar_wilayah)
-                <a class="collapse-item
+                    @if (Auth()->user()->role->akses_daftar_wilayah)
+                        <a class="collapse-item
                     @yield('regions-active')"
-                    href="{{ route('regions.index') }}">
-                    Wilayah
-                </a>
-                @endif
+                            href="{{ route('regions.index') }}">
+                            Wilayah
+                        </a>
+                    @endif
 
+                    @if (Auth()->user()->role->akses_daftar_faktor)
+                        <a class="collapse-item
+                    @yield('factors-active')"
+                            href="{{ route('factors.index') }}">
+                            Faktor
+                        </a>
+                    @endif
+
+                </div>
             </div>
-        </div>
-    </li>
+        </li>
+    @endif
+
+    @if (Auth()->user()->role->akses_cetak_barcode || Auth()->user()->role->akses_daftar_barcode)
+        <!-- Nav Item - BarcodePrinting Collapse Menu -->
+        <li class="nav-item
+        @yield('barcodePrinting-active')
+    ">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseBarcodePrinting"
+                aria-expanded="true" aria-controls="collapseBarcodePrinting">
+                <i class="fas fa-fw fa-print"></i>
+                <span>Barcode</span>
+            </a>
+            <div id="collapseBarcodePrinting" class="collapse
+                @yield('barcodePrinting-show')
+            "
+                aria-labelledby="headingMaster" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Sub-Menu :</h6>
+
+                    @if (Auth()->user()->role->akses_daftar_barcode)
+                        <a class="collapse-item
+                            @yield('barcode_printing.list-active')"
+                            href="{{ route('barcode_printing.list') }}">
+                            Daftar Barcode
+                        </a>
+                    @endif
+                    @if (Auth()->user()->role->akses_cetak_barcode)
+                        @foreach ($viewStation as $v)
+                            <a class="collapse-item
+                            @yield("barcodePrinting{$v->id}-active")"
+                                href="{{ route('barcode_printing.index', $v->id) }}">
+                                {{ $v->name }}
+                            </a>
+                        @endforeach
+                    @endif
+                </div>
+        </li>
+    @endif
 
     {{-- <!-- Nav Item - Charts -->
     <li class="nav-item">

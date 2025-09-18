@@ -34,7 +34,7 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label d-block">Parameter</label>
+                        <label class="form-label d-block">Parameter yang Dianalisa</label>
                         <div class="form-check mb-2">
                             <input type="checkbox" class="form-check-input" id="checkAll">
                             <label class="form-check-label fw-bold" for="checkAll">Pilih Semua</label>

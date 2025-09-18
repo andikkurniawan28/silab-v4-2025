@@ -4,13 +4,15 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\MonitoringHourlySpot;
 use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Station;
 use App\Models\Parameter;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use App\Models\MonitoringHourlySpot;
+use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
 {
@@ -118,6 +120,14 @@ class DatabaseSeeder extends Seeder
             ['name' => 'NMG%Tebu', 'unit_id' => 1],
             ['name' => 'IMB%Tebu', 'unit_id' => 1],
         ]);
+
+        $parameters = Parameter::select(['id'])->orderBy('id')->get();
+        foreach($parameters as $p){
+            $colName = 'p' . $p->id;
+            if (!Schema::hasColumn('analyses', $colName)) {
+                DB::statement("ALTER TABLE analyses ADD COLUMN `$colName` FLOAT NULL AFTER is_verified");
+            }
+        }
 
     }
 }

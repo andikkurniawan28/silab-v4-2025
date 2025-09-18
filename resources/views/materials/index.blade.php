@@ -23,6 +23,7 @@
                             <th>Stasiun</th>
                             <th>Parameter</th>
                             <th>Status</th>
+                            <th>Metode Sampling</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -46,6 +47,7 @@
                 { data: 'station', name: 'station.name' },
                 { data: 'parameters', name: 'parameters', orderable: false, searchable: false },
                 { data: 'status', name: 'status', orderable: false, searchable: false },
+                { data: 'sampling_method', name: 'sampling_method' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

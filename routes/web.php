@@ -3,7 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BarcodePrintingController;
 use App\Http\Controllers\EstimationSpotController;
+use App\Http\Controllers\FactorController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
@@ -53,3 +55,12 @@ Route::resource('monitoring_shiftly_spots', MonitoringShiftlySpotController::cla
 Route::resource('estimation_spots', EstimationSpotController::class)->middleware(['auth']);
 Route::resource('items', ItemController::class)->middleware(['auth']);
 Route::resource('regions', RegionController::class)->middleware(['auth']);
+Route::resource('factors', FactorController::class)->middleware(['auth']);
+Route::get('barcode_printing/{station_id}', [BarcodePrintingController::class, 'index'])->name('barcode_printing.index')->middleware(['auth']);
+Route::post('barcode_printing', [BarcodePrintingController::class, 'process'])->name('barcode_printing.process')->middleware(['auth']);
+Route::get('barcode_printing', [BarcodePrintingController::class, 'list'])->name('barcode_printing.list')->middleware(['auth']);
+Route::get('barcode_printing/reprint/{analysis_id}', [BarcodePrintingController::class, 'reprint'])->name('barcode_printing.reprint')->middleware(['auth']);
+Route::get('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestamp'])->name('barcode_printing.editTimestamp')->middleware(['auth']);
+Route::get('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterial'])->name('barcode_printing.editMaterial')->middleware(['auth']);
+Route::post('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestampProcess'])->name('barcode_printing.editTimestampProcess')->middleware(['auth']);
+Route::post('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterialProcess'])->name('barcode_printing.editMaterialProcess')->middleware(['auth']);
