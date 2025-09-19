@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Factor;
 use App\Models\Analysis;
-use App\Models\Parameter;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
-use App\Models\ParameterMaterial;
 
-class AnalysisController extends Controller
+class AnalysisUnverifiedController extends Controller
 {
     public function index(Request $request)
     {
-        if ($response = $this->checkIzin('akses_daftar_analisa')) {
+        if ($response = $this->checkIzin('akses_verifikasi_mandor')) {
             return $response;
         }
 
         if ($request->ajax()) {
-            $data = Analysis::with(['material', 'user']);
+            $data = Analysis::where('is_verified', 0)->with(['material', 'user']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('material', function ($row) {
@@ -54,7 +51,7 @@ class AnalysisController extends Controller
                     $buttons = '<div class="btn-group" role="group">';
                     if (Auth()->user()->role->akses_edit_analisa) {
                         $editUrl = route('analyses.edit', $row->id);
-                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                        $buttons .= '<a href="' . $editUrl . '" target="_blank" class="btn btn-sm btn-warning">Edit</a>';
                     }
                     $buttons .= '</div>';
                     return $buttons;
@@ -63,63 +60,28 @@ class AnalysisController extends Controller
                 ->make(true);
         }
 
-        return view('analyses.index');
+        return view('analysis_unverified.index');
     }
 
-    public function edit(Analysis $analysis)
+    public function process(Request $request)
     {
-        if ($response = $this->checkIzin('akses_edit_analisa')) {
+        if ($response = $this->checkIzin('akses_verifikasi_mandor')) {
             return $response;
         }
 
-        $factors = Factor::pluck('value', 'name');
+        $ids = $request->input('ids');
 
-        $parameters = ParameterMaterial::where('material_id', $analysis->material_id)
-            ->with('parameter.unit')
-            ->get();
-
-        return view('analyses.edit', compact('factors', 'analysis', 'parameters'));
-    }
-
-    public function update(Request $request, Analysis $analysis)
-    {
-        if ($response = $this->checkIzin('akses_edit_analisa')) {
-            return $response;
+        if (empty($ids) || !is_array($ids)) {
+            return redirect()->back()->with('failed', 'Tidak ada data yang dipilih');
         }
 
-        $request->validate([
-            'volume'    => 'nullable|numeric',
-            'pan'       => 'nullable|integer',
-            'reef'      => 'nullable|integer',
-            'nopol'     => 'nullable',
-        ]);
-
-        $analysis->volume = $request->input('volume');
-        $analysis->pan = $request->input('pan');
-        $analysis->reef = $request->input('reef');
-        $analysis->nopol = $request->input('nopol');
-
-        $parameters = \App\Models\ParameterMaterial::where('material_id', $analysis->material_id)->get();
-
-        foreach ($parameters as $pm) {
-            $colName = 'p' . $pm->parameter_id;
-            if ($request->has($colName)) {
-                $analysis->{$colName} = $request->input($colName);
-            }
+        try {
+            Analysis::whereIn('id', $ids)->update([
+                'is_verified' => 1,
+            ]);
+            return redirect()->back()->with('success', 'Data berhasil diverifikasi');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('failed', $e->getMessage());
         }
-
-        $analysis->save();
-
-        return redirect()->route('analyses.index')->with('success', 'Analisa berhasil diperbarui.');
-    }
-
-    public function destroy(Analysis $analysis)
-    {
-        if ($response = $this->checkIzin('akses_hapus_analisa')) {
-            return $response;
-        }
-
-        $analysis->delete();
-        return redirect()->back()->with('success', 'Analisa berhasil dihapus.');
     }
 }

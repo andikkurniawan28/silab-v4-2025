@@ -71,6 +71,19 @@ class Role extends Model
             ['id' => 'akses_daftar_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa'))],
             ['id' => 'akses_edit_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_analisa'))],
             ['id' => 'akses_hapus_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_analisa'))],
+            ['id' => 'akses_verifikasi_mandor', 'name' => ucwords(str_replace('_', ' ', 'akses_verifikasi_mandor'))],
+            ['id' => 'akses_daftar_analisa_ampas_metode_panas', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_ampas_metode_panas'))],
+            ['id' => 'akses_tambah_analisa_ampas_metode_panas', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_ampas_metode_panas'))],
+            ['id' => 'akses_daftar_analisa_ampas_metode_dingin', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_ampas_metode_dingin'))],
+            ['id' => 'akses_tambah_analisa_ampas_metode_dingin', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_ampas_metode_dingin'))],
+            ['id' => 'akses_daftar_analisa_ketel', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_ketel'))],
+            ['id' => 'akses_tambah_analisa_ketel', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_ketel'))],
+            ['id' => 'akses_daftar_analisa_cao', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_cao'))],
+            ['id' => 'akses_tambah_analisa_cao', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_cao'))],
+            ['id' => 'akses_daftar_analisa_so2', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_so2'))],
+            ['id' => 'akses_tambah_analisa_so2', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_so2'))],
+            ['id' => 'akses_daftar_analisa_bjb', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_bjb'))],
+            ['id' => 'akses_tambah_analisa_bjb', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_bjb'))],
         ];
     }
 }

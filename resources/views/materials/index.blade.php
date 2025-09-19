@@ -19,6 +19,7 @@
                 <table id="materialTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Stasiun</th>
                             <th>Parameter</th>
@@ -43,6 +44,7 @@
             ajax: "{{ route('materials.index') }}",
             order: [[0, 'asc']],
             columns: [
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'station', name: 'station.name' },
                 { data: 'parameters', name: 'parameters', orderable: false, searchable: false },

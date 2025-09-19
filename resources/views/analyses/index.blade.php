@@ -1,7 +1,7 @@
 @extends('template.master')
 
 @section('analyses-active', 'active')
-@section('analyses-show', 'show')
+@section('input-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">

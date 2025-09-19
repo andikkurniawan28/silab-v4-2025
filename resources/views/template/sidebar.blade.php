@@ -207,10 +207,35 @@
                     <i class="fas fa-fw fa-edit"></i>
                     <span>Input Data</span>
                 </a>
-                <div id="inputData" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div id="inputData" class="collapse
+                @yield('input-show')
+                " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Sub-Menu:</h6>
-                        <a class="collapse-item" href="{{ route('analyses.index') }}">Analisa</a>
+                        @if (Auth()->user()->role->akses_daftar_analisa)
+                        <a class="collapse-item @yield('analyses-active')" href="{{ route('analyses.index') }}">Analisa</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_verifikasi_mandor)
+                        <a class="collapse-item @yield('analysis_unverified-active')" href="{{ route('analysis_unverified.index') }}">Verifikasi Mandor</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_panas)
+                        <a class="collapse-item @yield('analisa_ampas_metode_panas-active')" href="{{ route('analisa_ampas_metode_panas.index') }}">Ampas Metode Panas</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_dingin)
+                        <a class="collapse-item @yield('analisa_ampas_metode_dingin-active')" href="{{ route('analisa_ampas_metode_dingin.index') }}">Ampas John Payne</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ketel)
+                        <a class="collapse-item @yield('analisa_ketel-active')" href="{{ route('analisa_ketel.index') }}">Analisa Ketel</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_cao)
+                        <a class="collapse-item @yield('analisa_cao-active')" href="{{ route('analisa_cao.index') }}">Analisa CaO</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_so2)
+                        <a class="collapse-item @yield('analisa_so2-active')" href="{{ route('analisa_so2.index') }}">Analisa SO<sub>2</sub></a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_bjb)
+                        <a class="collapse-item @yield('analisa_bjb-active')" href="{{ route('analisa_bjb.index') }}">Analisa BJB</a>
+                        @endif
                     </div>
                 </div>
             </li>

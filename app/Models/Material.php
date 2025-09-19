@@ -19,4 +19,8 @@ class Material extends Model
         return $this->belongsToMany(Parameter::class, 'parameter_materials');
     }
 
+    public function parameterMaterials(){
+        return $this->hasMany(ParameterMaterial::class);
+    }
+
 }

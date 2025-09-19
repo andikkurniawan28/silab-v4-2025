@@ -21,6 +21,7 @@
                 <table id="parameterTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Satuan</th>
                             <th>Aksi</th>
@@ -42,6 +43,7 @@
             ajax: "{{ route('parameters.index') }}",
             order: [[0, 'asc']],
             columns: [
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'unit', name: 'unit.name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }

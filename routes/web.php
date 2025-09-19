@@ -1,22 +1,29 @@
 <?php
 
-use App\Http\Controllers\AnalysisController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BarcodePrintingController;
-use App\Http\Controllers\EstimationSpotController;
-use App\Http\Controllers\FactorController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FactorController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\StationController;
+use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ParameterController;
+use App\Http\Controllers\AnalisaCaoController;
+use App\Http\Controllers\AnalisaSO2Controller;
+use App\Http\Controllers\AnalisaKetelController;
+use App\Http\Controllers\EstimationSpotController;
+use App\Http\Controllers\BarcodePrintingController;
+use App\Http\Controllers\AnalysisUnverifiedController;
 use App\Http\Controllers\MonitoringHourlySpotController;
 use App\Http\Controllers\MonitoringShiftlySpotController;
-use App\Http\Controllers\RegionController;
+use App\Http\Controllers\AnalisaAmpasMetodePanasController;
+use App\Http\Controllers\AnalisaAmpasMetodeDinginController;
+use App\Http\Controllers\AnalisaBJBController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,3 +73,23 @@ Route::get('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingContro
 Route::post('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestampProcess'])->name('barcode_printing.editTimestampProcess')->middleware(['auth']);
 Route::post('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterialProcess'])->name('barcode_printing.editMaterialProcess')->middleware(['auth']);
 Route::resource('analyses', AnalysisController::class)->middleware(['auth']);
+Route::get('analysis_unverified', [AnalysisUnverifiedController::class, 'index'])->name('analysis_unverified.index')->middleware(['auth']);
+Route::post('analysis_unverified/process', [AnalysisUnverifiedController::class, 'process'])->name('analysis_unverified.process')->middleware(['auth']);
+Route::get('analisa_ampas_metode_panas', [AnalisaAmpasMetodePanasController::class, 'index'])->name('analisa_ampas_metode_panas.index')->middleware(['auth']);
+Route::get('analisa_ampas_metode_panas/create', [AnalisaAmpasMetodePanasController::class, 'create'])->name('analisa_ampas_metode_panas.create')->middleware(['auth']);
+Route::post('analisa_ampas_metode_panas/create', [AnalisaAmpasMetodePanasController::class, 'store'])->name('analisa_ampas_metode_panas.store')->middleware(['auth']);
+Route::get('analisa_ampas_metode_dingin', [AnalisaAmpasMetodeDinginController::class, 'index'])->name('analisa_ampas_metode_dingin.index')->middleware(['auth']);
+Route::get('analisa_ampas_metode_dingin/create', [AnalisaAmpasMetodeDinginController::class, 'create'])->name('analisa_ampas_metode_dingin.create')->middleware(['auth']);
+Route::post('analisa_ampas_metode_dingin/create', [AnalisaAmpasMetodeDinginController::class, 'store'])->name('analisa_ampas_metode_dingin.store')->middleware(['auth']);
+Route::get('analisa_ketel', [AnalisaKetelController::class, 'index'])->name('analisa_ketel.index')->middleware(['auth']);
+Route::get('analisa_ketel/create', [AnalisaKetelController::class, 'create'])->name('analisa_ketel.create')->middleware(['auth']);
+Route::post('analisa_ketel/create', [AnalisaKetelController::class, 'store'])->name('analisa_ketel.store')->middleware(['auth']);
+Route::get('analisa_so2', [AnalisaSO2Controller::class, 'index'])->name('analisa_so2.index')->middleware(['auth']);
+Route::get('analisa_so2/create', [AnalisaSO2Controller::class, 'create'])->name('analisa_so2.create')->middleware(['auth']);
+Route::post('analisa_so2/create', [AnalisaSO2Controller::class, 'store'])->name('analisa_so2.store')->middleware(['auth']);
+Route::get('analisa_cao', [AnalisaCaoController::class, 'index'])->name('analisa_cao.index')->middleware(['auth']);
+Route::get('analisa_cao/create', [AnalisaCaoController::class, 'create'])->name('analisa_cao.create')->middleware(['auth']);
+Route::post('analisa_cao/create', [AnalisaCaoController::class, 'store'])->name('analisa_cao.store')->middleware(['auth']);
+Route::get('analisa_bjb', [AnalisaBJBController::class, 'index'])->name('analisa_bjb.index')->middleware(['auth']);
+Route::get('analisa_bjb/create', [AnalisaBJBController::class, 'create'])->name('analisa_bjb.create')->middleware(['auth']);
+Route::post('analisa_bjb/create', [AnalisaBJBController::class, 'store'])->name('analisa_bjb.store')->middleware(['auth']);
