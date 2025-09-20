@@ -56,6 +56,11 @@ class AnalysisUnverifiedController extends Controller
                     $buttons .= '</div>';
                     return $buttons;
                 })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? $row->created_at->format('d-m-Y H:i')
+                        : '-';
+                })
                 ->rawColumns(['action', 'status', 'result'])
                 ->make(true);
         }

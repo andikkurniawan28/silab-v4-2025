@@ -20,7 +20,7 @@
                             @foreach ($samples as $s)
                                 <option value="{{ $s->id }}" data-pol="{{ $s->pol }}"
                                     data-kadar_air="{{ $s->kadar_air }}" {{ old('id') == $s->id ? 'selected' : '' }}>
-                                    {{ $s->id }}
+                                    {{ $s->id }} | {{ $s->material->name }}
                                 </option>
                             @endforeach
                         </select>

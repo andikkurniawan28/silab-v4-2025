@@ -49,6 +49,11 @@ class AnalisaAmpasMetodePanasController extends Controller
                         ? '<span class="badge bg-success text-white">Telah Diverifikasi</span>'
                         : '<span class="badge bg-danger text-white">Belum Diverifikasi</span>';
                 })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? $row->created_at->format('d-m-Y H:i')
+                        : '-';
+                })
                 ->rawColumns(['action', 'status', 'result'])
                 ->make(true);
         }
@@ -61,7 +66,7 @@ class AnalisaAmpasMetodePanasController extends Controller
             return $response;
         }
         $materials = ParameterMaterial::select(['material_id'])->where('parameter_id', 9)->get();
-        $samples = Analysis::whereIn('material_id', $materials)->select(['id', 'p3 as pol', 'p7 as kadar_air'])->whereNull('p9')->where('is_verified', 0)->get();
+        $samples = Analysis::whereIn('material_id', $materials)->with(['material'])->select(['id', 'p3 as pol', 'p7 as kadar_air', 'material_id'])->whereNull('p9')->where('is_verified', 0)->get();
         $factor = Factor::where('name', 'Faktor Analisa Ampas Metode Panas')->get()->last()->value;
         return view('analisa_ampas_metode_panas.create', compact('samples', 'factor'));
     }

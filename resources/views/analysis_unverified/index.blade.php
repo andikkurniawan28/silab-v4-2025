@@ -23,6 +23,7 @@
                                     <input type="checkbox" id="checkAll">
                                 </th>
                                 <th>ID</th>
+                                <th>Timestamp</th>
                                 <th>Material</th>
                                 <th>Hasil</th>
                                 <th>Status</th>
@@ -59,6 +60,10 @@
                     {
                         data: 'id',
                         name: 'id'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
                     },
                     {
                         data: 'material',

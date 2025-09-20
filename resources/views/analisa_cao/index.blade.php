@@ -21,6 +21,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Timestamp</th>
                             <th>Material</th>
                             <th>CaO</th>
                             <th>Status</th>
@@ -46,6 +47,10 @@
                 columns: [{
                         data: 'id',
                         name: 'id'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
                     },
                     {
                         data: 'material',

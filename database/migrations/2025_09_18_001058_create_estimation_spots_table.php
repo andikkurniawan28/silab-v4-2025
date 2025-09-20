@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('unit_id')->constrained();
             $table->string('name')->unique();
+            $table->integer('qty');
+            $table->float('capacity');
+            $table->enum('method', ['prosentase', 'estimasi_massa', 'estimasi_volume', 'berapa_yang_aktif', 'aktif/nonaktif'])->index();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

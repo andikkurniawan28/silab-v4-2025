@@ -32,6 +32,33 @@
                             required autofocus>
                     </div>
 
+                    {{-- Qty --}}
+                    <div class="mb-3">
+                        <label for="qty" class="form-label">Qty</label>
+                        <input type="number" name="qty" id="qty" class="form-control" value="{{ old('qty') }}"
+                            required>
+                    </div>
+
+                    {{-- Kapasitas --}}
+                    <div class="mb-3">
+                        <label for="capacity" class="form-label">Kapasitas</label>
+                        <input type="number" step="any" name="capacity" id="capacity" class="form-control"
+                            value="{{ old('capacity') }}" required>
+                    </div>
+
+                    {{-- Metode --}}
+                    <div class="mb-3">
+                        <label for="method" class="form-label">Metode</label>
+                        <select name="method" id="method" class="form-select select2" required>
+                            <option value="">-- Pilih Metode --</option>
+                            @foreach (['prosentase', 'estimasi_massa', 'estimasi_volume', 'berapa_yang_aktif', 'aktif/nonaktif'] as $method)
+                                <option value="{{ $method }}" {{ old('method') == $method ? 'selected' : '' }}>
+                                    {{ ucfirst(str_replace('_', ' ', $method)) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save"></i> Simpan
                     </button>

@@ -84,6 +84,23 @@ class Role extends Model
             ['id' => 'akses_tambah_analisa_so2', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_so2'))],
             ['id' => 'akses_daftar_analisa_bjb', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa_bjb'))],
             ['id' => 'akses_tambah_analisa_bjb', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_analisa_bjb'))],
+            ['id' => 'akses_daftar_flow_nm', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_flow_nm'))],
+            ['id' => 'akses_tambah_flow_nm', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_flow_nm'))],
+            ['id' => 'akses_daftar_keliling_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_keliling_proses'))],
+            ['id' => 'akses_tambah_keliling_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_keliling_proses'))],
+            ['id' => 'akses_daftar_imbibisi', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_imbibisi'))],
+            ['id' => 'akses_tambah_imbibisi', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_imbibisi'))],
+            ['id' => 'akses_daftar_monitoring_perjam', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_monitoring_perjam'))],
+            ['id' => 'akses_edit_monitoring_perjam', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_monitoring_perjam'))],
+            ['id' => 'akses_hapus_monitoring_perjam', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_monitoring_perjam'))],
+            ['id' => 'akses_daftar_monitoring_pershift', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_monitoring_pershift'))],
+            ['id' => 'akses_tambah_monitoring_pershift', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_monitoring_pershift'))],
+            ['id' => 'akses_edit_monitoring_pershift', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_monitoring_pershift'))],
+            ['id' => 'akses_hapus_monitoring_pershift', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_monitoring_pershift'))],
+            ['id' => 'akses_daftar_taksasi_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_taksasi_proses'))],
+            ['id' => 'akses_tambah_taksasi_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_taksasi_proses'))],
+            ['id' => 'akses_edit_taksasi_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_taksasi_proses'))],
+            ['id' => 'akses_hapus_taksasi_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_taksasi_proses'))],
         ];
     }
 }

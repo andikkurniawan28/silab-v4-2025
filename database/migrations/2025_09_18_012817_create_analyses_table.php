@@ -19,8 +19,8 @@ return new class extends Migration
             $table->tinyInteger('pan')->nullable();
             $table->tinyInteger('reef')->nullable();
             $table->string('nopol')->nullable();
-            $table->boolean('is_verified')->default(0);
-            $table->timestamp('created_at')->useCurrent();
+            $table->boolean('is_verified')->default(0)->index();
+            $table->timestamp('created_at')->useCurrent()->index();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }

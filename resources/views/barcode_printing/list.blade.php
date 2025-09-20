@@ -11,13 +11,13 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="roleTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
+                <table id="roleTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Timestamp</th>
                             <th>Material</th>
                             <th>User</th>
-                            <th>Timestamp</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -38,9 +38,9 @@
             order: [[0, 'desc']],
             columns: [
                 { data: 'id', name: 'id' },
+                { data: 'created_at', name: 'created_at' },
                 { data: 'material', name: 'material.name' },
                 { data: 'user', name: 'user.name' },
-                { data: 'created_at', name: 'created_at' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

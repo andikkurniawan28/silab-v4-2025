@@ -12,9 +12,10 @@ use App\Models\Station;
 use App\Models\Material;
 use App\Models\Parameter;
 use Illuminate\Database\Seeder;
+use App\Models\ParameterMaterial;
 use Illuminate\Support\Facades\DB;
 use App\Models\MonitoringHourlySpot;
-use App\Models\ParameterMaterial;
+use App\Models\MonitoringShiftlySpot;
 use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
@@ -30,11 +31,15 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Kasie'],
             ['name' => 'Kasubsie'],
             ['name' => 'Admin QC'],
-            ['name' => 'Mandor QC'],
+            ['name' => 'Mandor Off Farm'],
+            ['name' => 'Mandor On Farm'],
             ['name' => 'KO Pabrikasi'],
-            ['name' => 'Analis'],
+            ['name' => 'Analis Off Farm'],
+            ['name' => 'Analis On Farm'],
             ['name' => 'Operator QC'],
             ['name' => 'Operator Pabrikasi'],
+            ['name' => 'Operator Imbibisi'],
+            ['name' => 'Operator Masakan'],
             ['name' => 'Bagian QC'],
             ['name' => 'Bagian Pabrikasi'],
             ['name' => 'Bagian Teknik'],
@@ -150,14 +155,87 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Flow IMB', 'unit_id' => 8],
             ['name' => 'NMP%Tebu', 'unit_id' => 1],
             ['name' => 'NMG%Tebu', 'unit_id' => 1],
-            ['name' => 'IMB%Tebu', 'unit_id' => 1],
+            ['name' => 'IMB%Tebu', 'unit_id' => 1], // 10
+            ['name' => 'SFC', 'unit_id' => 1],
+            ['name' => 'Totalizer D1', 'unit_id' => 9],
+            ['name' => 'Totalizer D2', 'unit_id' => 9],
+            ['name' => 'Flow D1', 'unit_id' => 8],
+            ['name' => 'Flow D2', 'unit_id' => 8], // 15
+
+            // tambahan dari Sistem Informasi Laboratorium
+            ['name' => 'Tekanan Pre Evaporator 1', 'unit_id' => 1],
+            ['name' => 'Tekanan Pre Evaporator 2', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 1', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 2', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 3', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 4', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 5', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 6', 'unit_id' => 1],
+            ['name' => 'Tekanan Evaporator 7', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 1', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 2', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 3', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 4', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 5', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 6', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 7', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 8', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 9', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 10', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 11', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 12', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 13', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 14', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 15', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 16', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 17', 'unit_id' => 1],
+            ['name' => 'Tekanan Pan 18', 'unit_id' => 1],
+            ['name' => 'Suhu Pre Evaporator 1', 'unit_id' => 1],
+            ['name' => 'Suhu Pre Evaporator 2', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 1', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 2', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 3', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 4', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 5', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 6', 'unit_id' => 1],
+            ['name' => 'Suhu Evaporator 7', 'unit_id' => 1],
+            ['name' => 'Suhu Heater 1', 'unit_id' => 1],
+            ['name' => 'Suhu Heater 2', 'unit_id' => 1],
+            ['name' => 'Suhu Heater 3', 'unit_id' => 1],
+            ['name' => 'Suhu Air Injeksi', 'unit_id' => 1],
+            ['name' => 'Suhu Air Terjun', 'unit_id' => 1],
+            ['name' => 'Tekanan Pompa Hampa', 'unit_id' => 1],
+            ['name' => 'Tekanan Uap Baru', 'unit_id' => 1],
+            ['name' => 'Tekanan Uap Bekas', 'unit_id' => 1],
+            ['name' => 'Tekanan Uap 3Ato', 'unit_id' => 1],
+            ['name' => 'ph Air Injeksi', 'unit_id' => 1], // terakhir
         ]);
 
+
         $parameters = Parameter::select(['id'])->orderBy('id')->get();
-        foreach($parameters as $p){
+        foreach ($parameters as $p) {
             $colName = 'p' . $p->id;
             if (!Schema::hasColumn('analyses', $colName)) {
                 DB::statement("ALTER TABLE analyses ADD COLUMN `$colName` FLOAT NULL AFTER is_verified");
+                DB::statement("ALTER TABLE analyses ADD INDEX `idx_$colName` (`$colName`)");
+            }
+        }
+
+        $monitoring_hourlies = MonitoringHourlySpot::select(['id'])->orderBy('id')->get();
+        foreach ($monitoring_hourlies as $mh) {
+            $colName = 'p' . $mh->id;
+            if (!Schema::hasColumn('monitoring_hourlies', $colName)) {
+                DB::statement("ALTER TABLE monitoring_hourlies ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
+                DB::statement("ALTER TABLE monitoring_hourlies ADD INDEX `idx_$colName` (`$colName`)");
+            }
+        }
+
+        $monitoring_shiftlies = MonitoringShiftlySpot::select(['id'])->orderBy('id')->get();
+        foreach ($monitoring_shiftlies as $ms) {
+            $colName = 'p' . $ms->id;
+            if (!Schema::hasColumn('monitoring_shiftlies', $colName)) {
+                DB::statement("ALTER TABLE monitoring_shiftlies ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
+                DB::statement("ALTER TABLE monitoring_shiftlies ADD INDEX `idx_$colName` (`$colName`)");
             }
         }
 

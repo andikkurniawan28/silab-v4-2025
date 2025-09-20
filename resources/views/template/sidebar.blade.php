@@ -177,15 +177,8 @@
             "
                 aria-labelledby="headingMaster" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">Sub-Menu :</h6>
 
-                    @if (Auth()->user()->role->akses_daftar_barcode)
-                        <a class="collapse-item
-                            @yield('barcode_printing.list-active')"
-                            href="{{ route('barcode_printing.list') }}">
-                            Daftar Barcode
-                        </a>
-                    @endif
+                    <h6 class="collapse-header">Cetak Barcode :</h6>
                     @if (Auth()->user()->role->akses_cetak_barcode)
                         @foreach ($viewStation as $v)
                             <a class="collapse-item
@@ -194,6 +187,15 @@
                                 {{ $v->name }}
                             </a>
                         @endforeach
+                    @endif
+
+                    <h6 class="collapse-header">Barcode Tersimpan :</h6>
+                    @if (Auth()->user()->role->akses_daftar_barcode)
+                        <a class="collapse-item
+                            @yield('barcode_printing.list-active')"
+                            href="{{ route('barcode_printing.list') }}">
+                            Daftar Barcode
+                        </a>
                     @endif
                 </div>
         </li>
@@ -211,7 +213,7 @@
                 @yield('input-show')
                 " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Sub-Menu:</h6>
+                        <h6 class="collapse-header">Seputar Analisa :</h6>
                         @if (Auth()->user()->role->akses_daftar_analisa)
                         <a class="collapse-item @yield('analyses-active')" href="{{ route('analyses.index') }}">Analisa</a>
                         @endif
@@ -235,6 +237,25 @@
                         @endif
                         @if (Auth()->user()->role->akses_daftar_analisa_bjb)
                         <a class="collapse-item @yield('analisa_bjb-active')" href="{{ route('analisa_bjb.index') }}">Analisa BJB</a>
+                        @endif
+                        <h6 class="collapse-header">Seputar Proses :</h6>
+                        @if (Auth()->user()->role->akses_daftar_flow_nm)
+                        <a class="collapse-item @yield('flow_nm-active')" href="{{ route('flow_nm.index') }}">Flow NM</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_keliling_proses)
+                        <a class="collapse-item @yield('keliling_proses-active')" href="{{ route('keliling_proses.index') }}">Keliling Proses</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_imbibisi)
+                        <a class="collapse-item @yield('imbibisi-active')" href="{{ route('imbibisi.index') }}">Imbibisi</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_monitoring_perjam)
+                        <a class="collapse-item @yield('monitoring_hourlies-active')" href="{{ route('monitoring_hourlies.index') }}">Monitoring Perjam</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_monitoring_pershift)
+                        <a class="collapse-item @yield('monitoring_shiftlies-active')" href="{{ route('monitoring_shiftlies.index') }}">Monitoring Pershift</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_taksasi_proses)
+                        <a class="collapse-item @yield('estimations-active')" href="{{ route('estimations.index') }}">Taksasi Proses</a>
                         @endif
                     </div>
                 </div>

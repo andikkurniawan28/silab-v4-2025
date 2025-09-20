@@ -31,6 +31,11 @@ class AnalisaBJBController extends Controller
                         ? '<span class="badge bg-success text-white">Telah Diverifikasi</span>'
                         : '<span class="badge bg-danger text-white">Belum Diverifikasi</span>';
                 })
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? $row->created_at->format('d-m-Y H:i')
+                        : '-';
+                })
                 ->rawColumns(['action', 'status'])
                 ->make(true);
         }

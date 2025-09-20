@@ -13,6 +13,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
+                            <th>Timestamp</th>
                             <th>Material</th>
                             <th>Hasil</th>
                             <th>Status</th>
@@ -36,6 +37,7 @@
             order: [[0, 'desc']],
             columns: [
                 { data: 'id', name: 'id' },
+                { data: 'created_at', name: 'created_at' },
                 { data: 'material', name: 'material.name' },
                 { data: 'result', name: 'result', orderable: false, searchable: false },
                 { data: 'status', name: 'status', orderable: false, searchable: false },
