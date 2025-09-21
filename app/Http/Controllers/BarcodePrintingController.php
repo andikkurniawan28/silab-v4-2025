@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Analysis;
+use Carbon\Carbon;
 use App\Models\Station;
+use App\Models\Analysis;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -30,9 +31,13 @@ class BarcodePrintingController extends Controller
             return $response;
         }
 
+        $createdAt = Carbon::parse($request->date)
+            ->setTimeFromTimeString($request->time);
+
         $sample = Analysis::create([
             'material_id' => $request->material_id,
             'user_id' => Auth()->user()->id,
+            'created_at' => $createdAt,
         ]);
         return view('barcode_printing.show', compact('sample'));
     }

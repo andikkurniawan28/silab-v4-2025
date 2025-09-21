@@ -22,7 +22,9 @@
                             <label for="time" class="form-label">Jam</label>
                             <select id="time" name="time" class="form-control select2" required>
                                 @for ($i = 0; $i <= 23; $i++)
-                                    <option value="{{ $i }}">{{ $i }}:00 - {{ $i + 1 }}:00
+                                    <option value="{{ $i }}" {{ (int) date('H') === $i ? 'selected' : '' }}>
+                                        {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00 -
+                                        {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}:00
                                     </option>
                                 @endfor
                             </select>
@@ -44,10 +46,10 @@
                                     <td>Totalizer Imbibisi</td>
                                     <td>
                                         <input type="text" class="form-control" id="totalizer_imb_sebelum"
-                                            value="{{ $last_monitoring->p4 ?? 0 }}" readonly>
+                                            value="{{ $last_monitoring->t1 ?? 0 }}" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" id="totalizer_imb_setelah" name="p4"
+                                        <input type="text" class="form-control" id="totalizer_imb_setelah" name="t1"
                                             required>
                                     </td>
                                 </tr>
@@ -56,10 +58,10 @@
                                     <td>Flow Imbibisi</td>
                                     <td>
                                         <input type="text" class="form-control" id="flow_imb_sebelum"
-                                            value="{{ $last_monitoring->p7 ?? 0 }}" readonly>
+                                            value="{{ $last_monitoring->f1 ?? 0 }}" readonly>
                                     </td>
                                     <td>
-                                        <input type="text" class="form-control" id="flow_imb_setelah" name="p7"
+                                        <input type="text" class="form-control" id="flow_imb_setelah" name="f1"
                                             readonly>
                                     </td>
                                 </tr>
@@ -83,18 +85,11 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function hitungFlow() {
-                // ambil totalizer sebelum & sesudah
                 let totalizer_imb_sebelum = parseFloat(document.getElementById("totalizer_imb_sebelum").value) || 0;
                 let totalizer_imb_setelah = parseFloat(document.getElementById("totalizer_imb_setelah").value) || 0;
-
-                // hitung flow imbibisi
                 let flow_imb = totalizer_imb_setelah - totalizer_imb_sebelum;
-
-                // isi ke field
                 document.getElementById("flow_imb_setelah").value = flow_imb;
             }
-
-            // trigger saat input totalizer imbibisi setelah berubah
             document.getElementById("totalizer_imb_setelah")
                 .addEventListener("input", hitungFlow);
         });

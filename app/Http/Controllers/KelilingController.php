@@ -17,7 +17,6 @@ class KelilingController extends Controller
 
         if ($request->ajax()) {
             $spots = MonitoringHourlySpot::select(['id', 'name'])
-                ->where('id', '>', 15)
                 ->orderBy('id')
                 ->get();
             $data = MonitoringHourly::with(['user']);
@@ -58,7 +57,6 @@ class KelilingController extends Controller
         }
 
         $spots = MonitoringHourlySpot::select(['id', 'name'])
-                ->where('id', '>', 15)
                 ->orderBy('id')
                 ->get();
         return view('keliling_proses.create', compact('spots'));

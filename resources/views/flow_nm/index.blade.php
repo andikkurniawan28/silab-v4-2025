@@ -21,9 +21,11 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Timestamp</th>
+                            <th>Tanggal</th>
+                            <th>Jam</th>
                             <th>Hasil</th>
                             <th>User</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                 </table>
@@ -47,8 +49,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'created_at',
-                        name: 'created_at'
+                        data: 'date',
+                        name: 'date'
+                    },
+                    {
+                        data: 'time',
+                        name: 'time'
                     },
                     {
                         data: 'result',
@@ -59,6 +65,12 @@
                     {
                         data: 'user',
                         name: 'user.name'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
                     },
                 ]
             });

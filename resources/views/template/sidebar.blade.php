@@ -35,6 +35,7 @@
         @yield('items-active')
         @yield('regions-active')
         @yield('factors-active')
+        @yield('flow_spots-active')
     ">
             <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseMaster" aria-expanded="true"
                 aria-controls="collapseMaster">
@@ -55,6 +56,7 @@
             @yield('items-show')
             @yield('regions-show')
             @yield('factors-show')
+            @yield('flow_spots-show')
         "
                 aria-labelledby="headingMaster" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
@@ -106,6 +108,14 @@
                     @yield('materials-active')"
                             href="{{ route('materials.index') }}">
                             Material
+                        </a>
+                    @endif
+
+                    @if (Auth()->user()->role->akses_daftar_titik_flow)
+                        <a class="collapse-item
+                    @yield('flow_spots-active')"
+                            href="{{ route('flow_spots.index') }}">
+                            Titik Flow
                         </a>
                     @endif
 
@@ -238,13 +248,16 @@
                         @if (Auth()->user()->role->akses_daftar_analisa_bjb)
                         <a class="collapse-item @yield('analisa_bjb-active')" href="{{ route('analisa_bjb.index') }}">Analisa BJB</a>
                         @endif
+                        @if (Auth()->user()->role->akses_daftar_uji_karung)
+                        <a class="collapse-item @yield('bag_tests-active')" href="{{ route('bag_tests.index') }}">Uji Karung</a>
+                        @endif
                         <h6 class="collapse-header">Seputar Proses :</h6>
                         @if (Auth()->user()->role->akses_daftar_flow_nm)
                         <a class="collapse-item @yield('flow_nm-active')" href="{{ route('flow_nm.index') }}">Flow NM</a>
                         @endif
-                        @if (Auth()->user()->role->akses_daftar_keliling_proses)
+                        {{-- @if (Auth()->user()->role->akses_daftar_keliling_proses)
                         <a class="collapse-item @yield('keliling_proses-active')" href="{{ route('keliling_proses.index') }}">Keliling Proses</a>
-                        @endif
+                        @endif --}}
                         @if (Auth()->user()->role->akses_daftar_imbibisi)
                         <a class="collapse-item @yield('imbibisi-active')" href="{{ route('imbibisi.index') }}">Imbibisi</a>
                         @endif
@@ -256,6 +269,9 @@
                         @endif
                         @if (Auth()->user()->role->akses_daftar_taksasi_proses)
                         <a class="collapse-item @yield('estimations-active')" href="{{ route('estimations.index') }}">Taksasi Proses</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_gula_dikarungi)
+                        <a class="collapse-item @yield('sugar_baggings-active')" href="{{ route('sugar_baggings.index') }}">Gula Dikarungi</a>
                         @endif
                     </div>
                 </div>

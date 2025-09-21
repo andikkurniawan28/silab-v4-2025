@@ -9,6 +9,7 @@ use App\Models\Unit;
 use App\Models\User;
 use App\Models\Factor;
 use App\Models\Station;
+use App\Models\FlowSpot;
 use App\Models\Material;
 use App\Models\Parameter;
 use Illuminate\Database\Seeder;
@@ -145,24 +146,15 @@ class DatabaseSeeder extends Seeder
             ['name' => 'CV', 'unit_id' => 1], // 37
         ]);
 
-        MonitoringHourlySpot::insert([
-            ['name' => 'Tebu Tergiling', 'unit_id' => 7],
-            ['name' => 'Totalizer NMP', 'unit_id' => 9],
-            ['name' => 'Totalizer NMG', 'unit_id' => 9],
-            ['name' => 'Totalizer IMB', 'unit_id' => 9],
-            ['name' => 'Flow NMP', 'unit_id' => 8],
-            ['name' => 'Flow NMG', 'unit_id' => 8],
-            ['name' => 'Flow IMB', 'unit_id' => 8],
-            ['name' => 'NMP%Tebu', 'unit_id' => 1],
-            ['name' => 'NMG%Tebu', 'unit_id' => 1],
-            ['name' => 'IMB%Tebu', 'unit_id' => 1], // 10
-            ['name' => 'SFC', 'unit_id' => 1],
-            ['name' => 'Totalizer D1', 'unit_id' => 9],
-            ['name' => 'Totalizer D2', 'unit_id' => 9],
-            ['name' => 'Flow D1', 'unit_id' => 8],
-            ['name' => 'Flow D2', 'unit_id' => 8], // 15
+        FlowSpot::insert([
+            ['name' => 'IMB', 'unit_id' => 9],
+            ['name' => 'NMP', 'unit_id' => 9],
+            ['name' => 'NMG', 'unit_id' => 9],
+            ['name' => 'D1', 'unit_id' => 9],
+            ['name' => 'D2', 'unit_id' => 9],
+        ]);
 
-            // tambahan dari Sistem Informasi Laboratorium
+        MonitoringHourlySpot::insert([
             ['name' => 'Tekanan Pre Evaporator 1', 'unit_id' => 1],
             ['name' => 'Tekanan Pre Evaporator 2', 'unit_id' => 1],
             ['name' => 'Tekanan Evaporator 1', 'unit_id' => 1],
@@ -210,6 +202,20 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Tekanan Uap 3Ato', 'unit_id' => 1],
             ['name' => 'ph Air Injeksi', 'unit_id' => 1], // terakhir
         ]);
+
+        $flow_spots = FlowSpot::select(['id'])->orderBy('id')->get();
+        foreach ($flow_spots as $fs) {
+            $columns = [
+                't' . $fs->id,
+                'f' . $fs->id,
+                'p' . $fs->id,
+            ];
+            foreach ($columns as $colName) {
+                if (!Schema::hasColumn('flows', $colName)) {
+                    DB::statement("ALTER TABLE `flows` ADD COLUMN `$colName` FLOAT NULL AFTER `created_at`");
+                }
+            }
+        }
 
 
         $parameters = Parameter::select(['id'])->orderBy('id')->get();

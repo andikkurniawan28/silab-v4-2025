@@ -68,6 +68,34 @@ class MonitoringHourlyController extends Controller
         return view('monitoring_hourlies.index');
     }
 
+    public function create()
+    {
+        if ($response = $this->checkIzin('akses_edit_monitoring_perjam')) {
+            return $response;
+        }
+
+        $spots = MonitoringHourlySpot::select(['id', 'name'])->orderBy('id')->get();
+        return view('monitoring_hourlies.create', compact('spots'));
+    }
+
+    public function store(Request $request)
+    {
+        if ($response = $this->checkIzin('akses_tambah_monitoring_perjam')) {
+            return $response;
+        }
+
+        $createdAt = Carbon::parse($request->date)
+            ->setHour($request->time)
+            ->setMinute(0)
+            ->setSecond(0);
+
+        $request->request->add(['created_at' => $createdAt, 'user_id' => Auth()->user()->id]);
+
+        MonitoringHourly::create($request->except(['date', 'time']));
+
+        return redirect()->route('monitoring_hourlies.index')->with('success', 'Monitoring Perjam berhasil diperbarui.');
+    }
+
     public function edit(MonitoringHourly $monitoring_hourly)
     {
         if ($response = $this->checkIzin('akses_edit_monitoring_perjam')) {
@@ -91,7 +119,7 @@ class MonitoringHourlyController extends Controller
 
         $request->request->add(['created_at' => $createdAt]);
 
-        $monitoring_hourly->update($request->except(['_token', '_method']));
+        $monitoring_hourly->update($request->except(['_token', '_method', 'date', 'time']));
 
         return redirect()->route('monitoring_hourlies.index')->with('success', 'Monitoring Perjam berhasil diperbarui.');
     }

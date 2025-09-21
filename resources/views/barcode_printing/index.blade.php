@@ -28,14 +28,29 @@
                             </div>
                             <form action="{{ route('barcode_printing.process') }}" method="POST" class="form-prevent"
                                 id="formID">
-                                @csrf @method('POST')
+                                @csrf
+                                @method('POST')
+
                                 <input type="hidden" name="material_id" value="{{ $material->id }}">
-                                <button type="submit" class="btn btn-warning btn-sm text-dark" id="submitID246"
+
+                                <div class="row mb-4">
+                                    <div class="col-md-6">
+                                        <input type="date" name="date" class="form-control"
+                                            value="{{ date('Y-m-d') }}">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="time" name="time" class="form-control"
+                                            value="{{ date('H:i') }}">
+                                    </div>
+                                </div>
+
+                                <button type="submit" class="btn btn-warning text-dark" id="submitID246"
                                     onclick="this.form.submit(); this.disabled=true;">
                                     Cetak
                                     <i class="fas fa-print"></i>
                                 </button>
                             </form>
+
                             <br>
                         </div>
                     </div>
@@ -46,14 +61,15 @@
 @endsection
 
 @section('script')
-<script>
-    $(document).ready(function() {
-        $('#material-search').on('keyup', function() {
-            let keyword = $(this).val().toLowerCase();
-            $('#materials-container .material-item').filter(function() {
-                $(this).toggle($(this).find('.material-name').text().toLowerCase().indexOf(keyword) > -1);
+    <script>
+        $(document).ready(function() {
+            $('#material-search').on('keyup', function() {
+                let keyword = $(this).val().toLowerCase();
+                $('#materials-container .material-item').filter(function() {
+                    $(this).toggle($(this).find('.material-name').text().toLowerCase().indexOf(
+                        keyword) > -1);
+                });
             });
         });
-    });
-</script>
+    </script>
 @endsection

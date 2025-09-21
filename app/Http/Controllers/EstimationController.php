@@ -61,11 +61,6 @@ class EstimationController extends Controller
                         ? $row->created_at->format('d-m-Y H:i')
                         : '-';
                 })
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at
-                        ? $row->created_at->format('d-m-Y H:i')
-                        : '-';
-                })
                 ->rawColumns(['action', 'result'])
                 ->make(true);
         }
@@ -85,7 +80,7 @@ class EstimationController extends Controller
 
     public function store(Request $request)
     {
-        if ($response = $this->checkIzin('akses_edit_taksasi_proses')) {
+        if ($response = $this->checkIzin('akses_tambah_taksasi_proses')) {
             return $response;
         }
 

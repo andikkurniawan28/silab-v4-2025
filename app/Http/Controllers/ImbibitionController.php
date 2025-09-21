@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\MonitoringHourly;
+use App\Models\Flow;
 use Yajra\DataTables\DataTables;
-use App\Models\MonitoringHourlySpot;
+use App\Models\FlowSpot;
 
 class ImbibitionController extends Controller
 {
@@ -17,11 +17,10 @@ class ImbibitionController extends Controller
         }
 
         if ($request->ajax()) {
-            $spots = MonitoringHourlySpot::select(['id', 'name'])
-                ->whereIn('id', [4,7,10])
-                ->orderBy('id')
+            $spots = FlowSpot::select(['id', 'name'])
+                ->whereId(1)
                 ->get();
-            $data = MonitoringHourly::with(['user']);
+            $data = Flow::with(['user']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function ($row) {
@@ -32,13 +31,16 @@ class ImbibitionController extends Controller
                         return '-';
                     }
                     $list = '<ul class="mb-0 ps-3">';
+                    $list .= '<li><strong>Tebu Tergiling</strong> : ' . e($row->sugar_cane ?? '-') . '</li>';
                     foreach ($spots as $spot) {
-                        $colName = 'p' . $spot->id;
-                        $value   = $row->{$colName} ?? '-';
-                        $list   .= '<li>' . e($spot->name) . ' : ' . e($value) . '</li>';
+                        $flowCol = 'f' . $spot->id;
+                        $persenCol = 'p' . $spot->id;
+                        $flowVal = $row->{$flowCol} ?? '-';
+                        $persenVal = $row->{$persenCol} ?? '-';
+                        $list .= '<li><strong>Flow</strong> ' . e($spot->name) . ' : ' . e($flowVal) . '</li>';
+                        $list .= '<li><strong>' . e($spot->name) . '%Tebu</strong> : ' . e($persenVal) . '</li>';
                     }
                     $list .= '</ul>';
-
                     return $list;
                 })
                 ->addColumn('created_at', function ($row) {
@@ -59,7 +61,7 @@ class ImbibitionController extends Controller
             return $response;
         }
 
-        $last_monitoring = MonitoringHourly::orderBy('id', 'desc')->skip(1)->first();
+        $last_monitoring = Flow::orderBy('id', 'desc')->skip(1)->first();
         return view('imbibisi.create', compact('last_monitoring'));
     }
 
@@ -69,26 +71,24 @@ class ImbibitionController extends Controller
             return $response;
         }
 
-        $createdAt = Carbon::parse($request->date)
-            ->setHour($request->time)
-            ->setMinute(0)
-            ->setSecond(0);
+        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
+        $formattedTime = $hour . ':00:00';
 
-        $data = $request->except(['date', 'time']);
+        $data = $request->all();
         $data['user_id'] = auth()->id();
-        $data['created_at'] = $createdAt;
+        $data['time'] = $formattedTime;
 
-        $lastMonitoring = MonitoringHourly::orderBy('created_at', 'desc')->first();
-        $p1 = $lastMonitoring->p1 ?? 0;
+        $lastMonitoring = Flow::where('f1', '!=', 'null')->orderBy('id', 'desc')->get()->last();
+        $sugar_cane = $lastMonitoring->sugar_cane ?? 0;
 
-        if ($p1 > 0) {
-            $data['p8'] = ($request->p7 / $p1) * 100;
+        if ($sugar_cane > 0) {
+            $data['p1'] = ($request->f1 / $sugar_cane) * 100;
         } else {
-            $data['p8'] = null;
+            $data['p1'] = null;
         }
 
-        MonitoringHourly::updateOrCreate(
-            ['created_at' => $createdAt],
+        Flow::updateOrCreate(
+            ['date' => $data['date'], 'time' => $data['time']],
             $data
         );
 

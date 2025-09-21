@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Models\MonitoringHourly;
+use App\Models\Flow;
 use Yajra\DataTables\DataTables;
-use App\Models\MonitoringHourlySpot;
+use App\Models\FlowSpot;
 
 class FlowNMController extends Controller
 {
@@ -17,12 +17,11 @@ class FlowNMController extends Controller
         }
 
         if ($request->ajax()) {
-            $spots = MonitoringHourlySpot::select(['id', 'name'])
-                ->where('id', '<=', 15)
-                ->whereNotIn('id', [2, 3, 4, 7, 10, 12, 13])
+            $spots = FlowSpot::select(['id', 'name'])
+                ->where('id', '>', 1)
                 ->orderBy('id')
                 ->get();
-            $data = MonitoringHourly::with(['user']);
+            $data = Flow::with(['user']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('user', function ($row) {
@@ -33,19 +32,36 @@ class FlowNMController extends Controller
                         return '-';
                     }
                     $list = '<ul class="mb-0 ps-3">';
+                    $list .= '<li><strong>Tebu Tergiling</strong> : ' . e($row->sugar_cane ?? '-') . '</li>';
                     foreach ($spots as $spot) {
-                        $colName = 'p' . $spot->id;
-                        $value   = $row->{$colName} ?? '-';
-                        $list   .= '<li>' . e($spot->name) . ' : ' . e($value) . '</li>';
+                        $flowCol = 'f' . $spot->id;
+                        $persenCol = 'p' . $spot->id;
+                        $flowVal = $row->{$flowCol} ?? '-';
+                        $persenVal = $row->{$persenCol} ?? '-';
+                        $list .= '<li><strong>Flow</strong> ' . e($spot->name) . ' : ' . e($flowVal) . '</li>';
+                        $list .= '<li><strong>' . e($spot->name) . '%Tebu</strong> : ' . e($persenVal) . '</li>';
                     }
                     $list .= '</ul>';
-
                     return $list;
                 })
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at
                         ? $row->created_at->format('d-m-Y H:i')
                         : '-';
+                })
+                ->addColumn('action', function ($row) {
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_hapus_flow_nm) {
+                        $deleteUrl = route('flow_nm.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
                 })
                 ->rawColumns(['action', 'result'])
                 ->make(true);
@@ -59,9 +75,9 @@ class FlowNMController extends Controller
         if ($response = $this->checkIzin('akses_tambah_flow_nm')) {
             return $response;
         }
-
-        $last_monitoring = MonitoringHourly::orderBy('id', 'desc')->skip(1)->first();
-        return view('flow_nm.create', compact('last_monitoring'));
+        $spots = FlowSpot::where('id', '>', 1)->select(['id', 'name'])->orderBy('id')->get();
+        $last_monitoring = Flow::orderBy('id', 'desc')->get()->last();
+        return view('flow_nm.create', compact('spots', 'last_monitoring'));
     }
 
     public function store(Request $request)
@@ -75,23 +91,21 @@ class FlowNMController extends Controller
             'time' => 'required|integer|min:0|max:23',
         ]);
 
-        $createdAt = Carbon::parse($request->date)
-            ->setHour($request->time)
-            ->setMinute(0)
-            ->setSecond(0);
+        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
+        $formattedTime = $hour . ':00:00';
 
-        $data = $request->except(['date', 'time']);
+        $data = $request->all();
         $data['user_id'] = auth()->id();
-        $data['created_at'] = $createdAt;
+        $data['time'] = $formattedTime;
 
-        MonitoringHourly::updateOrCreate(
-            ['created_at' => $createdAt],
+        Flow::updateOrCreate(
+            ['date' => $data['date'], 'time' => $data['time']],
             $data
         );
 
         return redirect()
             ->route('flow_nm.index')
-            ->with('success', 'Data berhasil disimpan.');
+            ->with('success', 'Flow NM berhasil disimpan.');
     }
 
     public function destroy($id)
@@ -100,11 +114,11 @@ class FlowNMController extends Controller
             return $response;
         }
 
-        $monitoring = MonitoringHourly::findOrFail($id);
+        $monitoring = Flow::findOrFail($id);
         $monitoring->delete();
 
         return redirect()
             ->route('flow_nm.index')
-            ->with('success', 'Data berhasil dihapus.');
+            ->with('success', 'Flow NM berhasil dihapus.');
     }
 }

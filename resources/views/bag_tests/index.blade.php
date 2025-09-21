@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('monitoring_shiftlies-active', 'active')
+@section('bag_tests-active', 'active')
 @section('input-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
-        <h1 class="h3 mb-3"><strong>Daftar Monitoring Pershift</strong></h1>
+        <h1 class="h3 mb-3"><strong>Daftar Uji Karung</strong></h1>
 
-        @if (Auth()->user()->role->akses_tambah_monitoring_pershift)
+        @if (Auth()->user()->role->akses_tambah_gula_dikarungi)
             <div class="d-flex justify-content-between align-roles-center mb-3">
-                <a href="{{ route('monitoring_shiftlies.create') }}" class="btn btn-primary">
+                <a href="{{ route('bag_tests.create') }}" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Tambah
                 </a>
             </div>
@@ -21,8 +21,8 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Tanggal</th>
-                            <th>Shift</th>
+                            <th>Kedatangan</th>
+                            <th>Pengujian</th>
                             <th>Hasil</th>
                             <th>User</th>
                             <th>Action</th>
@@ -40,7 +40,7 @@
             $('#analysesTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('monitoring_shiftlies.index') }}",
+                ajax: "{{ route('bag_tests.index') }}",
                 order: [
                     [0, 'desc']
                 ],
@@ -49,12 +49,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'date',
-                        name: 'date'
+                        data: 'arrival_date',
+                        name: 'arrival_date'
                     },
                     {
-                        data: 'shift',
-                        name: 'shift'
+                        data: 'test_date',
+                        name: 'test_date'
                     },
                     {
                         data: 'result',

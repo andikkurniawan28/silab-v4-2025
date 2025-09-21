@@ -1,15 +1,15 @@
 @extends('template.master')
 
-@section('monitoring_shiftlies-active', 'active')
+@section('sugar_baggings-active', 'active')
 @section('input-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
-        <h1 class="h3 mb-3"><strong>Daftar Monitoring Pershift</strong></h1>
+        <h1 class="h3 mb-3"><strong>Daftar Gula Dikarungi</strong></h1>
 
-        @if (Auth()->user()->role->akses_tambah_monitoring_pershift)
+        @if (Auth()->user()->role->akses_tambah_gula_dikarungi)
             <div class="d-flex justify-content-between align-roles-center mb-3">
-                <a href="{{ route('monitoring_shiftlies.create') }}" class="btn btn-primary">
+                <a href="{{ route('sugar_baggings.create') }}" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Tambah
                 </a>
             </div>
@@ -22,8 +22,11 @@
                         <tr>
                             <th>ID</th>
                             <th>Tanggal</th>
-                            <th>Shift</th>
-                            <th>Hasil</th>
+                            <th>Jam</th>
+                            <th>A<sub>(Karung)</sub></th>
+                            <th>B<sub>(Karung)</sub></th>
+                            <th>C<sub>(Karung)</sub></th>
+                            <th>Total<sub>(Ku)</sub></th>
                             <th>User</th>
                             <th>Action</th>
                         </tr>
@@ -40,7 +43,7 @@
             $('#analysesTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('monitoring_shiftlies.index') }}",
+                ajax: "{{ route('sugar_baggings.index') }}",
                 order: [
                     [0, 'desc']
                 ],
@@ -53,14 +56,24 @@
                         name: 'date'
                     },
                     {
-                        data: 'shift',
-                        name: 'shift'
+                        data: 'time',
+                        name: 'time'
                     },
                     {
-                        data: 'result',
-                        name: 'result',
-                        orderable: false,
-                        searchable: false
+                        data: 'bag_qty_from_chronous_a',
+                        name: 'bag_qty_from_chronous_a'
+                    },
+                    {
+                        data: 'bag_qty_from_chronous_b',
+                        name: 'bag_qty_from_chronous_b'
+                    },
+                    {
+                        data: 'bag_qty_from_chronous_c',
+                        name: 'bag_qty_from_chronous_c'
+                    },
+                    {
+                        data: 'sugar_total',
+                        name: 'sugar_total'
                     },
                     {
                         data: 'user',
