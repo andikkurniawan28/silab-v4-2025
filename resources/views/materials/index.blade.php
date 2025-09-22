@@ -16,7 +16,7 @@
     <div class="card shadow-sm">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="materialTable" class="table table-bordered table-hover table-striped table-sm w-100 text-center">
+                <table id="materialTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
                             <th>ID</th>

@@ -17,7 +17,7 @@ class FlowNMController extends Controller
         }
 
         if ($request->ajax()) {
-            $spots = FlowSpot::select(['id', 'name'])
+            $spots = FlowSpot::with('unit')->select(['id', 'name', 'unit_id'])
                 ->where('id', '>', 1)
                 ->orderBy('id')
                 ->get();
@@ -32,25 +32,29 @@ class FlowNMController extends Controller
                         return '-';
                     }
                     $list = '<ul class="mb-0 ps-3">';
-                    $list .= '<li><strong>Tebu Tergiling</strong> : ' . e($row->sugar_cane ?? '-') . '</li>';
+                    $list .= '<li><strong>Tebu Tergiling</strong> : ' . e($row->sugar_cane ?? '-') . 'Ku</li>';
                     foreach ($spots as $spot) {
                         $flowCol = 'f' . $spot->id;
                         $persenCol = 'p' . $spot->id;
                         $flowVal = $row->{$flowCol} ?? '-';
                         $persenVal = $row->{$persenCol} ?? '-';
-                        $list .= '<li><strong>Flow</strong> ' . e($spot->name) . ' : ' . e($flowVal) . '</li>';
-                        $list .= '<li><strong>' . e($spot->name) . '%Tebu</strong> : ' . e($persenVal) . '</li>';
+                        $list .= '<li><strong>Flow ' . e($spot->name) . '</strong> : ' . e($flowVal) . ' ' . e($spot->unit->name) . '</li>';
+                        $list .= '<li><strong>' . e($spot->name) . '%Tebu</strong> : ' . e($persenVal) . '%</li>';
                     }
                     $list .= '</ul>';
                     return $list;
                 })
-                ->addColumn('created_at', function ($row) {
-                    return $row->created_at
-                        ? $row->created_at->format('d-m-Y H:i')
+                ->addColumn('date', function ($row) {
+                    return $row->date
+                        ? Carbon::parse($row->date)->format('d-m-Y')
                         : '-';
                 })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_edit_flow_nm) {
+                        $editUrl = route('flow_nm.edit', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-warning">Edit</a>';
+                    }
                     if (Auth()->user()->role->akses_hapus_flow_nm) {
                         $deleteUrl = route('flow_nm.destroy', $row->id);
                         $buttons .= '
@@ -94,19 +98,82 @@ class FlowNMController extends Controller
         $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
         $formattedTime = $hour . ':00:00';
 
-        $data = $request->all();
-        $data['user_id'] = auth()->id();
-        $data['time'] = $formattedTime;
+        $exists = Flow::where('date', $request->date)
+            ->where('time', $formattedTime)
+            ->exists();
 
-        Flow::updateOrCreate(
-            ['date' => $data['date'], 'time' => $data['time']],
-            $data
-        );
+        if ($exists) {
+            return redirect()
+                ->route('flow_nm.create')
+                ->with('failed', 'Data pada tanggal dan jam tersebut sudah ada!');
+        }
+
+        $request->merge([
+            'user_id' => auth()->id(),
+            'time' => $formattedTime
+        ]);
+
+        Flow::create($request->all());
 
         return redirect()
             ->route('flow_nm.index')
             ->with('success', 'Flow NM berhasil disimpan.');
     }
+
+    public function edit($id)
+    {
+        if ($response = $this->checkIzin('akses_edit_flow_nm')) {
+            return $response;
+        }
+
+        $flow = Flow::findOrFail($id);
+        $spots = FlowSpot::where('id', '>', 1)
+            ->select(['id', 'name'])
+            ->orderBy('id')
+            ->get();
+
+        return view('flow_nm.edit', compact('flow', 'spots'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        if ($response = $this->checkIzin('akses_edit_flow_nm')) {
+            return $response;
+        }
+
+        $request->validate([
+            'date' => 'required|date',
+            'time' => 'required|integer|min:0|max:23',
+        ]);
+
+        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
+        $formattedTime = $hour . ':00:00';
+
+        $exists = Flow::where('date', $request->date)
+            ->where('time', $formattedTime)
+            ->where('id', '!=', $id)
+            ->exists();
+
+        if ($exists) {
+            return redirect()
+                ->route('flow_nm.edit', $id)
+                ->with('failed', 'Data pada tanggal dan jam tersebut sudah ada!');
+        }
+
+        $flow = Flow::findOrFail($id);
+        $flow->update(array_merge(
+            $request->all(),
+            [
+                'user_id' => auth()->id(),
+                'time'    => $formattedTime
+            ]
+        ));
+
+        return redirect()
+            ->route('flow_nm.index')
+            ->with('success', 'Flow NM berhasil diperbarui.');
+    }
+
 
     public function destroy($id)
     {

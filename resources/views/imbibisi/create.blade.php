@@ -13,12 +13,12 @@
                     @csrf
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="date" class="form-label">Tanggal</label>
                             <input type="date" id="date" name="date" class="form-control"
                                 value="{{ date('Y-m-d') }}" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label for="time" class="form-label">Jam</label>
                             <select id="time" name="time" class="form-control select2" required>
                                 @for ($i = 0; $i <= 23; $i++)
@@ -37,34 +37,32 @@
                                 <tr>
                                     <th class="text-left" style="width: 30%">Titik Monitoring</th>
                                     <th class="text-left">Sebelum</th>
-                                    <th class="text-left">Sesudah</th>
+                                    <th class="text-left">Setelah</th>
+                                    <th class="text-left">Flow</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {{-- Totalizer --}}
-                                <tr>
-                                    <td>Totalizer Imbibisi</td>
-                                    <td>
-                                        <input type="text" class="form-control" id="totalizer_imb_sebelum"
-                                            value="{{ $last_monitoring->t1 ?? 0 }}" readonly>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="totalizer_imb_setelah" name="t1"
-                                            required>
-                                    </td>
-                                </tr>
-                                {{-- Flow --}}
-                                <tr>
-                                    <td>Flow Imbibisi</td>
-                                    <td>
-                                        <input type="text" class="form-control" id="flow_imb_sebelum"
-                                            value="{{ $last_monitoring->f1 ?? 0 }}" readonly>
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" id="flow_imb_setelah" name="f1"
-                                            readonly>
-                                    </td>
-                                </tr>
+                                @foreach ($spots as $spot)
+                                    <tr>
+                                        <td>{{ $spot->name }}</td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                id="totalizer_{{ $spot->name }}_sebelum" name="tb{{ $spot->id }}"
+                                                value="{{ $last_monitoring->{'t' . $spot->id} ?? 0 }}" readonly>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                id="totalizer_{{ $spot->name }}_setelah" name="t{{ $spot->id }}"
+                                                value="" required>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control"
+                                                id="flow_{{ $spot->name }}_setelah" name="f{{ $spot->id }}"
+                                                value="" readonly>
+                                        </td>
+                                    </tr>
+                                @endforeach
+
                             </tbody>
                         </table>
                     </div>
@@ -85,13 +83,26 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function hitungFlow() {
-                let totalizer_imb_sebelum = parseFloat(document.getElementById("totalizer_imb_sebelum").value) || 0;
-                let totalizer_imb_setelah = parseFloat(document.getElementById("totalizer_imb_setelah").value) || 0;
-                let flow_imb = totalizer_imb_setelah - totalizer_imb_sebelum;
-                document.getElementById("flow_imb_setelah").value = flow_imb;
+
+                // loop semua spot
+                @foreach ($spots as $spot)
+                    let sebelum_{{ $spot->id }} = parseFloat(document.getElementById(
+                        "totalizer_{{ $spot->name }}_sebelum").value) || 0;
+                    let setelah_{{ $spot->id }} = parseFloat(document.getElementById(
+                        "totalizer_{{ $spot->name }}_setelah").value) || 0;
+
+                    // flow = setelah - sebelum
+                    let flow_{{ $spot->id }} = setelah_{{ $spot->id }} - sebelum_{{ $spot->id }};
+
+                    // isi field
+                    document.getElementById("flow_{{ $spot->name }}_setelah").value = flow_{{ $spot->id }};
+                @endforeach
             }
-            document.getElementById("totalizer_imb_setelah")
-                .addEventListener("input", hitungFlow);
+
+            // trigger ketika input berubah
+            document.querySelectorAll("input").forEach(el => {
+                el.addEventListener("input", hitungFlow);
+            });
         });
     </script>
 @endsection

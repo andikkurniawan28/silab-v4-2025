@@ -1,38 +1,36 @@
 @extends('template.master')
 
-@section('flow_nm-active', 'active')
+@section('imbibisi-active', 'active')
 @section('input-show', 'show')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
-        <h1 class="h3 mb-3"><strong>Tambah Flow NM</strong></h1>
+        <h1 class="h3 mb-3"><strong>Edit Imbibisi</strong></h1>
 
         <div class="card shadow-sm">
             <div class="card-body">
-                <form action="{{ route('flow_nm.store') }}" method="POST">
+                <form action="{{ route('imbibisi.update', $imbibisi->id) }}" method="POST">
                     @csrf
+                    @method('PUT')
 
                     <div class="row mb-3">
                         <div class="col-md-4">
                             <label for="date" class="form-label">Tanggal</label>
                             <input type="date" id="date" name="date" class="form-control"
-                                value="{{ date('Y-m-d') }}" required>
+                                value="{{ old('date', $imbibisi->date ? \Carbon\Carbon::parse($imbibisi->date)->format('Y-m-d') : '') }}"
+                                required>
                         </div>
                         <div class="col-md-4">
                             <label for="time" class="form-label">Jam</label>
                             <select id="time" name="time" class="form-control select2" required>
                                 @for ($i = 0; $i <= 23; $i++)
-                                    <option value="{{ $i }}" {{ (int) date('H') === $i ? 'selected' : '' }}>
+                                    <option value="{{ $i }}"
+                                        {{ \Carbon\Carbon::parse($imbibisi->time)->format('H') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
                                         {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00 -
                                         {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}:00
                                     </option>
                                 @endfor
                             </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label for="number" class="form-label">Tebu Tergiling<sub>(Ku)</sub></label>
-                            <input type="number" id="sugar_cane" name="sugar_cane" class="form-control" step="any"
-                                value="" required autofocus>
                         </div>
                     </div>
 
@@ -44,7 +42,6 @@
                                     <th class="text-left">Sebelum</th>
                                     <th class="text-left">Setelah</th>
                                     <th class="text-left">Flow</th>
-                                    <th class="text-left">%Tebu</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,22 +51,18 @@
                                         <td>
                                             <input type="number" class="form-control"
                                                 id="totalizer_{{ $spot->name }}_sebelum" name="tb{{ $spot->id }}"
-                                                value="{{ $last_monitoring->{'t' . $spot->id} ?? 0 }}" readonly>
+                                                value="{{ old('tb' . $spot->id, $imbibisi->{'tb' . $spot->id} ?? 0) }}"
+                                                readonly>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control"
                                                 id="totalizer_{{ $spot->name }}_setelah" name="t{{ $spot->id }}"
-                                                value="" required>
+                                                value="{{ old('t' . $spot->id, $imbibisi->{'t' . $spot->id}) }}" required>
                                         </td>
                                         <td>
                                             <input type="number" class="form-control"
                                                 id="flow_{{ $spot->name }}_setelah" name="f{{ $spot->id }}"
-                                                value="" readonly>
-                                        </td>
-                                        <td>
-                                            <input type="number" class="form-control" step="any"
-                                                id="p_{{ $spot->name }}_setelah" name="p{{ $spot->id }}"
-                                                value="" readonly>
+                                                value="{{ old('f' . $spot->id, $imbibisi->{'f' . $spot->id}) }}" readonly>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,10 +71,10 @@
                         </table>
                     </div>
 
-                    <button type="submit" class="btn btn-success">
-                        <i class="bi bi-save"></i> Simpan
+                    <button type="submit" class="btn btn-warning">
+                        <i class="bi bi-save"></i> Update
                     </button>
-                    <a href="{{ route('flow_nm.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('imbibisi.index') }}" class="btn btn-secondary">
                         <i class="bi bi-arrow-left"></i> Kembali
                     </a>
                 </form>
@@ -94,8 +87,6 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             function hitungFlow() {
-                let tebu = parseFloat(document.getElementById("sugar_cane").value) || 0;
-
                 // loop semua spot
                 @foreach ($spots as $spot)
                     let sebelum_{{ $spot->id }} = parseFloat(document.getElementById(
@@ -106,13 +97,8 @@
                     // flow = setelah - sebelum
                     let flow_{{ $spot->id }} = setelah_{{ $spot->id }} - sebelum_{{ $spot->id }};
 
-                    // % tebu
-                    let persen_{{ $spot->id }} = tebu !== 0 ? (flow_{{ $spot->id }} / tebu * 100).toFixed(
-                        2) : 0;
-
                     // isi field
                     document.getElementById("flow_{{ $spot->name }}_setelah").value = flow_{{ $spot->id }};
-                    document.getElementById("p_{{ $spot->name }}_setelah").value = persen_{{ $spot->id }};
                 @endforeach
             }
 

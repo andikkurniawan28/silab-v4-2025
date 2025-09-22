@@ -10,29 +10,31 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\FactorController;
 use App\Http\Controllers\FlowNMController;
 use App\Http\Controllers\RegionController;
+use App\Http\Controllers\BagTestController;
 use App\Http\Controllers\StationController;
 use App\Http\Controllers\AnalysisController;
+use App\Http\Controllers\FlowSpotController;
 use App\Http\Controllers\KelilingController;
 use App\Http\Controllers\MaterialController;
 use App\Http\Controllers\ParameterController;
 use App\Http\Controllers\AnalisaBJBController;
 use App\Http\Controllers\AnalisaCaoController;
 use App\Http\Controllers\AnalisaSO2Controller;
+use App\Http\Controllers\EstimationController;
 use App\Http\Controllers\ImbibitionController;
 use App\Http\Controllers\AnalisaKetelController;
+use App\Http\Controllers\SugarBaggingController;
 use App\Http\Controllers\EstimationSpotController;
 use App\Http\Controllers\BarcodePrintingController;
 use App\Http\Controllers\MonitoringHourlyController;
+use App\Http\Controllers\StockTransactionController;
 use App\Http\Controllers\MonitoringShiftlyController;
 use App\Http\Controllers\AnalysisUnverifiedController;
 use App\Http\Controllers\MonitoringHourlySpotController;
 use App\Http\Controllers\MonitoringShiftlySpotController;
+use App\Http\Controllers\StockTransactionDetailController;
 use App\Http\Controllers\AnalisaAmpasMetodePanasController;
 use App\Http\Controllers\AnalisaAmpasMetodeDinginController;
-use App\Http\Controllers\BagTestController;
-use App\Http\Controllers\EstimationController;
-use App\Http\Controllers\FlowSpotController;
-use App\Http\Controllers\SugarBaggingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -107,15 +109,17 @@ Route::get('flow_nm', [FlowNMController::class, 'index'])->name('flow_nm.index')
 Route::get('flow_nm/create', [FlowNMController::class, 'create'])->name('flow_nm.create')->middleware(['auth']);
 Route::post('flow_nm/create', [FlowNMController::class, 'store'])->name('flow_nm.store')->middleware(['auth']);
 Route::delete('flow_nm/{id}', [FlowNMController::class, 'destroy'])->name('flow_nm.destroy')->middleware(['auth']);
-
+Route::get('flow_nm/{id}/edit', [FlowNMController::class, 'edit'])->name('flow_nm.edit')->middleware(['auth']);
+Route::put('flow_nm/{id}', [FlowNMController::class, 'update'])->name('flow_nm.update')->middleware(['auth']);
 // Route::get('keliling_proses', [KelilingController::class, 'index'])->name('keliling_proses.index')->middleware(['auth']);
 // Route::get('keliling_proses/create', [KelilingController::class, 'create'])->name('keliling_proses.create')->middleware(['auth']);
 // Route::post('keliling_proses/create', [KelilingController::class, 'store'])->name('keliling_proses.store')->middleware(['auth']);
-Route::get('imbibisi', [ImbibitionController::class, 'index'])->name('imbibisi.index')->middleware(['auth']);
-Route::get('imbibisi/create', [ImbibitionController::class, 'create'])->name('imbibisi.create')->middleware(['auth']);
-Route::post('imbibisi/create', [ImbibitionController::class, 'store'])->name('imbibisi.store')->middleware(['auth']);
+
+Route::resource('imbibisi', ImbibitionController::class)->middleware(['auth']);
 Route::resource('monitoring_hourlies', MonitoringHourlyController::class)->middleware(['auth']);
 Route::resource('monitoring_shiftlies', MonitoringShiftlyController::class)->middleware(['auth']);
 Route::resource('estimations', EstimationController::class)->middleware(['auth']);
 Route::resource('sugar_baggings', SugarBaggingController::class)->middleware(['auth']);
 Route::resource('bag_tests', BagTestController::class)->middleware(['auth']);
+Route::resource('stock_transactions', StockTransactionController::class)->middleware(['auth']);
+Route::get('stock_transaction_details', StockTransactionDetailController::class)->name('stock_transaction_details.index')->middleware(['auth']);

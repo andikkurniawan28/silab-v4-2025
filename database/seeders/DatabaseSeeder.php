@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Item;
 use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
@@ -99,11 +100,22 @@ class DatabaseSeeder extends Seeder
             ['name' => '°Z'],
             ['name' => '°C'],
             ['name' => 'IU'],
-            ['name' => 'MCU'],
+            ['name' => 'MCU'], // 5
             ['name' => 'pH'],
             ['name' => 'Ku'],
             ['name' => 'm3/H'],
             ['name' => 'm3'],
+            ['name' => 'Bar'], // 10
+            ['name' => 'Jurigen'],
+            ['name' => 'Pack'],
+            ['name' => 'Kaleng'],
+        ]);
+
+        Item::insert([
+            ['name' => 'Form A', 'unit_id' => 11],
+            ['name' => 'Form B', 'unit_id' => 11],
+            ['name' => 'Kieselguhr', 'unit_id' => 13],
+            ['name' => 'Test Kit Ketel', 'unit_id' => 12],
         ]);
 
         Parameter::insert([
@@ -147,65 +159,67 @@ class DatabaseSeeder extends Seeder
         ]);
 
         FlowSpot::insert([
-            ['name' => 'IMB', 'unit_id' => 9],
-            ['name' => 'NMP', 'unit_id' => 9],
-            ['name' => 'NMG', 'unit_id' => 9],
-            ['name' => 'D1', 'unit_id' => 9],
-            ['name' => 'D2', 'unit_id' => 9],
+            ['name' => 'IMB', 'unit_id' => 8],
+            ['name' => 'NMP', 'unit_id' => 8],
+            ['name' => 'NMG', 'unit_id' => 8],
+            ['name' => 'D1', 'unit_id' => 8],
+            ['name' => 'D2', 'unit_id' => 8],
         ]);
 
         MonitoringHourlySpot::insert([
-            ['name' => 'Tekanan Pre Evaporator 1', 'unit_id' => 1],
-            ['name' => 'Tekanan Pre Evaporator 2', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 1', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 2', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 3', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 4', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 5', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 6', 'unit_id' => 1],
-            ['name' => 'Tekanan Evaporator 7', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 1', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 2', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 3', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 4', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 5', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 6', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 7', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 8', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 9', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 10', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 11', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 12', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 13', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 14', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 15', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 16', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 17', 'unit_id' => 1],
-            ['name' => 'Tekanan Pan 18', 'unit_id' => 1],
-            ['name' => 'Suhu Pre Evaporator 1', 'unit_id' => 1],
-            ['name' => 'Suhu Pre Evaporator 2', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 1', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 2', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 3', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 4', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 5', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 6', 'unit_id' => 1],
-            ['name' => 'Suhu Evaporator 7', 'unit_id' => 1],
-            ['name' => 'Suhu Heater 1', 'unit_id' => 1],
-            ['name' => 'Suhu Heater 2', 'unit_id' => 1],
-            ['name' => 'Suhu Heater 3', 'unit_id' => 1],
-            ['name' => 'Suhu Air Injeksi', 'unit_id' => 1],
-            ['name' => 'Suhu Air Terjun', 'unit_id' => 1],
-            ['name' => 'Tekanan Pompa Hampa', 'unit_id' => 1],
-            ['name' => 'Tekanan Uap Baru', 'unit_id' => 1],
-            ['name' => 'Tekanan Uap Bekas', 'unit_id' => 1],
-            ['name' => 'Tekanan Uap 3Ato', 'unit_id' => 1],
-            ['name' => 'ph Air Injeksi', 'unit_id' => 1], // terakhir
+            ['name' => 'Tekanan Pre Evaporator 1', 'unit_id' => 10],
+            ['name' => 'Tekanan Pre Evaporator 2', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 1', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 2', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 3', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 4', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 5', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 6', 'unit_id' => 10],
+            ['name' => 'Tekanan Evaporator 7', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 1', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 2', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 3', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 4', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 5', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 6', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 7', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 8', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 9', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 10', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 11', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 12', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 13', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 14', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 15', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 16', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 17', 'unit_id' => 10],
+            ['name' => 'Tekanan Pan 18', 'unit_id' => 10],
+            ['name' => 'Suhu Pre Evaporator 1', 'unit_id' => 3],
+            ['name' => 'Suhu Pre Evaporator 2', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 1', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 2', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 3', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 4', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 5', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 6', 'unit_id' => 3],
+            ['name' => 'Suhu Evaporator 7', 'unit_id' => 3],
+            ['name' => 'Suhu Heater 1', 'unit_id' => 3],
+            ['name' => 'Suhu Heater 2', 'unit_id' => 3],
+            ['name' => 'Suhu Heater 3', 'unit_id' => 3],
+            ['name' => 'Suhu Air Injeksi', 'unit_id' => 3],
+            ['name' => 'Suhu Air Terjun', 'unit_id' => 3],
+            ['name' => 'Tekanan Pompa Hampa', 'unit_id' => 10],
+            ['name' => 'Tekanan Uap Baru', 'unit_id' => 10],
+            ['name' => 'Tekanan Uap Bekas', 'unit_id' => 10],
+            ['name' => 'Tekanan Uap 3Ato', 'unit_id' => 10],
+            ['name' => 'ph Air Injeksi', 'unit_id' => 10],
+            ['name' => 'SFC', 'unit_id' => 8],
         ]);
 
         $flow_spots = FlowSpot::select(['id'])->orderBy('id')->get();
         foreach ($flow_spots as $fs) {
             $columns = [
+                'tb' . $fs->id,
                 't' . $fs->id,
                 'f' . $fs->id,
                 'p' . $fs->id,
@@ -216,7 +230,6 @@ class DatabaseSeeder extends Seeder
                 }
             }
         }
-
 
         $parameters = Parameter::select(['id'])->orderBy('id')->get();
         foreach ($parameters as $p) {

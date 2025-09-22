@@ -1,5 +1,6 @@
 <!-- Sidebar -->
 <ul class="navbar-nav bg-gradient-danger sidebar sidebar-dark accordion" id="accordionSidebar">
+{{-- <ul class="navbar-nav bg-gradient-light sidebar sidebar-light accordion" id="accordionSidebar"> --}}
 
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard.index') }}">
@@ -251,6 +252,7 @@
                         @if (Auth()->user()->role->akses_daftar_uji_karung)
                         <a class="collapse-item @yield('bag_tests-active')" href="{{ route('bag_tests.index') }}">Uji Karung</a>
                         @endif
+
                         <h6 class="collapse-header">Seputar Proses :</h6>
                         @if (Auth()->user()->role->akses_daftar_flow_nm)
                         <a class="collapse-item @yield('flow_nm-active')" href="{{ route('flow_nm.index') }}">Flow NM</a>
@@ -272,6 +274,14 @@
                         @endif
                         @if (Auth()->user()->role->akses_daftar_gula_dikarungi)
                         <a class="collapse-item @yield('sugar_baggings-active')" href="{{ route('sugar_baggings.index') }}">Gula Dikarungi</a>
+                        @endif
+
+                        <h6 class="collapse-header">Seputar Penyimpanan :</h6>
+                        @if (Auth()->user()->role->akses_daftar_transaksi_stok)
+                        <a class="collapse-item @yield('stock_transactions-active')" href="{{ route('stock_transactions.index') }}">Transaksi Stok</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_mutasi_stok)
+                        <a class="collapse-item @yield('stock_transaction_details-active')" href="{{ route('stock_transaction_details.index') }}">Mutasi Stok</a>
                         @endif
                     </div>
                 </div>

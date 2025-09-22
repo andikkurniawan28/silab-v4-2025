@@ -22,6 +22,7 @@ class FlowSpot extends Model
     {
         static::created(function ($flow_spot) {
             $columns = [
+                'tb' . $flow_spot->id,
                 't' . $flow_spot->id,
                 'f' . $flow_spot->id,
                 'p' . $flow_spot->id,
