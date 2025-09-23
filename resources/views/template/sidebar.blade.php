@@ -35,6 +35,9 @@
         @yield('estimation_spots-active')
         @yield('items-active')
         @yield('regions-active')
+        @yield('impurities-active')
+        @yield('varieties-active')
+        @yield('kawalans-active')
         @yield('factors-active')
         @yield('flow_spots-active')
     ">
@@ -56,6 +59,9 @@
             @yield('estimation_spots-show')
             @yield('items-show')
             @yield('regions-show')
+            @yield('impurities-show')
+            @yield('varieties-show')
+            @yield('kawalans-show')
             @yield('factors-show')
             @yield('flow_spots-show')
         "
@@ -157,6 +163,30 @@
                     @yield('regions-active')"
                             href="{{ route('regions.index') }}">
                             Wilayah
+                        </a>
+                    @endif
+
+                    @if (Auth()->user()->role->akses_daftar_kotoran_tebu)
+                        <a class="collapse-item
+                    @yield('impurities-active')"
+                            href="{{ route('impurities.index') }}">
+                            Kotoran Tebu
+                        </a>
+                    @endif
+
+                    @if (Auth()->user()->role->akses_daftar_varietas_tebu)
+                        <a class="collapse-item
+                    @yield('varieties-active')"
+                            href="{{ route('varieties.index') }}">
+                            Varietas Tebu
+                        </a>
+                    @endif
+
+                    @if (Auth()->user()->role->akses_daftar_kawalan_tebu)
+                        <a class="collapse-item
+                    @yield('kawalans-active')"
+                            href="{{ route('kawalans.index') }}">
+                            Kawalan Tebu
                         </a>
                     @endif
 
@@ -282,6 +312,26 @@
                         @endif
                         @if (Auth()->user()->role->akses_daftar_mutasi_stok)
                         <a class="collapse-item @yield('stock_transaction_details-active')" href="{{ route('stock_transaction_details.index') }}">Mutasi Stok</a>
+                        @endif
+
+                        <h6 class="collapse-header">Seputar On-Farm :</h6>
+                        @if (Auth()->user()->role->akses_daftar_gelas_core)
+                        <a class="collapse-item @yield('core_cards-active')" href="{{ route('core_cards.index') }}">Gelas Core</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_gelas_ari)
+                        <a class="collapse-item @yield('ari_cards-active')" href="{{ route('ari_cards.index') }}">Gelas ARI</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_posbrix)
+                        <a class="collapse-item @yield('posbrixes-active')" href="{{ route('posbrixes.index') }}">Posbrix</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_core_sample)
+                        <a class="collapse-item @yield('core_samples-active')" href="{{ route('core_samples.index') }}">Core Sample</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_ari_timbangan)
+                        <a class="collapse-item @yield('ari_timbangans-active')" href="{{ route('ari_timbangans.index') }}">ARI Timbangan</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_penilaian_mbs)
+                        <a class="collapse-item @yield('penilaian_mbss-active')" href="{{ route('penilaian_mbss.index') }}">Penilaian MBS</a>
                         @endif
                     </div>
                 </div>

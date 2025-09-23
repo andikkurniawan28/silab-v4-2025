@@ -11,6 +11,8 @@ use App\Models\User;
 use App\Models\Factor;
 use App\Models\Station;
 use App\Models\FlowSpot;
+use App\Models\Impurity;
+use App\Models\Kawalan;
 use App\Models\Material;
 use App\Models\Parameter;
 use Illuminate\Database\Seeder;
@@ -18,6 +20,7 @@ use App\Models\ParameterMaterial;
 use Illuminate\Support\Facades\DB;
 use App\Models\MonitoringHourlySpot;
 use App\Models\MonitoringShiftlySpot;
+use App\Models\Variety;
 use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
@@ -258,6 +261,27 @@ class DatabaseSeeder extends Seeder
             }
         }
 
+        Impurity::insert([
+            ['name' => 'Daduk'],
+            ['name' => 'Akar'],
+            ['name' => 'Tali Pucuk'],
+            ['name' => 'Pucuk'],
+            ['name' => 'Sogolan'],
+            ['name' => 'Tebu Muda'],
+            ['name' => 'Lelesan'],
+            ['name' => 'Terbakar'],
+            ['name' => 'Kocor Air'],
+            ['name' => 'ATPSD'],
+        ]);
+
+        $impurities = Impurity::select(['id'])->orderBy('id')->get();
+        foreach ($impurities as $i) {
+            $colName = 'p' . $i->id;
+            if (!Schema::hasColumn('analisa_on_farms', $colName)) {
+                DB::statement("ALTER TABLE analisa_on_farms ADD COLUMN `$colName` TINYINT NULL AFTER updated_at");
+            }
+        }
+
         Factor::insert([
             ['name' => 'Faktor Rendemen NPP', 'value' => 0.7],
             ['name' => 'Faktor Mellase NPP', 'value' => 0.4],
@@ -271,6 +295,27 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Faktor Ayakan 5', 'value' => 25.000000000],
             ['name' => 'Faktor Ayakan 6', 'value' => 50.000000000],
             ['name' => 'Faktor Berat BJB', 'value' => 1.001301692],
+        ]);
+
+        Variety::insert([
+            ['name' => 'PSKA942'],
+            ['name' => 'PS862'],
+            ['name' => 'PS881'],
+            ['name' => 'PSJK922'],
+            ['name' => 'CENING'],
+            ['name' => 'PSJT941'],
+            ['name' => 'CO617'],
+            ['name' => 'PS864'],
+            ['name' => 'PS921'],
+            ['name' => 'BL'],
+            ['name' => 'LAIN2'],
+            ['name' => 'BZ132'],
+        ]);
+
+        Kawalan::insert([
+            ['name' => 'Non VMA'],
+            ['name' => 'VMA'],
+            ['name' => 'ZPK'],
         ]);
 
         Material::insert([

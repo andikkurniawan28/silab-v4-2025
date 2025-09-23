@@ -2,64 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\CoreCard;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CoreCardController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        if ($response = $this->checkIzin('akses_daftar_gelas_core')) {
+            return $response;
+        }
+
+        if ($request->ajax()) {
+            $data = CoreCard::query();
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $buttons = '<div class="btn-group" role="group">';
+                    if (Auth()->user()->role->akses_hapus_gelas_core) {
+                        $deleteUrl = route('core_cards.destroy', $row->id);
+                        $buttons .= '
+                            <form action="' . $deleteUrl . '" method="POST" onsubmit="return confirm(\'Hapus data ini?\')" style="display:inline-block;">
+                                ' . csrf_field() . method_field('DELETE') . '
+                                <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                            </form>
+                        ';
+                    }
+                    $buttons .= '</div>';
+                    return $buttons;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('core_cards.index');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        if ($response = $this->checkIzin('akses_tambah_gelas_core')) {
+            return $response;
+        }
+
+        return view('core_cards.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        if ($response = $this->checkIzin('akses_tambah_gelas_core')) {
+            return $response;
+        }
+
+        CoreCard::create($request->all());
+
+        return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil ditambahkan.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(CoreCard $coreCard)
+    public function edit(CoreCard $core_card)
     {
-        //
+        if ($response = $this->checkIzin('akses_edit_gelas_core')) {
+            return $response;
+        }
+
+        return view('core_cards.edit', compact('core_card'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(CoreCard $coreCard)
+    public function update(Request $request, CoreCard $core_card)
     {
-        //
+        if ($response = $this->checkIzin('akses_edit_gelas_core')) {
+            return $response;
+        }
+
+        $request->validate([
+            'name'          => 'required|string|max:255',
+        ]);
+
+        $core_card->update($request->all());
+
+        return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil diperbarui.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, CoreCard $coreCard)
+    public function destroy(CoreCard $core_card)
     {
-        //
-    }
+        if ($response = $this->checkIzin('akses_hapus_gelas_core')) {
+            return $response;
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(CoreCard $coreCard)
-    {
-        //
+        $core_card->delete();
+        return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil dihapus.');
     }
 }

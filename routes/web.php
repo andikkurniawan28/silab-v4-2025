@@ -35,6 +35,15 @@ use App\Http\Controllers\MonitoringShiftlySpotController;
 use App\Http\Controllers\StockTransactionDetailController;
 use App\Http\Controllers\AnalisaAmpasMetodePanasController;
 use App\Http\Controllers\AnalisaAmpasMetodeDinginController;
+use App\Http\Controllers\AriCardController;
+use App\Http\Controllers\AriTimbanganController;
+use App\Http\Controllers\CoreCardController;
+use App\Http\Controllers\CoreSampleController;
+use App\Http\Controllers\ImpurityController;
+use App\Http\Controllers\KawalanController;
+use App\Http\Controllers\PenilaianMbsController;
+use App\Http\Controllers\PosbrixController;
+use App\Http\Controllers\VarietyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -75,6 +84,9 @@ Route::resource('monitoring_shiftly_spots', MonitoringShiftlySpotController::cla
 Route::resource('estimation_spots', EstimationSpotController::class)->middleware(['auth']);
 Route::resource('items', ItemController::class)->middleware(['auth']);
 Route::resource('regions', RegionController::class)->middleware(['auth']);
+Route::resource('impurities', ImpurityController::class)->middleware(['auth']);
+Route::resource('varieties', VarietyController::class)->middleware(['auth']);
+Route::resource('kawalans', KawalanController::class)->middleware(['auth']);
 Route::resource('factors', FactorController::class)->middleware(['auth']);
 Route::get('barcode_printing/{station_id}', [BarcodePrintingController::class, 'index'])->name('barcode_printing.index')->middleware(['auth']);
 Route::post('barcode_printing', [BarcodePrintingController::class, 'process'])->name('barcode_printing.process')->middleware(['auth']);
@@ -123,3 +135,9 @@ Route::resource('sugar_baggings', SugarBaggingController::class)->middleware(['a
 Route::resource('bag_tests', BagTestController::class)->middleware(['auth']);
 Route::resource('stock_transactions', StockTransactionController::class)->middleware(['auth']);
 Route::get('stock_transaction_details', StockTransactionDetailController::class)->name('stock_transaction_details.index')->middleware(['auth']);
+Route::resource('core_cards', CoreCardController::class)->middleware(['auth']);
+Route::resource('ari_cards', AriCardController::class)->middleware(['auth']);
+Route::resource('posbrixes', PosbrixController::class)->middleware(['auth']);
+Route::resource('core_samples', CoreSampleController::class)->middleware(['auth']);
+Route::resource('ari_timbangans', AriTimbanganController::class)->middleware(['auth']);
+Route::resource('penilaian_mbss', PenilaianMbsController::class)->middleware(['auth']);

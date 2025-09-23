@@ -6,16 +6,16 @@
 @section('content')
     <div class="container-fluid py-0 px-0">
         <h1 class="h3 mb-3"><strong>Verifikasi Mandor</strong></h1>
+        <form id="verifyForm" method="POST" action="{{ route('analysis_unverified.process') }}">
+            @csrf
+            <div class="d-flex justify-content-between align-roles-center mb-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-check-circle"></i> Verifikasi
+                </button>
+            </div>
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <form id="verifyForm" method="POST" action="{{ route('analysis_unverified.process') }}">
-                    @csrf
-                    <div class="mb-3">
-                        <button type="submit" class="btn btn-success btn-sm">
-                            <i class="bi bi-check-circle"></i> Verifikasi
-                        </button>
-                    </div>
+            <div class="card shadow-sm">
+                <div class="card-body">
                     <table id="analysesTable" class="table table-bordered table-striped w-100">
                         <thead>
                             <tr>
@@ -32,9 +32,9 @@
                             </tr>
                         </thead>
                     </table>
-                </form>
-            </div>
-        </div>
+        </form>
+    </div>
+    </div>
     </div>
 @endsection
 
