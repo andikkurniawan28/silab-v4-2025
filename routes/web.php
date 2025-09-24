@@ -43,6 +43,7 @@ use App\Http\Controllers\ImpurityController;
 use App\Http\Controllers\KawalanController;
 use App\Http\Controllers\PenilaianMbsController;
 use App\Http\Controllers\PosbrixController;
+use App\Http\Controllers\ResultController;
 use App\Http\Controllers\VarietyController;
 
 /*
@@ -141,3 +142,8 @@ Route::resource('posbrixes', PosbrixController::class)->middleware(['auth']);
 Route::resource('core_samples', CoreSampleController::class)->middleware(['auth']);
 Route::resource('ari_timbangans', AriTimbanganController::class)->middleware(['auth']);
 Route::resource('penilaian_mbss', PenilaianMbsController::class)->middleware(['auth']);
+
+Route::post('results/perstation/{station_id}', [ResultController::class, 'perStationData'])->name('results.perstation.data');
+Route::get('results/perstation/{station_id}', [ResultController::class, 'perStation'])->name('results.perstation.index');
+Route::post('results/permaterial/{material_id}', [ResultController::class, 'perMaterialData'])->name('results.permaterial.data');
+Route::get('results/permaterial/{material_id}', [ResultController::class, 'perMaterial'])->name('results.permaterial.index');

@@ -23,4 +23,8 @@ class Material extends Model
         return $this->hasMany(ParameterMaterial::class);
     }
 
+    public function analyses(){
+        return $this->hasMany(Analysis::class);
+    }
+
 }

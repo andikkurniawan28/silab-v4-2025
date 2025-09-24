@@ -152,6 +152,7 @@ class Role extends Model
             ['id' => 'akses_daftar_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_penilaian_mbs'))],
             ['id' => 'akses_edit_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_penilaian_mbs'))],
             ['id' => 'akses_hapus_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_penilaian_mbs'))],
+            ['id' => 'akses_hasil_analisa_per_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_hasil_analisa_per_stasiun'))],
         ];
     }
 }

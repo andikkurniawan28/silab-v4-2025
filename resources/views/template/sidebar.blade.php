@@ -20,6 +20,172 @@
             <span>Dashboard</span></a>
     </li>
 
+
+
+    @if (Auth()->user()->role->akses_hasil_analisa_per_stasiun)
+        <li class="nav-item
+        @yield('resultPerStation-active')
+    ">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseResultPerStation"
+                aria-expanded="true" aria-controls="collapseResultPerStation">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>Hasil Analisa</span>
+            </a>
+            <div id="collapseResultPerStation" class="collapse
+                @yield('resultPerStation-show')
+            "
+                aria-labelledby="headingMaster" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+
+                    <h6 class="collapse-header">Hasil Analisa :</h6>
+                    @if (Auth()->user()->role->akses_hasil_analisa_per_stasiun)
+                        @foreach ($viewStation as $v)
+                            <a class="collapse-item
+                            @yield("resultPerStation{$v->id}-active")"
+                                href="{{ route('results.perstation.index', $v->id) }}">
+                                {{ $v->name }}
+                            </a>
+                        @endforeach
+                    @endif
+                </div>
+        </li>
+    @endif
+
+    @if (Auth()->user()->role->akses_cetak_barcode || Auth()->user()->role->akses_daftar_barcode)
+        <!-- Nav Item - BarcodePrinting Collapse Menu -->
+        <li class="nav-item
+        @yield('barcodePrinting-active')
+    ">
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseBarcodePrinting"
+                aria-expanded="true" aria-controls="collapseBarcodePrinting">
+                <i class="fas fa-fw fa-print"></i>
+                <span>Barcode</span>
+            </a>
+            <div id="collapseBarcodePrinting" class="collapse
+                @yield('barcodePrinting-show')
+            "
+                aria-labelledby="headingMaster" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+
+                    <h6 class="collapse-header">Cetak Barcode :</h6>
+                    @if (Auth()->user()->role->akses_cetak_barcode)
+                        @foreach ($viewStation as $v)
+                            <a class="collapse-item
+                            @yield("barcodePrinting{$v->id}-active")"
+                                href="{{ route('barcode_printing.index', $v->id) }}">
+                                {{ $v->name }}
+                            </a>
+                        @endforeach
+                    @endif
+
+                    <h6 class="collapse-header">Barcode Tersimpan :</h6>
+                    @if (Auth()->user()->role->akses_daftar_barcode)
+                        <a class="collapse-item
+                            @yield('barcode_printing.list-active')"
+                            href="{{ route('barcode_printing.list') }}">
+                            Daftar Barcode
+                        </a>
+                    @endif
+                </div>
+        </li>
+    @endif
+
+    @if (Auth()->user()->role->akses_input_data)
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#inputData"
+                    aria-expanded="true" aria-controls="inputData">
+                    <i class="fas fa-fw fa-edit"></i>
+                    <span>Input Data</span>
+                </a>
+                <div id="inputData" class="collapse
+                @yield('input-show')
+                " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Seputar Analisa :</h6>
+                        @if (Auth()->user()->role->akses_daftar_analisa)
+                        <a class="collapse-item @yield('analyses-active')" href="{{ route('analyses.index') }}">Analisa</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_verifikasi_mandor)
+                        <a class="collapse-item @yield('analysis_unverified-active')" href="{{ route('analysis_unverified.index') }}">Verifikasi Mandor</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_panas)
+                        <a class="collapse-item @yield('analisa_ampas_metode_panas-active')" href="{{ route('analisa_ampas_metode_panas.index') }}">Ampas Metode Panas</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_dingin)
+                        <a class="collapse-item @yield('analisa_ampas_metode_dingin-active')" href="{{ route('analisa_ampas_metode_dingin.index') }}">Ampas John Payne</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_ketel)
+                        <a class="collapse-item @yield('analisa_ketel-active')" href="{{ route('analisa_ketel.index') }}">Analisa Ketel</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_cao)
+                        <a class="collapse-item @yield('analisa_cao-active')" href="{{ route('analisa_cao.index') }}">Analisa CaO</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_so2)
+                        <a class="collapse-item @yield('analisa_so2-active')" href="{{ route('analisa_so2.index') }}">Analisa SO<sub>2</sub></a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_analisa_bjb)
+                        <a class="collapse-item @yield('analisa_bjb-active')" href="{{ route('analisa_bjb.index') }}">Analisa BJB</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_uji_karung)
+                        <a class="collapse-item @yield('bag_tests-active')" href="{{ route('bag_tests.index') }}">Uji Karung</a>
+                        @endif
+
+                        <h6 class="collapse-header">Seputar Proses :</h6>
+                        @if (Auth()->user()->role->akses_daftar_flow_nm)
+                        <a class="collapse-item @yield('flow_nm-active')" href="{{ route('flow_nm.index') }}">Flow NM</a>
+                        @endif
+                        {{-- @if (Auth()->user()->role->akses_daftar_keliling_proses)
+                        <a class="collapse-item @yield('keliling_proses-active')" href="{{ route('keliling_proses.index') }}">Keliling Proses</a>
+                        @endif --}}
+                        @if (Auth()->user()->role->akses_daftar_imbibisi)
+                        <a class="collapse-item @yield('imbibisi-active')" href="{{ route('imbibisi.index') }}">Imbibisi</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_monitoring_perjam)
+                        <a class="collapse-item @yield('monitoring_hourlies-active')" href="{{ route('monitoring_hourlies.index') }}">Monitoring Perjam</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_monitoring_pershift)
+                        <a class="collapse-item @yield('monitoring_shiftlies-active')" href="{{ route('monitoring_shiftlies.index') }}">Monitoring Pershift</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_taksasi_proses)
+                        <a class="collapse-item @yield('estimations-active')" href="{{ route('estimations.index') }}">Taksasi Proses</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_gula_dikarungi)
+                        <a class="collapse-item @yield('sugar_baggings-active')" href="{{ route('sugar_baggings.index') }}">Gula Dikarungi</a>
+                        @endif
+
+                        <h6 class="collapse-header">Seputar Penyimpanan :</h6>
+                        @if (Auth()->user()->role->akses_daftar_transaksi_stok)
+                        <a class="collapse-item @yield('stock_transactions-active')" href="{{ route('stock_transactions.index') }}">Transaksi Stok</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_mutasi_stok)
+                        <a class="collapse-item @yield('stock_transaction_details-active')" href="{{ route('stock_transaction_details.index') }}">Mutasi Stok</a>
+                        @endif
+
+                        <h6 class="collapse-header">Seputar On-Farm :</h6>
+                        @if (Auth()->user()->role->akses_daftar_gelas_core)
+                        <a class="collapse-item @yield('core_cards-active')" href="{{ route('core_cards.index') }}">Gelas Core</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_gelas_ari)
+                        <a class="collapse-item @yield('ari_cards-active')" href="{{ route('ari_cards.index') }}">Gelas ARI</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_posbrix)
+                        <a class="collapse-item @yield('posbrixes-active')" href="{{ route('posbrixes.index') }}">Posbrix</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_core_sample)
+                        <a class="collapse-item @yield('core_samples-active')" href="{{ route('core_samples.index') }}">Core Sample</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_ari_timbangan)
+                        <a class="collapse-item @yield('ari_timbangans-active')" href="{{ route('ari_timbangans.index') }}">ARI Timbangan</a>
+                        @endif
+                        @if (Auth()->user()->role->akses_daftar_penilaian_mbs)
+                        <a class="collapse-item @yield('penilaian_mbss-active')" href="{{ route('penilaian_mbss.index') }}">Penilaian MBS</a>
+                        @endif
+                    </div>
+                </div>
+            </li>
+    @endif
+
     @if (Auth()->user()->role->akses_master)
         <!-- Nav Item - Master Collapse Menu -->
         <li
@@ -201,141 +367,6 @@
                 </div>
             </div>
         </li>
-    @endif
-
-    @if (Auth()->user()->role->akses_cetak_barcode || Auth()->user()->role->akses_daftar_barcode)
-        <!-- Nav Item - BarcodePrinting Collapse Menu -->
-        <li class="nav-item
-        @yield('barcodePrinting-active')
-    ">
-            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseBarcodePrinting"
-                aria-expanded="true" aria-controls="collapseBarcodePrinting">
-                <i class="fas fa-fw fa-print"></i>
-                <span>Barcode</span>
-            </a>
-            <div id="collapseBarcodePrinting" class="collapse
-                @yield('barcodePrinting-show')
-            "
-                aria-labelledby="headingMaster" data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-
-                    <h6 class="collapse-header">Cetak Barcode :</h6>
-                    @if (Auth()->user()->role->akses_cetak_barcode)
-                        @foreach ($viewStation as $v)
-                            <a class="collapse-item
-                            @yield("barcodePrinting{$v->id}-active")"
-                                href="{{ route('barcode_printing.index', $v->id) }}">
-                                {{ $v->name }}
-                            </a>
-                        @endforeach
-                    @endif
-
-                    <h6 class="collapse-header">Barcode Tersimpan :</h6>
-                    @if (Auth()->user()->role->akses_daftar_barcode)
-                        <a class="collapse-item
-                            @yield('barcode_printing.list-active')"
-                            href="{{ route('barcode_printing.list') }}">
-                            Daftar Barcode
-                        </a>
-                    @endif
-                </div>
-        </li>
-    @endif
-
-    @if (Auth()->user()->role->akses_input_data)
-            <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#inputData"
-                    aria-expanded="true" aria-controls="inputData">
-                    <i class="fas fa-fw fa-edit"></i>
-                    <span>Input Data</span>
-                </a>
-                <div id="inputData" class="collapse
-                @yield('input-show')
-                " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Seputar Analisa :</h6>
-                        @if (Auth()->user()->role->akses_daftar_analisa)
-                        <a class="collapse-item @yield('analyses-active')" href="{{ route('analyses.index') }}">Analisa</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_verifikasi_mandor)
-                        <a class="collapse-item @yield('analysis_unverified-active')" href="{{ route('analysis_unverified.index') }}">Verifikasi Mandor</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_panas)
-                        <a class="collapse-item @yield('analisa_ampas_metode_panas-active')" href="{{ route('analisa_ampas_metode_panas.index') }}">Ampas Metode Panas</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_ampas_metode_dingin)
-                        <a class="collapse-item @yield('analisa_ampas_metode_dingin-active')" href="{{ route('analisa_ampas_metode_dingin.index') }}">Ampas John Payne</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_ketel)
-                        <a class="collapse-item @yield('analisa_ketel-active')" href="{{ route('analisa_ketel.index') }}">Analisa Ketel</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_cao)
-                        <a class="collapse-item @yield('analisa_cao-active')" href="{{ route('analisa_cao.index') }}">Analisa CaO</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_so2)
-                        <a class="collapse-item @yield('analisa_so2-active')" href="{{ route('analisa_so2.index') }}">Analisa SO<sub>2</sub></a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_analisa_bjb)
-                        <a class="collapse-item @yield('analisa_bjb-active')" href="{{ route('analisa_bjb.index') }}">Analisa BJB</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_uji_karung)
-                        <a class="collapse-item @yield('bag_tests-active')" href="{{ route('bag_tests.index') }}">Uji Karung</a>
-                        @endif
-
-                        <h6 class="collapse-header">Seputar Proses :</h6>
-                        @if (Auth()->user()->role->akses_daftar_flow_nm)
-                        <a class="collapse-item @yield('flow_nm-active')" href="{{ route('flow_nm.index') }}">Flow NM</a>
-                        @endif
-                        {{-- @if (Auth()->user()->role->akses_daftar_keliling_proses)
-                        <a class="collapse-item @yield('keliling_proses-active')" href="{{ route('keliling_proses.index') }}">Keliling Proses</a>
-                        @endif --}}
-                        @if (Auth()->user()->role->akses_daftar_imbibisi)
-                        <a class="collapse-item @yield('imbibisi-active')" href="{{ route('imbibisi.index') }}">Imbibisi</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_monitoring_perjam)
-                        <a class="collapse-item @yield('monitoring_hourlies-active')" href="{{ route('monitoring_hourlies.index') }}">Monitoring Perjam</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_monitoring_pershift)
-                        <a class="collapse-item @yield('monitoring_shiftlies-active')" href="{{ route('monitoring_shiftlies.index') }}">Monitoring Pershift</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_taksasi_proses)
-                        <a class="collapse-item @yield('estimations-active')" href="{{ route('estimations.index') }}">Taksasi Proses</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_gula_dikarungi)
-                        <a class="collapse-item @yield('sugar_baggings-active')" href="{{ route('sugar_baggings.index') }}">Gula Dikarungi</a>
-                        @endif
-
-                        <h6 class="collapse-header">Seputar Penyimpanan :</h6>
-                        @if (Auth()->user()->role->akses_daftar_transaksi_stok)
-                        <a class="collapse-item @yield('stock_transactions-active')" href="{{ route('stock_transactions.index') }}">Transaksi Stok</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_mutasi_stok)
-                        <a class="collapse-item @yield('stock_transaction_details-active')" href="{{ route('stock_transaction_details.index') }}">Mutasi Stok</a>
-                        @endif
-
-                        <h6 class="collapse-header">Seputar On-Farm :</h6>
-                        @if (Auth()->user()->role->akses_daftar_gelas_core)
-                        <a class="collapse-item @yield('core_cards-active')" href="{{ route('core_cards.index') }}">Gelas Core</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_gelas_ari)
-                        <a class="collapse-item @yield('ari_cards-active')" href="{{ route('ari_cards.index') }}">Gelas ARI</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_posbrix)
-                        <a class="collapse-item @yield('posbrixes-active')" href="{{ route('posbrixes.index') }}">Posbrix</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_core_sample)
-                        <a class="collapse-item @yield('core_samples-active')" href="{{ route('core_samples.index') }}">Core Sample</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_ari_timbangan)
-                        <a class="collapse-item @yield('ari_timbangans-active')" href="{{ route('ari_timbangans.index') }}">ARI Timbangan</a>
-                        @endif
-                        @if (Auth()->user()->role->akses_daftar_penilaian_mbs)
-                        <a class="collapse-item @yield('penilaian_mbss-active')" href="{{ route('penilaian_mbss.index') }}">Penilaian MBS</a>
-                        @endif
-                    </div>
-                </div>
-            </li>
     @endif
 
     {{-- <!-- Nav Item - Charts -->
