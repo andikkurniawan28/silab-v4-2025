@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('flows', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->time('time');
+            // $table->date('date');
+            // $table->time('time');
+            $table->string('timerange');
             $table->float('sugar_cane');
             $table->foreignId('user_id')->constrained();
             $table->timestamp('created_at')->useCurrent()->index();

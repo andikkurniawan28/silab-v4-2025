@@ -17,7 +17,7 @@
                         <div class="col-md-4">
                             <label for="date" class="form-label">Tanggal</label>
                             <input type="date" id="date" name="date" class="form-control"
-                                value="{{ old('date', $imbibisi->date ? \Carbon\Carbon::parse($imbibisi->date)->format('Y-m-d') : '') }}"
+                                value="{{ old('date', $imbibisi->created_at ? \Carbon\Carbon::parse($imbibisi->date)->format('Y-m-d') : '') }}"
                                 required>
                         </div>
                         <div class="col-md-4">
@@ -25,7 +25,7 @@
                             <select id="time" name="time" class="form-control select2" required>
                                 @for ($i = 0; $i <= 23; $i++)
                                     <option value="{{ $i }}"
-                                        {{ \Carbon\Carbon::parse($imbibisi->time)->format('H') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
+                                        {{ \Carbon\Carbon::parse($imbibisi->created_at)->format('H') == str_pad($i, 2, '0', STR_PAD_LEFT) ? 'selected' : '' }}>
                                         {{ str_pad($i, 2, '0', STR_PAD_LEFT) }}:00 -
                                         {{ str_pad($i + 1, 2, '0', STR_PAD_LEFT) }}:00
                                     </option>

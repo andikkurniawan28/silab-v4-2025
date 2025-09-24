@@ -20,7 +20,7 @@
                 <table id="analysesTable" class="table table-bordered table-striped w-100">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Barcode</th>
                             <th>Timestamp</th>
                             <th>Material</th>
                             <th>Hasil</th>

@@ -44,9 +44,9 @@ class FlowNMController extends Controller
                     $list .= '</ul>';
                     return $list;
                 })
-                ->addColumn('date', function ($row) {
-                    return $row->date
-                        ? Carbon::parse($row->date)->format('d-m-Y')
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? $row->created_at->format('d-m-Y H:i')
                         : '-';
                 })
                 ->addColumn('action', function ($row) {
@@ -95,11 +95,17 @@ class FlowNMController extends Controller
             'time' => 'required|integer|min:0|max:23',
         ]);
 
-        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
-        $formattedTime = $hour . ':00:00';
+        $createdAt = Carbon::parse($request->date)
+            ->setHour($request->time)
+            ->setMinute(0)
+            ->setSecond(0);
 
-        $exists = Flow::where('date', $request->date)
-            ->where('time', $formattedTime)
+        $startTime = $createdAt->format('H:i');
+        $endTime = $createdAt->copy()->addHour()->subSecond()->format('H:i');
+        $timerange = "{$startTime}-{$endTime}";
+
+        $exists = Flow::where('created_at', $createdAt)
+            ->where('timerange', $timerange)
             ->exists();
 
         if ($exists) {
@@ -110,10 +116,11 @@ class FlowNMController extends Controller
 
         $request->merge([
             'user_id' => auth()->id(),
-            'time' => $formattedTime
+            'created_at' => $createdAt,
+            'timerange' => $timerange,
         ]);
 
-        Flow::create($request->all());
+        Flow::create($request->except(['date', 'time']));
 
         return redirect()
             ->route('flow_nm.index')
@@ -146,26 +153,22 @@ class FlowNMController extends Controller
             'time' => 'required|integer|min:0|max:23',
         ]);
 
-        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
-        $formattedTime = $hour . ':00:00';
+        $createdAt = Carbon::parse($request->date)
+            ->setHour($request->time)
+            ->setMinute(0)
+            ->setSecond(0);
 
-        $exists = Flow::where('date', $request->date)
-            ->where('time', $formattedTime)
-            ->where('id', '!=', $id)
-            ->exists();
-
-        if ($exists) {
-            return redirect()
-                ->route('flow_nm.edit', $id)
-                ->with('failed', 'Data pada tanggal dan jam tersebut sudah ada!');
-        }
+        $startTime = $createdAt->format('H:i');
+        $endTime = $createdAt->copy()->addHour()->subSecond()->format('H:i');
+        $timerange = "{$startTime}-{$endTime}";
 
         $flow = Flow::findOrFail($id);
         $flow->update(array_merge(
-            $request->all(),
+            $request->except(['date', 'time']),
             [
-                'user_id' => auth()->id(),
-                'time'    => $formattedTime
+                'user_id'    => auth()->id(),
+                'created_at' => $createdAt,
+                'timerange'  => $timerange,
             ]
         ));
 
@@ -173,7 +176,6 @@ class FlowNMController extends Controller
             ->route('flow_nm.index')
             ->with('success', 'Flow NM berhasil diperbarui.');
     }
-
 
     public function destroy($id)
     {

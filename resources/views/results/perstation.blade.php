@@ -10,9 +10,13 @@
             <strong>Hasil Analisa {{ $station->name }}</strong>
         </h1>
 
-        {{-- Field Pencarian --}}
         <div class="mb-3">
-            <input type="text" id="material-search" class="form-control" placeholder="Cari material...">
+            <div class="input-group">
+                <input type="text" id="material-search" class="form-control" placeholder="Cari material...">
+                <span class="input-group-text bg-white">
+                    <i class="bi bi-search"></i>
+                </span>
+            </div>
         </div>
 
         <div class="row" id="material-list">

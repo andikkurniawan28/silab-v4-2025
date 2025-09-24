@@ -21,7 +21,7 @@
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Tanggal</th>
+                            <th>Timestamp</th>
                             <th>Jam</th>
                             <th>Hasil</th>
                             <th>User</th>
@@ -49,12 +49,12 @@
                         name: 'id'
                     },
                     {
-                        data: 'date',
-                        name: 'date'
+                        data: 'created_at',
+                        name: 'created_at'
                     },
                     {
-                        data: 'time',
-                        name: 'time'
+                        data: 'timerange',
+                        name: 'timerange'
                     },
                     {
                         data: 'result',

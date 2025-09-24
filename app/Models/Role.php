@@ -153,6 +153,14 @@ class Role extends Model
             ['id' => 'akses_edit_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_penilaian_mbs'))],
             ['id' => 'akses_hapus_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_penilaian_mbs'))],
             ['id' => 'akses_hasil_analisa_per_stasiun', 'name' => ucwords(str_replace('_', ' ', 'akses_hasil_analisa_per_stasiun'))],
+            ['id' => 'akses_hasil_analisa_per_material', 'name' => ucwords(str_replace('_', ' ', 'akses_hasil_analisa_per_material'))],
+            ['id' => 'akses_laporan', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan'))],
+            ['id' => 'akses_laporan_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_analisa'))],
+            ['id' => 'akses_laporan_proses', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_proses'))],
+            ['id' => 'akses_laporan_posbrix', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_posbrix'))],
+            ['id' => 'akses_laporan_core_sample', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_core_sample'))],
+            ['id' => 'akses_laporan_ari_timbangan', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_ari_timbangan'))],
+            ['id' => 'akses_laporan_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_penilaian_mbs'))],
         ];
     }
 }

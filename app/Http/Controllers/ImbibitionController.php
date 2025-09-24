@@ -45,9 +45,9 @@ class ImbibitionController extends Controller
                     $list .= '</ul>';
                     return $list;
                 })
-                ->addColumn('date', function ($row) {
-                    return $row->date
-                        ? Carbon::parse($row->date)->format('d-m-Y')
+                ->addColumn('created_at', function ($row) {
+                    return $row->created_at
+                        ? $row->created_at->format('d-m-Y H:i')
                         : '-';
                 })
                 ->addColumn('action', function ($row) {
@@ -100,11 +100,17 @@ class ImbibitionController extends Controller
             'time' => 'required|integer|min:0|max:23',
         ]);
 
-        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
-        $formattedTime = $hour . ':00:00';
+        $createdAt = Carbon::parse($request->date)
+            ->setHour($request->time)
+            ->setMinute(0)
+            ->setSecond(0);
 
-        $exists = Imbibition::where('date', $request->date)
-            ->where('time', $formattedTime)
+        $startTime = $createdAt->format('H:i');
+        $endTime = $createdAt->copy()->addHour()->subSecond()->format('H:i');
+        $timerange = "{$startTime}-{$endTime}";
+
+        $exists = Imbibition::where('created_at', $createdAt)
+            ->where('timerange', $timerange)
             ->exists();
 
         if ($exists) {
@@ -115,10 +121,11 @@ class ImbibitionController extends Controller
 
         $request->merge([
             'user_id' => auth()->id(),
-            'time' => $formattedTime
+            'created_at' => $createdAt,
+            'timerange' => $timerange,
         ]);
 
-        Imbibition::create($request->all());
+        Imbibition::create($request->except(['date', 'time']));
 
         return redirect()
             ->route('imbibisi.index')
@@ -151,26 +158,22 @@ class ImbibitionController extends Controller
             'time' => 'required|integer|min:0|max:23',
         ]);
 
-        $hour = str_pad($request->time, 2, '0', STR_PAD_LEFT);
-        $formattedTime = $hour . ':00:00';
+        $createdAt = Carbon::parse($request->date)
+            ->setHour($request->time)
+            ->setMinute(0)
+            ->setSecond(0);
 
-        $exists = Imbibition::where('date', $request->date)
-            ->where('time', $formattedTime)
-            ->where('id', '!=', $id)
-            ->exists();
-
-        if ($exists) {
-            return redirect()
-                ->route('imbibisi.edit', $id)
-                ->with('failed', 'Data pada tanggal dan jam tersebut sudah ada!');
-        }
+        $startTime = $createdAt->format('H:i');
+        $endTime = $createdAt->copy()->addHour()->subSecond()->format('H:i');
+        $timerange = "{$startTime}-{$endTime}";
 
         $flow = Imbibition::findOrFail($id);
         $flow->update(array_merge(
-            $request->all(),
+            $request->except(['date', 'time']),
             [
-                'user_id' => auth()->id(),
-                'time'    => $formattedTime
+                'user_id'    => auth()->id(),
+                'created_at' => $createdAt,
+                'timerange'  => $timerange,
             ]
         ));
 

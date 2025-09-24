@@ -13,6 +13,10 @@ class ResultController extends Controller
 {
     public function perStation($station_id)
     {
+        if ($response = $this->checkIzin('akses_hasil_analisa_per_stasiun')) {
+            return $response;
+        }
+
         $station = Station::findOrFail($station_id);
         return view('results.perstation', compact('station'));
     }
@@ -21,55 +25,54 @@ class ResultController extends Controller
     {
         $station = DB::table('stations')->find($station_id);
 
+        // Ambil semua material + parameter sekaligus
         $materials = DB::table('materials')
             ->where('station_id', $station_id)
             ->get();
 
+        $materialIds = $materials->pluck('id');
+
+        // Ambil parameter untuk semua material sekali jalan
+        $parameters = DB::table('parameter_materials')
+            ->join('parameters', 'parameter_materials.parameter_id', '=', 'parameters.id')
+            ->whereIn('parameter_materials.material_id', $materialIds)
+            ->select('parameter_materials.material_id', 'parameters.id', 'parameters.name')
+            ->get()
+            ->groupBy('material_id');
+
+        // Ambil analyses sekali query, lalu groupBy material
+        $analyses = DB::table('analyses')
+            ->whereIn('material_id', $materialIds)
+            ->where('is_verified', 1)
+            ->orderByDesc('id')
+            ->get()
+            ->groupBy('material_id')
+            ->map(fn($rows) => $rows->take(5));
+
         $result = [
             'station' => $station->name,
-            'materials' => []
+            'materials' => $materials->map(function ($m) use ($parameters, $analyses) {
+                return [
+                    'id' => $m->id,
+                    'material' => $m->name,
+                    'parameters' => ($parameters[$m->id] ?? collect())->map(fn($p) => [
+                        'field' => "p{$p->id}",
+                        'name'  => $p->name,
+                    ]),
+                    'analyses' => $analyses[$m->id] ?? collect(),
+                ];
+            })->values()
         ];
-
-        foreach ($materials as $material) {
-            $parameters = DB::table('parameter_materials')
-                ->join('parameters', 'parameter_materials.parameter_id', '=', 'parameters.id')
-                ->where('parameter_materials.material_id', $material->id)
-                ->select('parameters.id', 'parameters.name')
-                ->get();
-
-            $parameterColumns = $parameters->map(fn($p) => "analyses.p{$p->id}")->toArray();
-
-            $baseColumns = [
-                'analyses.id',
-                'analyses.created_at',
-            ];
-
-            $selects = array_merge($baseColumns, $parameterColumns);
-
-            $analyses = DB::table('analyses')
-                ->where('material_id', $material->id)
-                ->where('is_verified', 1)
-                ->orderByDesc('id')
-                ->limit(5)
-                ->select($selects)
-                ->get();
-
-            $result['materials'][] = [
-                'id' => $material->id,
-                'material' => $material->name,
-                'parameters' => $parameters->map(fn($p) => [
-                    'field' => "p{$p->id}",
-                    'name'  => $p->name,
-                ]),
-                'analyses' => $analyses
-            ];
-        }
 
         return $result;
     }
 
+
     public function perMaterial($material_id)
     {
+        if ($response = $this->checkIzin('akses_hasil_analisa_per_material')) {
+            return $response;
+        }
         $material = Material::with('parameters')->findOrFail($material_id);
         return view('results.permaterial', compact('material'));
     }
@@ -78,10 +81,8 @@ class ResultController extends Controller
     {
         $material = Material::with('parameters')->findOrFail($material_id);
 
-        // tentukan kolom dasar
         $baseCols = ['id', 'created_at'];
 
-        // tentukan kolom parameter sesuai material
         $paramCols = $material->parameters->map(fn($p) => "p{$p->id}")->toArray();
 
         $selects = array_merge($baseCols, $paramCols);

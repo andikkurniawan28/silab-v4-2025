@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('imbibitions', function (Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->time('time');
+            // $table->date('date');
+            // $table->time('time');
+            $table->string('timerange');
             $table->float('tb1');
             $table->float('t1');
             $table->float('f1');

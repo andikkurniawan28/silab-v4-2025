@@ -22,7 +22,7 @@
                                 <th>
                                     <input type="checkbox" id="checkAll">
                                 </th>
-                                <th>ID</th>
+                                <th>Barcode</th>
                                 <th>Timestamp</th>
                                 <th>Material</th>
                                 <th>Hasil</th>

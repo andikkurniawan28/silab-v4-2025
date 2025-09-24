@@ -43,6 +43,7 @@ use App\Http\Controllers\ImpurityController;
 use App\Http\Controllers\KawalanController;
 use App\Http\Controllers\PenilaianMbsController;
 use App\Http\Controllers\PosbrixController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ResultController;
 use App\Http\Controllers\VarietyController;
 
@@ -144,6 +145,18 @@ Route::resource('ari_timbangans', AriTimbanganController::class)->middleware(['a
 Route::resource('penilaian_mbss', PenilaianMbsController::class)->middleware(['auth']);
 
 Route::post('results/perstation/{station_id}', [ResultController::class, 'perStationData'])->name('results.perstation.data');
-Route::get('results/perstation/{station_id}', [ResultController::class, 'perStation'])->name('results.perstation.index');
+Route::get('results/perstation/{station_id}', [ResultController::class, 'perStation'])->name('results.perstation.index')->middleware(['auth']);
 Route::post('results/permaterial/{material_id}', [ResultController::class, 'perMaterialData'])->name('results.permaterial.data');
-Route::get('results/permaterial/{material_id}', [ResultController::class, 'perMaterial'])->name('results.permaterial.index');
+Route::get('results/permaterial/{material_id}', [ResultController::class, 'perMaterial'])->name('results.permaterial.index')->middleware(['auth']);
+Route::get('reports/analysis/{date}/{shift}', [ReportController::class, 'analysisData'])->name('reports.analysis.data');
+Route::get('reports/analysis', [ReportController::class, 'analysis'])->name('reports.analysis.index')->middleware(['auth']);
+Route::get('reports/process/{date}/{shift}', [ReportController::class, 'processData'])->name('reports.process.data');
+Route::get('reports/process', [ReportController::class, 'process'])->name('reports.process.index')->middleware(['auth']);
+Route::get('reports/posbrix/{date}/{shift}', [ReportController::class, 'posbrixData'])->name('reports.posbrix.data');
+Route::get('reports/posbrix', [ReportController::class, 'posbrix'])->name('reports.posbrix.index')->middleware(['auth']);
+Route::get('reports/coreSample/{date}/{shift}', [ReportController::class, 'coreSampleData'])->name('reports.coreSample.data');
+Route::get('reports/coreSample', [ReportController::class, 'coreSample'])->name('reports.coreSample.index')->middleware(['auth']);
+Route::get('reports/ariTimbangan/{date}/{shift}', [ReportController::class, 'ariTimbanganData'])->name('reports.ariTimbangan.data');
+Route::get('reports/ariTimbangan', [ReportController::class, 'ariTimbangan'])->name('reports.ariTimbangan.index')->middleware(['auth']);
+Route::get('reports/penilaianMbs/{date}/{shift}', [ReportController::class, 'penilaianMbsData'])->name('reports.penilaianMbs.data');
+Route::get('reports/penilaianMbs', [ReportController::class, 'penilaianMbs'])->name('reports.penilaianMbs.index')->middleware(['auth']);

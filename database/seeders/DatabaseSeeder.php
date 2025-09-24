@@ -112,6 +112,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Jurigen'],
             ['name' => 'Pack'],
             ['name' => 'Kaleng'],
+            ['name' => 'Ball'],
         ]);
 
         Item::insert([
@@ -119,6 +120,7 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Form B', 'unit_id' => 11],
             ['name' => 'Kieselguhr', 'unit_id' => 13],
             ['name' => 'Test Kit Ketel', 'unit_id' => 12],
+            ['name' => 'Kertas Merang Coklat', 'unit_id' => 12],
         ]);
 
         Parameter::insert([
@@ -217,6 +219,22 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Tekanan Uap 3Ato', 'unit_id' => 10],
             ['name' => 'ph Air Injeksi', 'unit_id' => 10],
             ['name' => 'SFC', 'unit_id' => 8],
+        ]);
+
+        MonitoringShiftlySpot::insert([
+            ['name' => 'Kapur', 'unit_id' => 7],
+            ['name' => 'Belerang', 'unit_id' => 7],
+            ['name' => 'Flocculant', 'unit_id' => 7],
+            ['name' => 'NaOH', 'unit_id' => 7],
+            ['name' => 'B894', 'unit_id' => 7],
+            ['name' => 'B895', 'unit_id' => 7],
+            ['name' => 'B210', 'unit_id' => 7],
+            ['name' => 'Blotong', 'unit_id' => 7],
+            ['name' => 'Phospat', 'unit_id' => 7],
+            ['name' => 'CO2 Contents', 'unit_id' => 7],
+            ['name' => 'Form A', 'unit_id' => 7],
+            ['name' => 'Form B', 'unit_id' => 7],
+            ['name' => 'Drum Kimia Penguapan', 'unit_id' => 7],
         ]);
 
         $flow_spots = FlowSpot::select(['id'])->orderBy('id')->get();

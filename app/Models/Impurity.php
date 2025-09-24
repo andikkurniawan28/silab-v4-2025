@@ -18,7 +18,7 @@ class Impurity extends Model
         static::created(function ($impurity) {
             $colName = 'p' . $impurity->id;
             if (!Schema::hasColumn('analisa_on_farms', $colName)) {
-                DB::statement("ALTER TABLE analisa_on_farms ADD COLUMN `$colName` FLOAT NULL AFTER mbs_at");
+                DB::statement("ALTER TABLE analisa_on_farms ADD COLUMN `$colName` TINYINT NULL AFTER updated_at");
                 DB::statement("ALTER TABLE analisa_on_farms ADD INDEX `idx_$colName` (`$colName`)");
             }
         });
