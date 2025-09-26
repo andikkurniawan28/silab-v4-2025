@@ -166,3 +166,5 @@ Route::post('reports/coa_kapur', [ReportController::class, 'coaKapurData'])->nam
 Route::get('reports/coa_kapur', [ReportController::class, 'coaKapur'])->name('reports.coaKapur.index')->middleware(['auth']);
 Route::post('reports/uji_karung', [ReportController::class, 'ujiKarungData'])->name('reports.ujiKarung.data');
 Route::get('reports/uji_karung', [ReportController::class, 'ujiKarung'])->name('reports.ujiKarung.index')->middleware(['auth']);
+Route::post('reports/mutasi_barang', [ReportController::class, 'mutasiBarangData'])->name('reports.mutasiBarang.data');
+Route::get('reports/mutasi_barang', [ReportController::class, 'mutasiBarang'])->name('reports.mutasiBarang.index')->middleware(['auth']);

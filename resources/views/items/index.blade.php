@@ -23,6 +23,7 @@
                         <tr>
                             <th>Nama</th>
                             <th>Satuan</th>
+                            <th>Saldo</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -44,6 +45,7 @@
             columns: [
                 { data: 'name', name: 'name' },
                 { data: 'unit', name: 'unit.name' },
+                { data: 'saldo', name: 'saldo' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

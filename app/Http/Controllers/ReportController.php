@@ -2,49 +2,87 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Analysis;
+use App\Models\Item;
 use App\Models\BagTest;
+use App\Models\Analysis;
 use App\Models\Material;
 use Illuminate\Http\Request;
 use App\Models\ParameterMaterial;
+use App\Models\StockTransactionDetail;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
     public function analysis(){
+        if ($response = $this->checkIzin('akses_laporan_analisa')) {
+            return $response;
+        }
+
         return view('reports.analysis.index');
     }
 
     public function process(){
+        if ($response = $this->checkIzin('akses_laporan_proses')) {
+            return $response;
+        }
         return view('reports.process.index');
     }
 
     public function posbrix(){
+        if ($response = $this->checkIzin('akses_laporan_posbrix')) {
+            return $response;
+        }
         return view('reports.posbrix.index');
     }
 
     public function coreSample(){
+        if ($response = $this->checkIzin('akses_laporan_core_sample')) {
+            return $response;
+        }
         return view('reports.coreSample.index');
     }
 
     public function ariTimbangan(){
+        if ($response = $this->checkIzin('akses_laporan_ari_timbangan')) {
+            return $response;
+        }
         return view('reports.ariTimbangan.index');
     }
 
     public function penilaianMbs(){
+        if ($response = $this->checkIzin('akses_laporan_penilaian_mbs')) {
+            return $response;
+        }
         return view('reports.penilaianMbs.index');
     }
 
     public function coaTetes(){
+        if ($response = $this->checkIzin('akses_coa_tetes')) {
+            return $response;
+        }
         return view('reports.coa_tetes.index');
     }
 
     public function coaKapur(){
+        if ($response = $this->checkIzin('akses_coa_kapur')) {
+            return $response;
+        }
         return view('reports.coa_kapur.index');
     }
 
     public function ujiKarung(){
+        if ($response = $this->checkIzin('akses_laporan_uji_karung')) {
+            return $response;
+        }
         return view('reports.uji_karung.index');
+    }
+
+    public function mutasiBarang(){
+        if ($response = $this->checkIzin('akses_laporan_mutasi_barang')) {
+            return $response;
+        }
+        $items = Item::select(['id', 'name'])->get();
+        return view('reports.mutasi_barang.index', compact('items'));
     }
 
     public function analysisData($date, $shift)
@@ -386,6 +424,51 @@ class ReportController extends Controller
             ];
         }
         return view('reports.uji_karung.show', compact('data', 'request', 'statistik'));
+    }
+
+    public function mutasiBarangData(Request $request)
+    {
+        $itemId = $request->item_id;
+        $mulai  = $request->mulai;
+        $sampai = $request->sampai_dengan;
+
+        $saldoAwal = StockTransactionDetail::where('item_id', $itemId)
+            ->where('created_at', '<', $mulai)
+            ->selectRaw("
+                SUM(CASE WHEN type = 'masuk' THEN qty ELSE 0 END) -
+                SUM(CASE WHEN type = 'keluar' THEN qty ELSE 0 END) as saldo
+            ")
+            ->value('saldo') ?? 0;
+
+        $mutasi = StockTransactionDetail::with(['stockTransaction.user'])
+            ->where('item_id', $itemId)
+            ->whereBetween('created_at', [$mulai, $sampai])
+            ->orderBy('created_at')
+            ->get();
+
+        $runningSaldo = $saldoAwal;
+
+        $mutasi = $mutasi->map(function ($row) use (&$running) {
+            $running += $row->type === 'masuk' ? $row->qty : -$row->qty;
+
+            return [
+                'created_at'    => $row->created_at,
+                'type'          => $row->type,
+                'qty'           => $row->qty,
+                'running_saldo' => $running,
+                'user'          => $row->stockTransaction && $row->stockTransaction->user
+                                    ? ['name' => $row->stockTransaction->user->name]
+                                    : ['name' => '-'],
+            ];
+        });
+
+        $saldoAkhir = $running;
+
+        return response()->json([
+            'saldo_awal'  => $saldoAwal,
+            'mutasi'      => $mutasi,
+            'saldo_akhir' => $saldoAkhir,
+        ]);
     }
 
     private function determineShift($date, $shift){

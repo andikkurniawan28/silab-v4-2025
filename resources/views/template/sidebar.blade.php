@@ -7,6 +7,12 @@
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-flask"></i>
         </div>
+
+        {{-- <img src="/admin_template/img/ka-removebg-preview.png" alt="Logo PG Kebon Agung" class="mb-3"> --}}
+        {{-- <img src="/admin_template/img/ka-removebg-preview.png"
+            alt="Logo PG Kebon Agung"
+            class="sidebar-brand-icon"
+            style="max-width: 70px; height: auto; display: block; margin: 0 auto;"> --}}
         <div class="sidebar-brand-text mx-3">Silab</div>
     </a>
 
@@ -254,6 +260,10 @@
                     @if (Auth()->user()->role->akses_laporan_uji_karung)
                         <a class="collapse-item @yield('uji_karung-active')"
                             href="{{ route('reports.ujiKarung.index') }}">Uji Karung</a>
+                    @endif
+                    @if (Auth()->user()->role->akses_laporan_mutasi_barang)
+                        <a class="collapse-item @yield('mutasi_barang-active')"
+                            href="{{ route('reports.mutasiBarang.index') }}">Mutasi Barang</a>
                     @endif
                 </div>
             </div>

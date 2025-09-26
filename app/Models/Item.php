@@ -14,4 +14,15 @@ class Item extends Model
     public function unit(){
         return $this->belongsTo(Unit::class);
     }
+
+    public function stockTransactionDetail(){
+        return $this->hasMany(StockTransactionDetail::class);
+    }
+
+    public function saldo()
+    {
+        return $this->stockTransactionDetail()
+            ->selectRaw("COALESCE(SUM(CASE WHEN type = 'masuk' THEN qty ELSE -qty END),0) as saldo")
+            ->value('saldo');
+    }
 }

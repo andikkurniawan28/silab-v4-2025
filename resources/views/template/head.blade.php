@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <title>Sistem Informasi Laboratorium PG Kebon Agung</title>
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="/admin_template/img/ka.jpg">
+    <link rel="icon" type="image/png" href="/admin_template/img/ka-removebg-preview.png">
     <link href="/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"

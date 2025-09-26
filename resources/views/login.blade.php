@@ -23,6 +23,7 @@
             align-items: center;
             justify-content: center;
         }
+
         .btn-icon {
             background: transparent;
             border: none;
@@ -30,6 +31,7 @@
             line-height: 0;
             cursor: pointer;
         }
+
         .captcha-refresh {
             border: none;
             background: transparent;
@@ -53,8 +55,8 @@
 
                         <!-- Logo / Title -->
                         <div class="text-center mb-4">
-                            <img src="/admin_template/img/ka.jpg" alt="Logo PG Kebon Agung"
-         class="mb-3" style="max-height: 80px;">
+                            <img src="/admin_template/img/ka-removebg-preview.png" alt="Logo PG Kebon Agung"
+                                class="mb-3" style="max-height: 80px;">
                             <h1 class="h4 text-gray-900 mb-1"><strong>Sistem Informasi Laboratorium</strong></h1>
                             {{-- <p class="text-muted">Sistem Informasi Laboratorium PG Kebon Agung</p> --}}
                         </div>
@@ -64,10 +66,8 @@
 
                             <!-- Username -->
                             <div class="form-group mb-3">
-                                <input type="text" name="username"
-                                    class="form-control form-control-user"
-                                    placeholder="Masukkan Username"
-                                    value="{{ old('username') }}" required autofocus>
+                                <input type="text" name="username" class="form-control form-control-user"
+                                    placeholder="Masukkan Username" value="{{ old('username') }}" required autofocus>
                                 @error('username')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
@@ -77,22 +77,19 @@
                             <div class="form-group mb-3">
                                 <div class="input-group">
                                     <input id="passwordInput" type="password" name="password"
-                                        class="form-control form-control-user"
-                                        placeholder="Masukkan Password" required>
+                                        class="form-control form-control-user" placeholder="Masukkan Password" required>
                                     <button type="button" id="togglePassword"
                                         class="btn btn-outline-secondary btn-show-pass btn-icon"
                                         aria-label="Tampilkan password" title="Tampilkan password">
-                                        <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg"
-                                            width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="1.6"
-                                            stroke-linecap="round" stroke-linejoin="round">
+                                        <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg" width="20"
+                                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
                                             <circle cx="12" cy="12" r="3"></circle>
                                         </svg>
-                                        <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg"
-                                            width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                            stroke="currentColor" stroke-width="1.6"
-                                            stroke-linecap="round" stroke-linejoin="round"
+                                        <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg" width="20"
+                                            height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"
                                             style="display:none">
                                             <path
                                                 d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.82 21.82 0 014.17-4.88">
@@ -113,22 +110,19 @@
                                     <div id="captchaQuestion" class="fw-bold text-dark">
                                         {{ $captchaQuestion ?? '—' }}
                                     </div>
-                                    <button type="button" id="refreshCaptcha"
-                                        class="captcha-refresh ms-2" title="Ganti soal">
+                                    <button type="button" id="refreshCaptcha" class="captcha-refresh ms-2"
+                                        title="Ganti soal">
                                         <i class="fas fa-sync-alt"></i>
                                     </button>
                                 </div>
-                                <input id="captchaInput" name="captcha"
-                                    class="form-control form-control-user"
-                                    type="text" placeholder="Masukkan jawaban"
-                                    autocomplete="off" required>
+                                <input id="captchaInput" name="captcha" class="form-control form-control-user"
+                                    type="text" placeholder="Masukkan jawaban" autocomplete="off" required>
                                 @error('captcha')
                                     <div class="text-danger small mt-1">{{ $message }}</div>
                                 @enderror
                             </div>
 
-                            <button type="submit"
-                                class="btn btn-danger btn-user btn-block">
+                            <button type="submit" class="btn btn-danger btn-user btn-block">
                                 Login
                             </button>
                         </form>
@@ -159,7 +153,7 @@
         const eyeOpen = document.getElementById('eyeOpen');
         const eyeClosed = document.getElementById('eyeClosed');
 
-        toggle.addEventListener('click', function () {
+        toggle.addEventListener('click', function() {
             if (pwInput.type === 'password') {
                 pwInput.type = 'text';
                 eyeOpen.style.display = 'none';
@@ -185,5 +179,53 @@
         document.addEventListener('DOMContentLoaded', loadCaptcha);
         document.getElementById('refreshCaptcha').addEventListener('click', loadCaptcha);
     </script>
+    {{-- Sweet Alert --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                icon: 'success',
+                title: 'Success',
+                text: "{{ session('success') }}",
+                timer: 1200,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if (session('failed'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: "{{ session('failed') }}",
+                timer: 1200,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if (session('error'))
+            Swal.fire({
+                icon: 'error',
+                title: 'Failed',
+                text: "{{ session('error') }}",
+                timer: 1200,
+                showConfirmButton: false
+            });
+        @endif
+
+        @if ($errors->any())
+            Swal.fire({
+                icon: 'error',
+                title: 'Validation Error',
+                html: `
+                <ul style="text-align:left;">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            `
+            });
+        @endif
+    </script>
 </body>
+
 </html>
