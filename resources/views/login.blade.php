@@ -6,18 +6,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Sistem Informasi Laboratorium PG Kebon Agung</title>
-
-    <link href="/adminkit-main/static/css/app.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/admin_template/img/ka.jpg">
+    <!-- SB Admin 2 -->
+    <link href="/sbadmin2/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <link href="/sbadmin2/css/sb-admin-2.min.css" rel="stylesheet">
+    {{-- <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet"> --}}
 
     <style>
-        .input-group .btn-show-pass {
+        .btn-show-pass {
             padding: .375rem .60rem;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-
         .btn-icon {
             background: transparent;
             border: none;
@@ -25,7 +30,6 @@
             line-height: 0;
             cursor: pointer;
         }
-
         .captcha-refresh {
             border: none;
             background: transparent;
@@ -35,180 +39,151 @@
     </style>
 </head>
 
-<body>
-    <main class="d-flex w-100">
-        <div class="container d-flex flex-column">
-            <div class="row vh-100">
-                <div class="col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto d-table h-100">
-                    <div class="d-table-cell align-middle">
+<body class="bg-gradient-danger">
 
-                        <div class="text-center mt-4">
-                            <h1 class="h2">Silab</h1>
-                            <p class="lead">Sistem Informasi Laboratorium PG Kebon Agung</p>
+    <div class="container">
+
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+
+            <div class="col-xl-5 col-lg-6 col-md-8">
+
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-4">
+
+                        <!-- Logo / Title -->
+                        <div class="text-center mb-4">
+                            <img src="/admin_template/img/ka.jpg" alt="Logo PG Kebon Agung"
+         class="mb-3" style="max-height: 80px;">
+                            <h1 class="h4 text-gray-900 mb-1"><strong>Sistem Informasi Laboratorium</strong></h1>
+                            {{-- <p class="text-muted">Sistem Informasi Laboratorium PG Kebon Agung</p> --}}
                         </div>
 
-                        <div class="card">
-                            <div class="card-body">
-                                <div class="m-sm-3">
-                                    <form action="{{ route('login_process') }}" method="POST" novalidate>
-                                        @csrf
+                        <form action="{{ route('login_process') }}" method="POST" novalidate>
+                            @csrf
 
-                                        <div class="mb-3">
-                                            <label class="form-label">Username</label>
-                                            <input class="form-control form-control-lg" type="text" name="username"
-                                                placeholder="Masukkan username" required autofocus
-                                                value="{{ old('username') }}" />
-                                            @error('username')
-                                                <div class="text-danger small">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Password with eye icon -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Password</label>
-                                            <div class="input-group">
-                                                <input id="passwordInput" class="form-control form-control-lg"
-                                                    type="password" name="password" placeholder="Masukkan password"
-                                                    required aria-describedby="togglePassword" />
-                                                <button type="button" id="togglePassword"
-                                                    class="btn btn-outline-secondary btn-show-pass btn-icon"
-                                                    aria-label="Tampilkan password" title="Tampilkan password">
-                                                    <!-- Eye SVG (open/closed toggled by JS class) -->
-                                                    <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg"
-                                                        width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-                                                        stroke-linejoin="round" aria-hidden="true">
-                                                        <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
-                                                        <circle cx="12" cy="12" r="3"></circle>
-                                                    </svg>
-
-                                                    <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg"
-                                                        width="20" height="20" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-                                                        stroke-linejoin="round" style="display:none" aria-hidden="true">
-                                                        <path
-                                                            d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.82 21.82 0 014.17-4.88">
-                                                        </path>
-                                                        <path d="M1 1l22 22"></path>
-                                                        <path d="M9.88 9.88a3 3 0 104.24 4.24"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-                                            @error('password')
-                                                <div class="text-danger small">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <!-- Offline math captcha (server-generated) -->
-                                        <div class="mb-3">
-                                            <label class="form-label">Captcha</label>
-                                            <div class="d-flex align-items-center">
-                                                <div class="me-2 fw-bold fs-6" id="captchaQuestion">
-                                                    {{-- server renders $captchaQuestion --}}
-                                                    {{ $captchaQuestion ?? '—' }}
-                                                </div>
-
-                                                <!-- refresh button: calls route to refresh captcha via AJAX -->
-                                                <button type="button" id="refreshCaptcha" class="captcha-refresh"
-                                                    title="Ganti soal" aria-label="Ganti soal">
-                                                    <!-- small refresh icon -->
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                        height="18" viewBox="0 0 24 24" fill="none"
-                                                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round"
-                                                        stroke-linejoin="round">
-                                                        <polyline points="23 4 23 10 17 10"></polyline>
-                                                        <polyline points="1 20 1 14 7 14"></polyline>
-                                                        <path d="M3.51 9a9 9 0 0114.13-3.36L23 10"></path>
-                                                        <path d="M20.49 15a9 9 0 01-14.13 3.36L1 14"></path>
-                                                    </svg>
-                                                </button>
-                                            </div>
-
-                                            <input id="captchaInput" name="captcha" class="form-control mt-2"
-                                                type="text" required placeholder="Masukkan jawaban"
-                                                autocomplete="off" />
-                                            @error('captcha')
-                                                <div class="text-danger small mt-1">{{ $message }}</div>
-                                            @enderror
-                                        </div>
-
-                                        <div class="d-grid gap-2 mt-3">
-                                            <button type="submit" class="btn btn-lg btn-primary">Login</button>
-                                        </div>
-                                    </form>
-
-                                    <div class="mt-3 text-muted small">
-                                        Gunakan akun yang sudah terdaftar. Jika lupa password hubungi admin.
-                                    </div>
-                                </div>
+                            <!-- Username -->
+                            <div class="form-group mb-3">
+                                <input type="text" name="username"
+                                    class="form-control form-control-user"
+                                    placeholder="Masukkan Username"
+                                    value="{{ old('username') }}" required autofocus>
+                                @error('username')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
                             </div>
+
+                            <!-- Password -->
+                            <div class="form-group mb-3">
+                                <div class="input-group">
+                                    <input id="passwordInput" type="password" name="password"
+                                        class="form-control form-control-user"
+                                        placeholder="Masukkan Password" required>
+                                    <button type="button" id="togglePassword"
+                                        class="btn btn-outline-secondary btn-show-pass btn-icon"
+                                        aria-label="Tampilkan password" title="Tampilkan password">
+                                        <svg id="eyeOpen" xmlns="http://www.w3.org/2000/svg"
+                                            width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg>
+                                        <svg id="eyeClosed" xmlns="http://www.w3.org/2000/svg"
+                                            width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="1.6"
+                                            stroke-linecap="round" stroke-linejoin="round"
+                                            style="display:none">
+                                            <path
+                                                d="M17.94 17.94A10.94 10.94 0 0112 19c-7 0-11-7-11-7a21.82 21.82 0 014.17-4.88">
+                                            </path>
+                                            <path d="M1 1l22 22"></path>
+                                            <path d="M9.88 9.88a3 3 0 104.24 4.24"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                @error('password')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Captcha -->
+                            <div class="form-group mb-3">
+                                <div class="d-flex align-items-center mb-2">
+                                    <div id="captchaQuestion" class="fw-bold text-dark">
+                                        {{ $captchaQuestion ?? '—' }}
+                                    </div>
+                                    <button type="button" id="refreshCaptcha"
+                                        class="captcha-refresh ms-2" title="Ganti soal">
+                                        <i class="fas fa-sync-alt"></i>
+                                    </button>
+                                </div>
+                                <input id="captchaInput" name="captcha"
+                                    class="form-control form-control-user"
+                                    type="text" placeholder="Masukkan jawaban"
+                                    autocomplete="off" required>
+                                @error('captcha')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <button type="submit"
+                                class="btn btn-danger btn-user btn-block">
+                                Login
+                            </button>
+                        </form>
+
+                        <div class="mt-4 text-center small text-muted">
+                            Gunakan akun yang sudah terdaftar.<br>Jika lupa password hubungi
+                            <a href="https://wa.me/6285733465399" target="_blank">admin</a>.
                         </div>
 
                     </div>
                 </div>
+
             </div>
         </div>
-    </main>
+
+    </div>
+
+    <!-- SB Admin 2 dependencies -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/sbadmin2/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/sbadmin2/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/sbadmin2/js/sb-admin-2.min.js"></script>
 
     <script>
-        // Toggle show/hide password
-        (function() {
-            const pwInput = document.getElementById('passwordInput');
-            const toggle = document.getElementById('togglePassword');
-            const eyeOpen = document.getElementById('eyeOpen');
-            const eyeClosed = document.getElementById('eyeClosed');
+        // toggle password show/hide
+        const pwInput = document.getElementById('passwordInput');
+        const toggle = document.getElementById('togglePassword');
+        const eyeOpen = document.getElementById('eyeOpen');
+        const eyeClosed = document.getElementById('eyeClosed');
 
-            toggle.addEventListener('click', function() {
-                if (pwInput.type === 'password') {
-                    pwInput.type = 'text';
-                    eyeOpen.style.display = 'none';
-                    eyeClosed.style.display = 'inline';
-                    toggle.setAttribute('aria-label', 'Sembunyikan password');
-                } else {
-                    pwInput.type = 'password';
-                    eyeOpen.style.display = 'inline';
-                    eyeClosed.style.display = 'none';
-                    toggle.setAttribute('aria-label', 'Tampilkan password');
-                }
-                pwInput.focus();
-            });
+        toggle.addEventListener('click', function () {
+            if (pwInput.type === 'password') {
+                pwInput.type = 'text';
+                eyeOpen.style.display = 'none';
+                eyeClosed.style.display = 'inline';
+            } else {
+                pwInput.type = 'password';
+                eyeOpen.style.display = 'inline';
+                eyeClosed.style.display = 'none';
+            }
+            pwInput.focus();
+        });
 
-            toggle.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    toggle.click();
-                }
-            });
-        })();
-
-        // Refresh captcha via AJAX
+        // captcha refresh
         async function loadCaptcha() {
             try {
-                const resp = await fetch("{{ route('login.captcha.refresh') }}", {
-                    method: 'GET',
-                    headers: {
-                        'Accept': 'application/json'
-                    },
-                });
-                if (!resp.ok) throw new Error('Gagal refresh');
+                const resp = await fetch("{{ route('login.captcha.refresh') }}");
                 const data = await resp.json();
                 document.getElementById('captchaQuestion').textContent = data.question;
             } catch (err) {
-                console.error(err);
-                alert('Gagal memuat soal baru. Reload halaman jika perlu.');
+                alert('Gagal memuat soal baru, silakan reload halaman.');
             }
         }
-
-        // auto load captcha saat halaman pertama kali dibuka
         document.addEventListener('DOMContentLoaded', loadCaptcha);
-
-        // tetap bisa refresh manual lewat tombol
         document.getElementById('refreshCaptcha').addEventListener('click', loadCaptcha);
     </script>
-
-
-    <script src="/adminkit-main/static/js/app.js"></script>
-    @include('template-admin-kit.js')
 </body>
-
 </html>

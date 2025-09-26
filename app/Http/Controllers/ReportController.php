@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Analysis;
+use App\Models\BagTest;
+use App\Models\Material;
 use Illuminate\Http\Request;
+use App\Models\ParameterMaterial;
 use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
@@ -29,6 +33,18 @@ class ReportController extends Controller
 
     public function penilaianMbs(){
         return view('reports.penilaianMbs.index');
+    }
+
+    public function coaTetes(){
+        return view('reports.coa_tetes.index');
+    }
+
+    public function coaKapur(){
+        return view('reports.coa_kapur.index');
+    }
+
+    public function ujiKarung(){
+        return view('reports.uji_karung.index');
     }
 
     public function analysisData($date, $shift)
@@ -229,6 +245,149 @@ class ReportController extends Controller
         return response()->json($data);
     }
 
+    public function penilaianMbsData($date, $shift)
+    {
+        [$start, $end] = $this->determineShift($date, $shift);
+
+        $impurities = DB::table('impurities')->orderBy('id')->pluck('name', 'id');
+
+        $selects = [
+            'aof.id',
+            'aof.nomor_antrian',
+            'aof.register',
+            'aof.mbs_at',
+            'aof.rafaksi',
+        ];
+
+        foreach ($impurities as $id => $name) {
+            $col = "p{$id}";
+            $alias = str_replace(' ', '_', strtolower($name));
+            $selects[] = "aof.`$col` as `$alias`";
+        }
+
+        $data = DB::table('analisa_on_farms as aof')
+            ->whereBetween('aof.mbs_at', [$start, $end])
+            ->selectRaw(implode(',', $selects))
+            ->get();
+
+        return response()->json([
+            'impurities' => $impurities,
+            'data' => $data
+        ]);
+    }
+
+    public function coaTetesData(Request $request)
+    {
+        $time_start = "{$request->date} 06:00";
+
+        $time_end = date("Y-m-d H:i", strtotime($time_start . "+24 hours"));
+
+        $methods = ParameterMaterial::with('parameter')
+            ->whereIn("material_id", [96,97,98])
+            ->select("parameter_id")
+            ->distinct()
+            ->get();
+
+        $samples = Material::whereIn("id", [96,97,98])
+            ->select([
+                "id as code",
+                "name",
+            ])
+            ->when($methods->isNotEmpty(), function ($query) use ($methods, $time_start, $time_end) {
+                foreach ($methods as $m) {
+                    $colName = "p{$m->parameter_id}";
+                    $alias   = str_replace(' ', '_', strtolower($m->parameter->name)); // alias pakai nama parameter
+
+                    $query->addSelect(DB::raw("(
+                        SELECT AVG($colName)
+                        FROM analyses
+                        WHERE analyses.created_at BETWEEN '$time_start' AND '$time_end'
+                        AND analyses.material_id = code
+                    ) as `$alias`"));
+                }
+            })
+            ->get();
+
+        // return $samples;
+
+        return view("coa_tetes.show2", compact("samples", "request"));
+    }
+
+    public function coaKapurData(Request $request)
+    {
+        $date["current"] = $request->tanggal_pengujian." 06:00";
+        $date["tomorrow"] = date("Y-m-d H:i", strtotime($date["current"] . "+24 hours"));
+        $data = Analysis::whereBetween('created_at', [$date['current'], $date['tomorrow']])
+            ->whereIn('material_id', [40, 41])->orderBy('created_at', 'asc')->where('is_verified', 1)->get();
+        // return $data;
+        return view('coa_kapur.show', compact('data', 'request'));
+    }
+
+    public function ujiKarungData(Request $request)
+    {
+        $data = BagTest::where('arrival_date', $request->arrival_date)->where('test_date', $request->test_date)
+            ->where('batch', $request->batch)->get();
+
+         $collection = collect($data);
+
+        $fields = [
+            'p_nilai_outer',
+            'l_nilai_outer',
+            'p_nilai_inner',
+            'l_nilai_inner',
+            'berat_outer',
+            'berat_inner',
+            'tebal_outer',
+            'tebal_inner',
+            'mesh_alas',
+            'mesh_tinggi',
+            'denier_nilai',
+        ];
+
+        $standar = [
+            'p_nilai_outer' => 97,
+            'l_nilai_outer' => 57,
+            'p_nilai_inner' => 110,
+            'l_nilai_inner' => 60,
+            'berat_outer'   => 110,
+            'berat_inner'   => 36,
+            'tebal_outer'   => 0.175,
+            'tebal_inner'   => 0.03,
+            'mesh_alas'     => 12,
+            'mesh_tinggi'   => 12,
+            'denier_nilai'  => 900,
+        ];
+
+        $statistik = [];
+
+        foreach ($fields as $field) {
+            $nilai = $collection->pluck($field)->filter(fn($v) => is_numeric($v))->all();
+            $std = $standar[$field];
+
+            $sesuai = 0;
+            $tidak_sesuai = 0;
+
+            foreach ($nilai as $v) {
+                $toleransi = $std * 0.05;
+                if (abs($v - $std) <= $toleransi) {
+                    $sesuai++;
+                } else {
+                    $tidak_sesuai++;
+                }
+            }
+
+            $total = $sesuai + $tidak_sesuai;
+
+            $statistik[$field] = [
+                'stddev' => self::standard_deviation($nilai),
+                'sesuai' => $sesuai,
+                'tidak_sesuai' => $tidak_sesuai,
+                'persen_kesesuaian' => $total > 0 ? round(($sesuai / $total) * 100, 1) : 0,
+            ];
+        }
+        return view('reports.uji_karung.show', compact('data', 'request', 'statistik'));
+    }
+
     private function determineShift($date, $shift){
         switch (strtolower($shift)) {
             case 'harian':
@@ -256,6 +415,22 @@ class ReportController extends Controller
         }
 
         return [$start, $end];
+    }
+
+    private static function standard_deviation(array $a, bool $sample = false)
+    {
+        $n = count($a);
+        if ($n === 0) return 0;
+
+        $mean = array_sum($a) / $n;
+        $carry = 0.0;
+
+        foreach ($a as $val) {
+            $d = ((float)$val) - $mean;
+            $carry += $d * $d;
+        }
+
+        return number_format(sqrt($carry / ($sample ? ($n - 1) : $n)),2);
     }
 
 }

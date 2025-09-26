@@ -243,6 +243,18 @@
                         <a class="collapse-item @yield('laporan_penilaian_mbs-active')"
                             href="{{ route('reports.penilaianMbs.index') }}">Penilaian MBS</a>
                     @endif
+                    @if (Auth()->user()->role->akses_coa_tetes)
+                        <a class="collapse-item @yield('coa_tetes-active')"
+                            href="{{ route('reports.coaTetes.index') }}">COA Tetes</a>
+                    @endif
+                    @if (Auth()->user()->role->akses_coa_kapur)
+                        <a class="collapse-item @yield('coa_kapur-active')"
+                            href="{{ route('reports.coaKapur.index') }}">COA Kapur</a>
+                    @endif
+                    @if (Auth()->user()->role->akses_laporan_uji_karung)
+                        <a class="collapse-item @yield('uji_karung-active')"
+                            href="{{ route('reports.ujiKarung.index') }}">Uji Karung</a>
+                    @endif
                 </div>
             </div>
         </li>

@@ -161,6 +161,9 @@ class Role extends Model
             ['id' => 'akses_laporan_core_sample', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_core_sample'))],
             ['id' => 'akses_laporan_ari_timbangan', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_ari_timbangan'))],
             ['id' => 'akses_laporan_penilaian_mbs', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_penilaian_mbs'))],
+            ['id' => 'akses_coa_tetes', 'name' => ucwords(str_replace('_', ' ', 'akses_coa_tetes'))],
+            ['id' => 'akses_coa_kapur', 'name' => ucwords(str_replace('_', ' ', 'akses_coa_kapur'))],
+            ['id' => 'akses_laporan_uji_karung', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_uji_karung'))],
         ];
     }
 }

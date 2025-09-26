@@ -160,3 +160,9 @@ Route::get('reports/ariTimbangan/{date}/{shift}', [ReportController::class, 'ari
 Route::get('reports/ariTimbangan', [ReportController::class, 'ariTimbangan'])->name('reports.ariTimbangan.index')->middleware(['auth']);
 Route::get('reports/penilaianMbs/{date}/{shift}', [ReportController::class, 'penilaianMbsData'])->name('reports.penilaianMbs.data');
 Route::get('reports/penilaianMbs', [ReportController::class, 'penilaianMbs'])->name('reports.penilaianMbs.index')->middleware(['auth']);
+Route::post('reports/coa_tetes', [ReportController::class, 'coaTetesData'])->name('reports.coaTetes.data');
+Route::get('reports/coa_tetes', [ReportController::class, 'coaTetes'])->name('reports.coaTetes.index')->middleware(['auth']);
+Route::post('reports/coa_kapur', [ReportController::class, 'coaKapurData'])->name('reports.coaKapur.data');
+Route::get('reports/coa_kapur', [ReportController::class, 'coaKapur'])->name('reports.coaKapur.index')->middleware(['auth']);
+Route::post('reports/uji_karung', [ReportController::class, 'ujiKarungData'])->name('reports.ujiKarung.data');
+Route::get('reports/uji_karung', [ReportController::class, 'ujiKarung'])->name('reports.ujiKarung.index')->middleware(['auth']);
