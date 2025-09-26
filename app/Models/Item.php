@@ -25,4 +25,18 @@ class Item extends Model
             ->selectRaw("COALESCE(SUM(CASE WHEN type = 'masuk' THEN qty ELSE -qty END),0) as saldo")
             ->value('saldo');
     }
+
+    public function usagePerDay()
+    {
+        $query = $this->stockTransactionDetail()
+            ->where('type', 'keluar');
+
+        $totalKeluar = (clone $query)->sum('qty');
+
+        $jumlahHari = (clone $query)
+            ->selectRaw("COUNT(DISTINCT DATE(created_at)) as hari")
+            ->value('hari');
+
+        return $jumlahHari > 0 ? $totalKeluar / $jumlahHari : 0;
+    }
 }

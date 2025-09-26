@@ -23,6 +23,7 @@
                         <tr>
                             <th>Nama</th>
                             <th>Satuan</th>
+                            {{-- <th>Konsumsi per Hari</th> --}}
                             <th>Saldo</th>
                             <th>Aksi</th>
                         </tr>
@@ -45,6 +46,7 @@
             columns: [
                 { data: 'name', name: 'name' },
                 { data: 'unit', name: 'unit.name' },
+                // { data: 'usagePerDay', name: 'usagePerDay' },
                 { data: 'saldo', name: 'saldo' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]

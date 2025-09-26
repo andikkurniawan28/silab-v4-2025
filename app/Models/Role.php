@@ -132,7 +132,7 @@ class Role extends Model
             ['id' => 'akses_daftar_transaksi_stok', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_transaksi_stok'))],
             ['id' => 'akses_tambah_transaksi_stok', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_transaksi_stok'))],
             ['id' => 'akses_hapus_transaksi_stok', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_transaksi_stok'))],
-            ['id' => 'akses_daftar_mutasi_stok', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_mutasi_stok'))],
+            // ['id' => 'akses_daftar_mutasi_stok', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_mutasi_stok'))],
             ['id' => 'akses_daftar_gelas_core', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_gelas_core'))],
             ['id' => 'akses_tambah_gelas_core', 'name' => ucwords(str_replace('_', ' ', 'akses_tambah_gelas_core'))],
             ['id' => 'akses_hapus_gelas_core', 'name' => ucwords(str_replace('_', ' ', 'akses_hapus_gelas_core'))],

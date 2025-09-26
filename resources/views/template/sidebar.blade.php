@@ -178,10 +178,10 @@
                         <a class="collapse-item @yield('stock_transactions-active')"
                             href="{{ route('stock_transactions.index') }}">Transaksi Stok</a>
                     @endif
-                    @if (Auth()->user()->role->akses_daftar_mutasi_stok)
+                    {{-- @if (Auth()->user()->role->akses_daftar_mutasi_stok)
                         <a class="collapse-item @yield('stock_transaction_details-active')"
                             href="{{ route('stock_transaction_details.index') }}">Mutasi Stok</a>
-                    @endif
+                    @endif --}}
 
                     <h6 class="collapse-header">Seputar On-Farm :</h6>
                     @if (Auth()->user()->role->akses_daftar_gelas_core)

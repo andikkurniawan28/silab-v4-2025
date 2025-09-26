@@ -26,6 +26,9 @@ class ItemController extends Controller
                 ->addColumn('saldo', function ($row) {
                     return $row->saldo() ? $row->saldo() : '-';
                 })
+                // ->addColumn('usagePerDay', function ($row) {
+                //     return $row->usagePerDay() ? $row->usagePerDay() : '-';
+                // })
                 ->addColumn('action', function ($row) {
                     $buttons = '<div class="btn-group" role="group">';
                     if (Auth()->user()->role->akses_edit_barang) {
