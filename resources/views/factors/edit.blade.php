@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('factors-active', 'active')
-@section('factors-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -16,8 +17,8 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama</label>
                         <input type="text" name="name" id="name"
-                            class="form-control @error('name') is-invalid @enderror" value="{{ old('name', $factor->name) }}"
-                            required>
+                            class="form-control @error('name') is-invalid @enderror"
+                            value="{{ old('name', $factor->name) }}" required>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
@@ -26,17 +27,21 @@
                     <div class="mb-3">
                         <label for="value" class="form-label">Nilai</label>
                         <input type="number" name="value" id="value" step="any"
-                            class="form-control @error('value') is-invalid @enderror" value="{{ old('value', $factor->value) }}" required>
+                            class="form-control @error('value') is-invalid @enderror"
+                            value="{{ old('value', $factor->value) }}" required>
                         @error('value')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <a href="{{ route('factors.index') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <a href="{{ route('factors.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Batal
+                    </a>
                 </form>
             </div>
         </div>
     </div>
 @endsection
-

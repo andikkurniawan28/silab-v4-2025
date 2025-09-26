@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('kawalans-active', 'active')
-@section('kawalans-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -15,7 +16,7 @@
                     <div class="mb-3">
                         <label for="name" class="form-label">Nama</label>
                         <input type="text" name="name" id="name"
-                            class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required>
+                            class="form-control @error('name') is-invalid @enderror" value="{{ old('name') }}" required autofocus>
                         @error('name')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

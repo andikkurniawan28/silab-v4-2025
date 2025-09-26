@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('monitoring_hourly_spots-active', 'active')
-@section('monitoring_hourly_spots-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
@@ -21,6 +22,7 @@
                 <table id="monitoring_hourly_spotTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Satuan</th>
                             <th>Aksi</th>
@@ -42,6 +44,7 @@
             ajax: "{{ route('monitoring_hourly_spots.index') }}",
             order: [[0, 'asc']],
             columns: [
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'unit', name: 'unit.name' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }

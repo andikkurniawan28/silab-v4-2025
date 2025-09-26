@@ -2,6 +2,7 @@
 
 @section('core_cards-active', 'active')
 @section('input-show', 'show')
+@section('input-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">

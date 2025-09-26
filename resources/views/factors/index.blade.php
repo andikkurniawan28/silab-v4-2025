@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('factors-active', 'active')
-@section('factors-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
@@ -21,7 +22,7 @@
                 <table id="roleTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
-                            {{-- <th>ID</th> --}}
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Nilai</th>
                             <th>Aksi</th>
@@ -43,7 +44,7 @@
             ajax: "{{ route('factors.index') }}",
             order: [[0, 'asc']],
             columns: [
-                // { data: 'id', name: 'id' },
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'value', name: 'value' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }

@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('kawalans-active', 'active')
-@section('kawalans-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -23,8 +24,12 @@
                         @enderror
                     </div>
 
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <a href="{{ route('kawalans.index') }}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <a href="{{ route('kawalans.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Batal
+                    </a>
                 </form>
             </div>
         </div>

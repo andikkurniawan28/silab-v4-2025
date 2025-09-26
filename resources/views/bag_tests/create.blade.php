@@ -2,6 +2,7 @@
 
 @section('bag_tests-active', 'active')
 @section('input-show', 'show')
+@section('input-active', 'active')
 
 @section('content')
     <style>

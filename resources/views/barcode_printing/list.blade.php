@@ -14,7 +14,7 @@
                 <table id="roleTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>Barcode</th>
                             <th>Timestamp</th>
                             <th>Material</th>
                             <th>User</th>

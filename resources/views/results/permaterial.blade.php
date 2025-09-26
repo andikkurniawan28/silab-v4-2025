@@ -14,7 +14,7 @@
                     <table id="materialTable" class="table table-bordered table-hover table-striped w-100 text-center">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>Barcode</th>
                                 <th>Timestamp</th>
                                 @foreach ($material->parameters as $p)
                                     <th>{{ $p->name }}<sub>({{ $p->unit->name }})</sub></th>

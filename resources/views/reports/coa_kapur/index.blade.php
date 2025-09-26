@@ -2,6 +2,7 @@
 
 @section('coa_kapur-active', 'active')
 @section('report-show', 'show')
+@section('report-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">

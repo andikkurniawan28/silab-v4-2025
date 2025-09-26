@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('materials-active', 'active')
-@section('materials-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -75,17 +76,24 @@
                     <div class="mb-3">
                         <label for="sampling_method" class="form-label">Metode Sampling</label>
                         <select name="sampling_method" id="sampling_method" class="form-select select2" required>
-                            <option value="request" {{ old('sampling_method', $material->sampling_method) == "request" ? 'selected' : '' }}>
+                            <option value="request"
+                                {{ old('sampling_method', $material->sampling_method) == 'request' ? 'selected' : '' }}>
                                 request
                             </option>
-                            <option value="terjadwal" {{ old('sampling_method', $material->sampling_method) == "terjadwal" ? 'selected' : '' }}>
+                            <option value="terjadwal"
+                                {{ old('sampling_method', $material->sampling_method) == 'terjadwal' ? 'selected' : '' }}>
                                 terjadwal
                             </option>
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-success">Update</button>
-                    <a href="{{ route('materials.index') }}" class="btn btn-secondary">Batal</a>
+
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <a href="{{ route('materials.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Batal
+                    </a>
                 </form>
             </div>
         </div>

@@ -2,6 +2,7 @@
 
 @section('analyses-active', 'active')
 @section('input-show', 'show')
+@section('input-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -55,8 +56,8 @@
 
                                 <div class="col-md-8 mb-3">
                                     <label class="form-label">Material</label>
-                                    <input type="text" class="form-control"
-                                        value="{{ $analysis->material->name }}" readonly>
+                                    <input type="text" class="form-control" value="{{ $analysis->material->name }}"
+                                        readonly>
                                 </div>
 
                                 <div class="col-md-4 mb-3">
@@ -102,10 +103,12 @@
                         </div>
                     </div>
 
-                    <div class="d-flex justify-content-start mt-4">
-                        <button type="submit" class="btn btn-success me-2">Update</button>
-                        <a href="{{ route('analyses.index') }}" class="btn btn-secondary">Batal</a>
-                    </div>
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-save"></i> Simpan
+                    </button>
+                    <a href="{{ route('analyses.index') }}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Batal
+                    </a>
                 </form>
             </div>
         </div>
@@ -164,4 +167,3 @@
         });
     </script>
 @endsection
-

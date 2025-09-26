@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('materials-active', 'active')
-@section('materials-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">

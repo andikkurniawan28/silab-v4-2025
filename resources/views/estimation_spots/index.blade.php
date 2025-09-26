@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('estimation_spots-active', 'active')
-@section('estimation_spots-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
@@ -21,6 +22,7 @@
                 <table id="estimation_spotTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>Nama</th>
                             <th>Satuan</th>
                             <th>Jumlah</th>
@@ -45,6 +47,7 @@
             ajax: "{{ route('estimation_spots.index') }}",
             order: [[0, 'asc']],
             columns: [
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 { data: 'unit', name: 'unit.name' },
                 { data: 'qty', name: 'qty' },

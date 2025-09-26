@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('users-active', 'active')
-@section('users-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
 <div class="container-fluid py-0 px-0">
@@ -21,7 +22,7 @@
                 <table id="userTable" class="table table-bordered table-hover table-striped w-100 text-center">
                     <thead>
                         <tr>
-                            {{-- <th>ID</th> --}}
+                            <th>ID</th>
                             <th>Nama</th>
                             {{-- <th>Username</th> --}}
                             <th>Role</th>
@@ -45,7 +46,7 @@
             ajax: "{{ route('users.index') }}",
             order: [[0, 'asc']],
             columns: [
-                // { data: 'id', name: 'id' },
+                { data: 'id', name: 'id' },
                 { data: 'name', name: 'name' },
                 // { data: 'username', name: 'username' },
                 { data: 'role', name: 'role.name' },

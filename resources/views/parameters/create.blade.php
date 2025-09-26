@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('parameters-active', 'active')
-@section('parameters-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -11,6 +12,13 @@
             <div class="card-body">
                 <form action="{{ route('parameters.store') }}" method="POST">
                     @csrf
+
+                    {{-- Nama --}}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"
+                            required autofocus>
+                    </div>
 
                     {{-- Satuan --}}
                     <div class="mb-3">
@@ -23,13 +31,6 @@
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-
-                    {{-- Nama --}}
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama</label>
-                        <input type="text" name="name" id="name" class="form-control" value="{{ old('name') }}"
-                            required autofocus>
                     </div>
 
                     <button type="submit" class="btn btn-success">

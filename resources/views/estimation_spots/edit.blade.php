@@ -1,7 +1,8 @@
 @extends('template.master')
 
 @section('estimation_spots-active', 'active')
-@section('estimation_spots-show', 'show')
+@section('master-show', 'show')
+@section('master-active', 'active')
 
 @section('content')
     <div class="container-fluid py-0 px-0">
@@ -12,6 +13,13 @@
                 <form action="{{ route('estimation_spots.update', $estimation_spot->id) }}" method="POST">
                     @csrf
                     @method('PUT')
+
+                    {{-- Nama --}}
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Nama</label>
+                        <input type="text" name="name" id="name" class="form-control"
+                            value="{{ old('name', $estimation_spot->name) }}" required>
+                    </div>
 
                     {{-- Satuan --}}
                     <div class="mb-3">
@@ -24,13 +32,6 @@
                                 </option>
                             @endforeach
                         </select>
-                    </div>
-
-                    {{-- Nama --}}
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Nama</label>
-                        <input type="text" name="name" id="name" class="form-control"
-                            value="{{ old('name', $estimation_spot->name) }}" required>
                     </div>
 
                     {{-- Qty --}}
