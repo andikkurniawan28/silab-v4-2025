@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->enum('type', ['masuk', 'keluar']);
             $table->foreignId('user_id')->constrained();
+            $table->boolean('is_verified')->default(0);
             $table->timestamp('created_at')->useCurrent()->index();
             $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });

@@ -52,13 +52,26 @@
                                         </select>
                                     </div>
                                 @elseif ($spot->method === 'aktif/nonaktif')
-                                    <select name="p{{ $spot->id }}" class="form-select select2">
-                                        <option value="">-- Pilih status --</option>
-                                        <option value="1" {{ old('p' . $spot->id) == '1' ? 'selected' : '' }}>Aktif
-                                        </option>
-                                        <option value="0" {{ old('p' . $spot->id) == '0' ? 'selected' : '' }}>Nonaktif
-                                        </option>
-                                    </select>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" type="checkbox" name="p{{ $spot->id }}" id="p{{ $spot->id }}" value="1"
+                                            {{ old('p' . $spot->id, '0') == '1' ? 'checked' : '' }}>
+                                        <label class="form-check-label fw-bold" for="p{{ $spot->id }}" id="label_p{{ $spot->id }}"
+                                            style="{{ old('p' . $spot->id, '0') == '1' ? 'color: #198754;' : 'color: #dc3545;' }}">
+                                            {{ old('p' . $spot->id, '0') == '1' ? '✅ Aktif' : '❌ Nonaktif' }}
+                                        </label>
+                                    </div>
+                                    <script>
+                                    document.getElementById('p{{ $spot->id }}').addEventListener('change', function() {
+                                        const label = document.getElementById('label_p{{ $spot->id }}');
+                                        if (this.checked) {
+                                            label.innerHTML = '✅ Aktif';
+                                            label.style.color = '#198754';
+                                        } else {
+                                            label.innerHTML = '❌ Nonaktif';
+                                            label.style.color = '#dc3545';
+                                        }
+                                    });
+                                    </script>
                                 @endif
                             </div>
                         @endforeach

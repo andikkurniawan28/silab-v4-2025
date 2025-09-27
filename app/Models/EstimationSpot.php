@@ -23,7 +23,7 @@ class EstimationSpot extends Model
             $colName = 'p' . $estimation->id;
             if (!Schema::hasColumn('estimations', $colName)) {
                 DB::statement("ALTER TABLE estimations ADD COLUMN `$colName` FLOAT NULL AFTER created_at");
-                DB::statement("ALTER TABLE estimations ADD INDEX `idx_$colName` (`$colName`)");
+                // DB::statement("ALTER TABLE estimations ADD INDEX `idx_$colName` (`$colName`)");
             }
         });
     }

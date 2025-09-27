@@ -39,6 +39,7 @@ use App\Http\Controllers\AriCardController;
 use App\Http\Controllers\AriTimbanganController;
 use App\Http\Controllers\CoreCardController;
 use App\Http\Controllers\CoreSampleController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImpurityController;
 use App\Http\Controllers\KawalanController;
 use App\Http\Controllers\PenilaianMbsController;
@@ -74,6 +75,7 @@ Route::get('/login/captcha/refresh', function (Request $request) {
 Route::get('/', function () {
     return view('welcome');
 })->name('dashboard.index')->middleware(['auth']);
+Route::get('/data', [DashboardController::class, 'data'])->name('dashboard.data');
 Route::resource('roles', RoleController::class)->middleware(['auth']);
 Route::resource('users', UserController::class)->middleware(['auth']);
 Route::resource('stations', StationController::class)->middleware(['auth']);

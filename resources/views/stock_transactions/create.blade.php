@@ -14,7 +14,7 @@
                     @csrf
 
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-3">
                             <label for="type" class="form-label">Status</label>
                             <select id="type" name="type" class="form-select select2" required>
                                 <option value="">-- Pilih Jenis --</option>
@@ -25,8 +25,8 @@
                     </div>
 
                     <div class="table-responsive mb-4">
-                        <table class="table table-bordered align-middle text-center" id="itemsTable">
-                            <thead class="table-light">
+                        <table class="table table-bordered align-middle text-center text-dark" id="itemsTable">
+                            <thead>
                                 <tr>
                                     <th style="width: 60%">Barang</th>
                                     <th style="width: 25%">Qty</th>
@@ -91,6 +91,7 @@
 
                 // Inisialisasi select2 untuk row baru
                 $(`select[name="items[${rowIdx}][id]"]`).select2({
+                    theme: 'bootstrap4',
                     width: '100%',
                     dropdownParent: $('#itemsTable').closest('.card-body')
                 });

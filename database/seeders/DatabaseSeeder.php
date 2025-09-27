@@ -9,18 +9,19 @@ use App\Models\Role;
 use App\Models\Unit;
 use App\Models\User;
 use App\Models\Factor;
+use App\Models\Kawalan;
 use App\Models\Station;
+use App\Models\Variety;
 use App\Models\FlowSpot;
 use App\Models\Impurity;
-use App\Models\Kawalan;
 use App\Models\Material;
 use App\Models\Parameter;
+use App\Models\EstimationSpot;
 use Illuminate\Database\Seeder;
 use App\Models\ParameterMaterial;
 use Illuminate\Support\Facades\DB;
 use App\Models\MonitoringHourlySpot;
 use App\Models\MonitoringShiftlySpot;
-use App\Models\Variety;
 use Illuminate\Support\Facades\Schema;
 
 class DatabaseSeeder extends Seeder
@@ -113,14 +114,34 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Pack'],
             ['name' => 'Kaleng'],
             ['name' => 'Ball'],
+            ['name' => 'Botol'], // 15
+            ['name' => 'Pcs'],
+            ['name' => 'Roll'],
+            ['name' => 'Hl'],
         ]);
 
         Item::insert([
             ['name' => 'Form A', 'unit_id' => 11],
             ['name' => 'Form B', 'unit_id' => 11],
             ['name' => 'Kieselguhr', 'unit_id' => 13],
-            ['name' => 'Test Kit Ketel', 'unit_id' => 12],
-            ['name' => 'Kertas Merang Coklat', 'unit_id' => 12],
+            ['name' => 'Silica Test Kit', 'unit_id' => 12],
+            ['name' => 'Hardness Test Kit', 'unit_id' => 12],
+            ['name' => 'Phospate Test Kit', 'unit_id' => 12],
+            ['name' => 'Kertas Merang Coklat', 'unit_id' => 14],
+            ['name' => 'Kertas Saring X-Japan', 'unit_id' => 12],
+            ['name' => 'Kertas Saring Whatmann', 'unit_id' => 12],
+            ['name' => 'HCl (Asam Klorida)', 'unit_id' => 15],
+            ['name' => 'H2SO4 (Asam Sulfat)', 'unit_id' => 15],
+            ['name' => 'Thermometer Stick', 'unit_id' => 16],
+            ['name' => 'Beume', 'unit_id' => 16],
+            ['name' => 'Kertas Thermal', 'unit_id' => 17],
+            ['name' => 'Buffer Solution', 'unit_id' => 15],
+            ['name' => 'Beaker Glass 100mL Kaca', 'unit_id' => 16],
+            ['name' => 'Beaker Glass 250mL Plastik', 'unit_id' => 16],
+            ['name' => 'Botol Sampel Gula 100mL', 'unit_id' => 15],
+            ['name' => 'Botol Sampel Gula 250mL', 'unit_id' => 15],
+            ['name' => 'Ronsel Masakan', 'unit_id' => 16],
+            ['name' => 'Tissue', 'unit_id' => 16],
         ]);
 
         Parameter::insert([
@@ -237,6 +258,128 @@ class DatabaseSeeder extends Seeder
             ['name' => 'Drum Kimia Penguapan', 'unit_id' => 7],
         ]);
 
+        EstimationSpot::insert([
+            ['name' => 'Tanki Nira Mentah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 600, 'method' => 'prosentase'],
+            ['name' => 'Pemanas Nira Mentah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 600, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Preliming 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 700, 'method' => 'prosentase'],
+            ['name' => 'Preliming 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 400, 'method' => 'prosentase'],
+            ['name' => 'Reaction Tank Pemurnian', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Defekator', 'unit_id' => 18, 'qty' => 1, 'capacity' => 50, 'method' => 'prosentase'],
+            ['name' => 'Clarifier ST', 'unit_id' => 18, 'qty' => 1, 'capacity' => 3100, 'method' => 'prosentase'],
+            ['name' => 'Pemanas Nira Encer', 'unit_id' => 18, 'qty' => 2, 'capacity' => 15, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'Evaporator 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 3', 'unit_id' => 18, 'qty' => 1, 'capacity' => 270, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 4', 'unit_id' => 18, 'qty' => 1, 'capacity' => 270, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 5', 'unit_id' => 18, 'qty' => 1, 'capacity' => 160, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 6', 'unit_id' => 18, 'qty' => 1, 'capacity' => 110, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 7', 'unit_id' => 18, 'qty' => 1, 'capacity' => 110, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 8', 'unit_id' => 18, 'qty' => 1, 'capacity' => 50, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Evaporator 9', 'unit_id' => 18, 'qty' => 1, 'capacity' => 90, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Tanki Nira Kental Sebelum 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 780, 'method' => 'prosentase'],
+            ['name' => 'Tanki Nira Kental Sebelum 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 780, 'method' => 'prosentase'],
+            ['name' => 'Tanki Nira Kental Sesudah 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 780, 'method' => 'prosentase'],
+            ['name' => 'Tanki Nira Kental Sesudah 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 780, 'method' => 'prosentase'],
+            ['name' => 'Lamela', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1850, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop A Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 3490, 'method' => 'prosentase'],
+            ['name' => 'Peti Klare RS', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1190, 'method' => 'prosentase'],
+            ['name' => 'Peti R1 Mol Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1270, 'method' => 'prosentase'],
+            ['name' => 'Peti R2 Mol Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1020, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop C Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1260, 'method' => 'prosentase'],
+            ['name' => 'Peti Klare D Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 550, 'method' => 'prosentase'],
+            ['name' => 'Remelter A1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Remelter A2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Remelter A3', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Remelter A4', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Remelter A5', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Peti Remelt A Bawah', 'unit_id' => 18, 'qty' => 1, 'capacity' => 350, 'method' => 'prosentase'],
+            ['name' => 'Remelter C/D', 'unit_id' => 18, 'qty' => 1, 'capacity' => 350, 'method' => 'prosentase'],
+            ['name' => 'Peti NK Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 3200, 'method' => 'prosentase'],
+            ['name' => 'Peti Remelt C/D', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Peti Clear Liquor 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'prosentase'],
+            ['name' => 'Peti Clear Liquor 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'prosentase'],
+            ['name' => 'Peti R Moll 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'prosentase'],
+            ['name' => 'Peti R Moll 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'prosentase'],
+            ['name' => 'Peti Einwuurf Barat', 'unit_id' => 18, 'qty' => 1, 'capacity' => 720, 'method' => 'prosentase'],
+            ['name' => 'Peti Einwuurf Timur', 'unit_id' => 18, 'qty' => 1, 'capacity' => 720, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop A Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1390, 'method' => 'prosentase'],
+            ['name' => 'Peti Nira Kental Sebelum Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1390, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop C Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 400, 'method' => 'prosentase'],
+            ['name' => 'Peti Klare D Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 200, 'method' => 'prosentase'],
+            ['name' => 'Pan Masakan 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 550, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 850, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 3', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 4', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 5', 'unit_id' => 18, 'qty' => 1, 'capacity' => 900, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 6', 'unit_id' => 18, 'qty' => 1, 'capacity' => 650, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 7', 'unit_id' => 18, 'qty' => 1, 'capacity' => 900, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 8', 'unit_id' => 18, 'qty' => 1, 'capacity' => 600, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 9', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 10', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 11', 'unit_id' => 18, 'qty' => 1, 'capacity' => 750, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 12', 'unit_id' => 18, 'qty' => 1, 'capacity' => 800, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 13', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 14', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 15', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 16', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 17', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Pan Masakan 18', 'unit_id' => 18, 'qty' => 1, 'capacity' => 500, 'method' => 'estimasi_volume'],
+            ['name' => 'Palung Pendingin 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 3', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 4', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 5', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 6', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 7', 'unit_id' => 18, 'qty' => 1, 'capacity' => 700, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 8', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 9', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Palung Pendingin 10', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1000, 'method' => 'prosentase'],
+            ['name' => 'Dist Mixer C Timur', 'unit_id' => 18, 'qty' => 1, 'capacity' => 480, 'method' => 'prosentase'],
+            ['name' => 'Dist Mixer C Barat', 'unit_id' => 18, 'qty' => 1, 'capacity' => 580, 'method' => 'prosentase'],
+            ['name' => 'Vertical Crystallizer Timur', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1800, 'method' => 'prosentase'],
+            ['name' => 'Vertical Crystallizer Barat', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1800, 'method' => 'prosentase'],
+            ['name' => 'Dist Mixer D1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 660, 'method' => 'prosentase'],
+            ['name' => 'Dist Mixer D2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 420, 'method' => 'prosentase'],
+            ['name' => 'Mingler RS In', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Mingler Gula C', 'unit_id' => 18, 'qty' => 1, 'capacity' => 150, 'method' => 'prosentase'],
+            ['name' => 'Mingler Gula D', 'unit_id' => 18, 'qty' => 1, 'capacity' => 150, 'method' => 'prosentase'],
+            ['name' => 'Dist A Selatan 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 180, 'method' => 'prosentase'],
+            ['name' => 'Dist A Selatan 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 180, 'method' => 'prosentase'],
+            ['name' => 'Dist A Utara 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 150, 'method' => 'prosentase'],
+            ['name' => 'Dist A Utara 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 150, 'method' => 'prosentase'],
+            ['name' => 'Peti NK Atas (CVP)', 'unit_id' => 18, 'qty' => 1, 'capacity' => 200, 'method' => 'prosentase'],
+            ['name' => 'Remelter C/D Atas', 'unit_id' => 18, 'qty' => 1, 'capacity' => 200, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop A Atas (CVP)', 'unit_id' => 18, 'qty' => 1, 'capacity' => 200, 'method' => 'prosentase'],
+            ['name' => 'Peti Stroop C Atas (CVP)', 'unit_id' => 18, 'qty' => 1, 'capacity' => 200, 'method' => 'prosentase'],
+            ['name' => 'CVP A', 'unit_id' => 18, 'qty' => 1, 'capacity' => 2000, 'method' => 'aktif/nonaktif'],
+            ['name' => 'CVP C', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1500, 'method' => 'aktif/nonaktif'],
+            ['name' => 'CVP D', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1500, 'method' => 'aktif/nonaktif'],
+            ['name' => 'Palung CVP A', 'unit_id' => 18, 'qty' => 1, 'capacity' => 2000, 'method' => 'prosentase'],
+            ['name' => 'Palung CVP C', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1700, 'method' => 'prosentase'],
+            ['name' => 'Palung CVP D', 'unit_id' => 18, 'qty' => 1, 'capacity' => 1600, 'method' => 'prosentase'],
+            ['name' => 'Silo 50 Kg', 'unit_id' => 7, 'qty' => 3, 'capacity' => 7200, 'method' => 'estimasi_massa'],
+            ['name' => 'Silo Retail', 'unit_id' => 7, 'qty' => 3, 'capacity' => 2400, 'method' => 'estimasi_massa'],
+            ['name' => 'PP', 'unit_id' => 18, 'qty' => 2, 'capacity' => 10, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'Reaction Tank (DRK)', 'unit_id' => 18, 'qty' => 2, 'capacity' => 100, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'Talo Phospatasi', 'unit_id' => 18, 'qty' => 2, 'capacity' => 270, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'Deep Bad Filter', 'unit_id' => 18, 'qty' => 2, 'capacity' => 68, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'CO2 Gas Carbonator 1', 'unit_id' => 18, 'qty' => 2, 'capacity' => 360, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'CO2 Gas Carbonator 2', 'unit_id' => 18, 'qty' => 2, 'capacity' => 260, 'method' => 'berapa_yang_aktif'],
+            ['name' => 'First Filtrat Tank', 'unit_id' => 18, 'qty' => 1, 'capacity' => 120, 'method' => 'prosentase'],
+            ['name' => 'Sweet Water Tank', 'unit_id' => 18, 'qty' => 1, 'capacity' => 120, 'method' => 'prosentase'],
+            ['name' => 'Clear Liquor Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 120, 'method' => 'prosentase'],
+            ['name' => 'Clear Liquor Tank 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 100, 'method' => 'prosentase'],
+            ['name' => 'Carbonated Liquor Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Carbonated Liquor Tank 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Raw Liquor Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Raw Liquor Tank 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Clarifier Melt Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Filtered Melt Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Back Wash Tank 1', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'Clarifier Melt Tank 2', 'unit_id' => 18, 'qty' => 1, 'capacity' => 300, 'method' => 'prosentase'],
+            ['name' => 'RS Gudang', 'unit_id' => 7, 'qty' => 1, 'capacity' => 5000, 'method' => 'estimasi_massa'],
+        ]);
+
         $flow_spots = FlowSpot::select(['id'])->orderBy('id')->get();
         foreach ($flow_spots as $fs) {
             $columns = [
@@ -276,6 +419,15 @@ class DatabaseSeeder extends Seeder
             if (!Schema::hasColumn('monitoring_shiftlies', $colName)) {
                 DB::statement("ALTER TABLE monitoring_shiftlies ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
                 DB::statement("ALTER TABLE monitoring_shiftlies ADD INDEX `idx_$colName` (`$colName`)");
+            }
+        }
+
+        $estimations = EstimationSpot::select(['id'])->orderBy('id')->get();
+        foreach ($estimations as $e) {
+            $colName = 'p' . $e->id;
+            if (!Schema::hasColumn('estimations', $colName)) {
+                DB::statement("ALTER TABLE estimations ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
+                // DB::statement("ALTER TABLE estimations ADD INDEX `idx_$colName` (`$colName`)");
             }
         }
 
