@@ -75,7 +75,7 @@ class MonitoringShiftlyController extends Controller
 
     public function store(Request $request)
     {
-        if ($response = $this->checkIzin('akses_edit_monitoring_pershift')) {
+        if ($response = $this->checkIzin('akses_tambah_monitoring_pershift')) {
             return $response;
         }
 

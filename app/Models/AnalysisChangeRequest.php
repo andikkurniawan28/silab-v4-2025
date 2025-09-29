@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Analysis extends Model
+class AnalysisChangeRequest extends Model
 {
     use HasFactory;
 
@@ -19,7 +19,7 @@ class Analysis extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function analysisChangeRequest(){
-        return $this->hasOne(AnalysisChangeRequest::class);
+    public function analysis(){
+        return $this->belongsTo(Analysis::class);
     }
 }

@@ -70,7 +70,7 @@ class MonitoringHourlyController extends Controller
 
     public function create()
     {
-        if ($response = $this->checkIzin('akses_edit_monitoring_perjam')) {
+        if ($response = $this->checkIzin('akses_tambah_monitoring_perjam')) {
             return $response;
         }
 

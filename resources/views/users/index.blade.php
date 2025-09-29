@@ -27,6 +27,7 @@
                             {{-- <th>Username</th> --}}
                             <th>Role</th>
                             <th>Status</th>
+                            <th>Telpon</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -51,6 +52,7 @@
                 // { data: 'username', name: 'username' },
                 { data: 'role', name: 'role.name' },
                 { data: 'status', name: 'is_active', orderable: false, searchable: false },
+                { data: 'phone', name: 'phone' },
                 { data: 'action', name: 'action', orderable: false, searchable: false }
             ]
         });

@@ -316,6 +316,10 @@ class ReportController extends Controller
 
     public function coaTetesData(Request $request)
     {
+        if ($response = $this->checkIzin('akses_coa_tetes')) {
+            return $response;
+        }
+
         $time_start = "{$request->date} 06:00";
 
         $time_end = date("Y-m-d H:i", strtotime($time_start . "+24 hours"));
@@ -353,6 +357,9 @@ class ReportController extends Controller
 
     public function coaKapurData(Request $request)
     {
+        if ($response = $this->checkIzin('akses_coa_kapur')) {
+            return $response;
+        }
         $date["current"] = $request->tanggal_pengujian." 06:00";
         $date["tomorrow"] = date("Y-m-d H:i", strtotime($date["current"] . "+24 hours"));
         $data = Analysis::whereBetween('created_at', [$date['current'], $date['tomorrow']])
@@ -363,6 +370,9 @@ class ReportController extends Controller
 
     public function ujiKarungData(Request $request)
     {
+        if ($response = $this->checkIzin('akses_laporan_uji_karung')) {
+            return $response;
+        }
         $data = BagTest::where('arrival_date', $request->arrival_date)->where('test_date', $request->test_date)
             ->where('batch', $request->batch)->get();
 
@@ -428,6 +438,9 @@ class ReportController extends Controller
 
     public function mutasiBarangData(Request $request)
     {
+        if ($response = $this->checkIzin('akses_laporan_mutasi_barang')) {
+            return $response;
+        }
         $itemId = $request->item_id;
         $mulai  = $request->mulai;
         $sampai = $request->sampai_dengan;

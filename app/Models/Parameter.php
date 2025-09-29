@@ -25,9 +25,13 @@ class Parameter extends Model
     {
         static::created(function ($parameter) {
             $colName = 'p' . $parameter->id;
+            $colNameX = 'p' . $parameter->id .'_old';
             if (!Schema::hasColumn('analyses', $colName)) {
                 DB::statement("ALTER TABLE analyses ADD COLUMN `$colName` FLOAT NULL AFTER is_verified");
-                DB::statement("ALTER TABLE analyses ADD INDEX `idx_$colName` (`$colName`)");
+            }
+            if (!Schema::hasColumn('analysis_change_requests', $colName)) {
+                DB::statement("ALTER TABLE analysis_change_requests ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
+                DB::statement("ALTER TABLE analysis_change_requests ADD COLUMN `$colNameX` FLOAT NULL AFTER updated_at");
             }
         });
     }

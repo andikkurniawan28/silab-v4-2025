@@ -23,7 +23,6 @@ class MonitoringShiftlySpot extends Model
             $colName = 'p' . $monitoring_shiftly->id;
             if (!Schema::hasColumn('monitoring_shiftlies', $colName)) {
                 DB::statement("ALTER TABLE monitoring_shiftlies ADD COLUMN `$colName` FLOAT NULL AFTER created_at");
-                DB::statement("ALTER TABLE monitoring_shiftlies ADD INDEX `idx_$colName` (`$colName`)");
             }
         });
     }

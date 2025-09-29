@@ -19,7 +19,6 @@ class Impurity extends Model
             $colName = 'p' . $impurity->id;
             if (!Schema::hasColumn('analisa_on_farms', $colName)) {
                 DB::statement("ALTER TABLE analisa_on_farms ADD COLUMN `$colName` TINYINT NULL AFTER updated_at");
-                DB::statement("ALTER TABLE analisa_on_farms ADD INDEX `idx_$colName` (`$colName`)");
             }
         });
     }

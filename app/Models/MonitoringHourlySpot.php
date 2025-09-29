@@ -23,7 +23,6 @@ class MonitoringHourlySpot extends Model
             $colName = 'p' . $monitoring_hourly->id;
             if (!Schema::hasColumn('monitoring_hourlies', $colName)) {
                 DB::statement("ALTER TABLE monitoring_hourlies ADD COLUMN `$colName` FLOAT NULL AFTER created_at");
-                DB::statement("ALTER TABLE monitoring_hourlies ADD INDEX `idx_$colName` (`$colName`)");
             }
         });
     }

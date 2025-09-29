@@ -63,25 +63,25 @@ class DatabaseSeeder extends Seeder
         Role::whereIn('id',[1,2,3])->update($updateData);
 
         User::insert([
-            ['name' => 'Andik Kurniawan', 'username' => 'andik', 'password' => bcrypt('andik_789'), 'is_active' => 1, 'role_id' => 1],
-            ['name' => 'Tri Sunu Hardi', 'username' => 'sunu', 'password' => bcrypt('sunu987'), 'is_active' => 1, 'role_id' => 2],
-            ['name' => 'Sri Winarno', 'username' => 'win', 'password' => bcrypt('win987'), 'is_active' => 1, 'role_id' => 3],
-            ['name' => 'Tataq Seviarto', 'username' => 'tataq', 'password' => bcrypt('tataq987'), 'is_active' => 1, 'role_id' => 3],
-            ['name' => 'M. Yanuar Ananta', 'username' => 'yanuar', 'password' => bcrypt('yanuar987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'Vicky Dwi Putra', 'username' => 'vicky', 'password' => bcrypt('vicky987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'Firmansyah Agil Saputra', 'username' => 'agil', 'password' => bcrypt('agil987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'M. Aulia Ramadhan', 'username' => 'rama', 'password' => bcrypt('rama987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'M. Faiz Rosidin', 'username' => 'faiz', 'password' => bcrypt('faiz987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'Yudi Suyadi', 'username' => 'yudi', 'password' => bcrypt('yudi987'), 'is_active' => 1, 'role_id' => 4],
-            ['name' => 'Tutus Agustyn Rafzhanyani', 'username' => 'tutus', 'password' => bcrypt('tutus987'), 'is_active' => 1, 'role_id' => 5],
-            ['name' => 'Lina Dwi Ulfa', 'username' => 'lina', 'password' => bcrypt('lina987'), 'is_active' => 1, 'role_id' => 5],
-            ['name' => 'Achmad Zauzi Rifqi', 'username' => 'zauzi', 'password' => bcrypt('zauzi987'), 'is_active' => 1, 'role_id' => 5],
-            ['name' => 'Risky Anggara', 'username' => 'risky', 'password' => bcrypt('risky987'), 'is_active' => 1, 'role_id' => 6],
-            ['name' => 'Nico Aldy Dwi Putra', 'username' => 'nico', 'password' => bcrypt('nico987'), 'is_active' => 1, 'role_id' => 6],
-            ['name' => 'Dwi Wahyu Nugroho', 'username' => 'dwi', 'password' => bcrypt('dwi987'), 'is_active' => 1, 'role_id' => 6],
-            ['name' => 'Fery Ardhianto', 'username' => 'fery', 'password' => bcrypt('fery987'), 'is_active' => 1, 'role_id' => 8],
-            ['name' => 'Rangga Wisnu Wardhana', 'username' => 'rangga', 'password' => bcrypt('rangga987'), 'is_active' => 1, 'role_id' => 8],
-            ['name' => 'Dita Putri Pertiwi', 'username' => 'dita', 'password' => bcrypt('dita987'), 'is_active' => 1, 'role_id' => 8],
+            ['name' => 'Andik Kurniawan', 'username' => 'andik', 'password' => bcrypt('andik_789'), 'is_active' => 1, 'role_id' => 1, 'phone' => '6285733465399'],
+            ['name' => 'Tri Sunu Hardi', 'username' => 'sunu', 'password' => bcrypt('sunu987'), 'is_active' => 1, 'role_id' => 2, 'phone' => null],
+            ['name' => 'Sri Winarno', 'username' => 'win', 'password' => bcrypt('win987'), 'is_active' => 1, 'role_id' => 3, 'phone' => '6281279241338'],
+            ['name' => 'Tataq Seviarto', 'username' => 'tataq', 'password' => bcrypt('tataq987'), 'is_active' => 1, 'role_id' => 3, 'phone' => '6285640062361'],
+            ['name' => 'M. Yanuar Ananta', 'username' => 'yanuar', 'password' => bcrypt('yanuar987'), 'is_active' => 1, 'role_id' => 4, 'phone' => '6281228032510'],
+            ['name' => 'Vicky Dwi Putra', 'username' => 'vicky', 'password' => bcrypt('vicky987'), 'is_active' => 1, 'role_id' => 4, 'phone' => '6285655538715'],
+            ['name' => 'Firmansyah Agil Saputra', 'username' => 'agil', 'password' => bcrypt('agil987'), 'is_active' => 1, 'role_id' => 4, 'phone' => '6289609981181'],
+            ['name' => 'M. Aulia Ramadhan', 'username' => 'rama', 'password' => bcrypt('rama987'), 'is_active' => 1, 'role_id' => 4, 'phone' => '6282334435688'],
+            ['name' => 'M. Faiz Rosidin', 'username' => 'faiz', 'password' => bcrypt('faiz987'), 'is_active' => 1, 'role_id' => 4, 'phone' => null],
+            ['name' => 'Yudi Suyadi', 'username' => 'yudi', 'password' => bcrypt('yudi987'), 'is_active' => 1, 'role_id' => 4, 'phone' => '6281336810077'],
+            ['name' => 'Tutus Agustyn Rafzhanyani', 'username' => 'tutus', 'password' => bcrypt('tutus987'), 'is_active' => 1, 'role_id' => 5, 'phone' => '6285708502016'],
+            ['name' => 'Lina Dwi Ulfa', 'username' => 'lina', 'password' => bcrypt('lina987'), 'is_active' => 1, 'role_id' => 5, 'phone' => '6281228437123'],
+            ['name' => 'Achmad Zauzi Rifqi', 'username' => 'zauzi', 'password' => bcrypt('zauzi987'), 'is_active' => 1, 'role_id' => 5, 'phone' => '6281333236638'],
+            ['name' => 'Risky Anggara', 'username' => 'risky', 'password' => bcrypt('risky987'), 'is_active' => 1, 'role_id' => 6, 'phone' => '6281953921217'],
+            ['name' => 'Nico Aldy Dwi Putra', 'username' => 'nico', 'password' => bcrypt('nico987'), 'is_active' => 1, 'role_id' => 6, 'phone' => '6285954693455'],
+            ['name' => 'Dwi Wahyu Nugroho', 'username' => 'dwi', 'password' => bcrypt('dwi987'), 'is_active' => 1, 'role_id' => 6, 'phone' => '628990335105'],
+            ['name' => 'Fery Ardhianto', 'username' => 'fery', 'password' => bcrypt('fery987'), 'is_active' => 1, 'role_id' => 8, 'phone' => '6281332003967'],
+            ['name' => 'Rangga Wisnu Wardhana', 'username' => 'rangga', 'password' => bcrypt('rangga987'), 'is_active' => 1, 'role_id' => 8, 'phone' => '6289602619417'],
+            ['name' => 'Dita Putri Pertiwi', 'username' => 'dita', 'password' => bcrypt('dita987'), 'is_active' => 1, 'role_id' => 8, 'phone' => '6281938941729'],
         ]);
 
         Station::insert([
@@ -398,9 +398,13 @@ class DatabaseSeeder extends Seeder
         $parameters = Parameter::select(['id'])->orderBy('id')->get();
         foreach ($parameters as $p) {
             $colName = 'p' . $p->id;
+            $colNameX = 'p' . $p->id .'_old';
             if (!Schema::hasColumn('analyses', $colName)) {
                 DB::statement("ALTER TABLE analyses ADD COLUMN `$colName` FLOAT NULL AFTER is_verified");
-                DB::statement("ALTER TABLE analyses ADD INDEX `idx_$colName` (`$colName`)");
+            }
+            if (!Schema::hasColumn('analysis_change_requests', $colName)) {
+                DB::statement("ALTER TABLE analysis_change_requests ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
+                DB::statement("ALTER TABLE analysis_change_requests ADD COLUMN `$colNameX` FLOAT NULL AFTER updated_at");
             }
         }
 
@@ -409,7 +413,6 @@ class DatabaseSeeder extends Seeder
             $colName = 'p' . $mh->id;
             if (!Schema::hasColumn('monitoring_hourlies', $colName)) {
                 DB::statement("ALTER TABLE monitoring_hourlies ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
-                DB::statement("ALTER TABLE monitoring_hourlies ADD INDEX `idx_$colName` (`$colName`)");
             }
         }
 
@@ -418,7 +421,6 @@ class DatabaseSeeder extends Seeder
             $colName = 'p' . $ms->id;
             if (!Schema::hasColumn('monitoring_shiftlies', $colName)) {
                 DB::statement("ALTER TABLE monitoring_shiftlies ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
-                DB::statement("ALTER TABLE monitoring_shiftlies ADD INDEX `idx_$colName` (`$colName`)");
             }
         }
 
@@ -427,7 +429,6 @@ class DatabaseSeeder extends Seeder
             $colName = 'p' . $e->id;
             if (!Schema::hasColumn('estimations', $colName)) {
                 DB::statement("ALTER TABLE estimations ADD COLUMN `$colName` FLOAT NULL AFTER updated_at");
-                // DB::statement("ALTER TABLE estimations ADD INDEX `idx_$colName` (`$colName`)");
             }
         }
 

@@ -72,7 +72,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="table-responsive">
-                                            <table class="table table-sm table-stripped table-hover text-dark">
+                                            <table class="table table-sm table-stripped table-hover table-bordered text-dark">
                                                 <thead>
                                                     <tr>
                                                         ${headerCols.map(h => `<th>${h}</th>`).join("")}

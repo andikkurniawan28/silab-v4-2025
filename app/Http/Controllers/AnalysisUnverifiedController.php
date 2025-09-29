@@ -15,7 +15,7 @@ class AnalysisUnverifiedController extends Controller
         }
 
         if ($request->ajax()) {
-            $data = Analysis::where('is_verified', 0)->with(['material', 'user']);
+            $data = Analysis::where('is_verified', 0)->with(['material', 'user', 'analysisChangeRequest']);
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('material', function ($row) {
@@ -52,6 +52,10 @@ class AnalysisUnverifiedController extends Controller
                     if (Auth()->user()->role->akses_edit_analisa) {
                         $editUrl = route('analyses.edit', $row->id);
                         $buttons .= '<a href="' . $editUrl . '" target="_blank" class="btn btn-sm btn-warning">Edit</a>';
+                    }
+                    if (Auth()->user()->role->akses_ajukan_revisi_analisa && !$row->analysisChangeRequest) {
+                        $editUrl = route('analysisChangeRequest.propose', $row->id);
+                        $buttons .= '<a href="' . $editUrl . '" class="btn btn-sm btn-danger">Ajukan Revisi</a>';
                     }
                     $buttons .= '</div>';
                     return $buttons;

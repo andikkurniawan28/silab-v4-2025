@@ -62,6 +62,13 @@
                         </select>
                     </div>
 
+                    {{-- Telpon --}}
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Telpon</label>
+                        <input type="text" name="phone" id="phone" class="form-control"
+                            value="{{ old('phone') }}" required>
+                    </div>
+
                     <button type="submit" class="btn btn-success">
                         <i class="bi bi-save"></i> Simpan
                     </button>

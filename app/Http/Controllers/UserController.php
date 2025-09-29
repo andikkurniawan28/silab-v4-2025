@@ -75,6 +75,7 @@ class UserController extends Controller
             'name'         => 'required|string|max:255',
             'username'        => 'required|string|max:255|unique:users,username',
             'password'     => 'required|string|min:8|confirmed',
+            'phone'         => 'nullable',
         ]);
 
         User::create([
@@ -82,6 +83,7 @@ class UserController extends Controller
             'name'      => $request->name,
             'username'  => $request->username,
             'password'  => bcrypt($request->password),
+            'phone'     => $request->phone,
         ]);
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
@@ -104,14 +106,15 @@ class UserController extends Controller
         }
 
         $request->validate([
-            'role_id'      => 'required|exists:roles,id',
-            'name'         => 'required|string|max:255',
-            'username'        => 'required|string|max:255|unique:users,username,' . $user->id,
-            'password'     => 'nullable|string|min:8|confirmed',
-            'is_active'    => 'boolean',
+            'role_id'       => 'required|exists:roles,id',
+            'name'          => 'required|string|max:255',
+            'username'      => 'required|string|max:255|unique:users,username,' . $user->id,
+            'password'      => 'nullable|string|min:8|confirmed',
+            'is_active'     => 'boolean',
+            'phone'         => 'nullable',
         ]);
 
-        $data = $request->only(['role_id', 'name', 'username', 'is_active']);
+        $data = $request->only(['role_id', 'name', 'username', 'is_active', 'phone']);
 
         if ($request->filled('password')) {
             $data['password'] = bcrypt($request->password);
