@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\AnalisaOnFarm;
 use Yajra\DataTables\DataTables;
@@ -69,6 +70,8 @@ class AriTimbanganController extends Controller
         $ari_timbangan = AnalisaOnFarm::findOrFail($id);
         $ari_timbangan->update($request->except(['_token', '_method', 'id']));
 
+        ActivityLog::log(Auth()->user()->id, "Edit ARI Timbangan {$ari_timbangan}.");
+
         return redirect()->route('ari_timbangans.index')->with('success', 'ARI Timbangan berhasil diperbarui');
     }
 
@@ -79,6 +82,9 @@ class AriTimbanganController extends Controller
         }
 
         $ari_timbangan = AnalisaOnFarm::findOrFail($id);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus ARI Timbangan {$ari_timbangan}.");
+
         $ari_timbangan->delete();
 
         return redirect()->route('ari_timbangans.index')->with('success', 'ARI Timbangan berhasil dihapus');

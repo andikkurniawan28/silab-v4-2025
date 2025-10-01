@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Mollases;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -74,6 +75,10 @@ class MollasesController extends Controller
 
         Mollases::create($request->all());
 
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Timbangan Tetes {$data}.");
+
         return redirect()->route('mollases.index')->with('success', 'Timbangan Tetes berhasil ditambahkan.');
     }
 
@@ -101,6 +106,8 @@ class MollasesController extends Controller
 
         $mollase->update($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Edit Timbangan Tetes {$mollase}.");
+
         return redirect()->route('mollases.index')->with('success', 'Timbangan Tetes berhasil diperbarui.');
     }
 
@@ -110,7 +117,10 @@ class MollasesController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus Timbangan Tetes {$mollase}.");
+
         $mollase->delete();
+
         return redirect()->route('mollases.index')->with('success', 'Timbangan Tetes berhasil dihapus.');
     }
 }

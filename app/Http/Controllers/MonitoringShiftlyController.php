@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\MonitoringShiftly;
-use App\Models\MonitoringShiftlySpot;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Models\MonitoringShiftly;
+use App\Models\MonitoringShiftlySpot;
 
 class MonitoringShiftlyController extends Controller
 {
@@ -70,6 +71,7 @@ class MonitoringShiftlyController extends Controller
         }
 
         $spots = MonitoringShiftlySpot::select(['id', 'name'])->orderBy('id')->get();
+
         return view('monitoring_shiftlies.create', compact('spots'));
     }
 
@@ -80,7 +82,12 @@ class MonitoringShiftlyController extends Controller
         }
 
         $request->request->add(['user_id' => Auth()->user()->id]);
+
         MonitoringShiftly::create($request->all());
+
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Monitoring Pershift {$data}.");
 
         return redirect()->route('monitoring_shiftlies.index')->with('success', 'Monitoring Pershift berhasil diperbarui.');
     }
@@ -101,6 +108,8 @@ class MonitoringShiftlyController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Edit Monitoring Pershift {$monitoring_shiftly}.");
+
         $monitoring_shiftly->update($request->except(['_token', '_method']));
 
         return redirect()->route('monitoring_shiftlies.index')->with('success', 'Monitoring Pershift berhasil diperbarui.');
@@ -112,7 +121,10 @@ class MonitoringShiftlyController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus Monitoring Pershift {$monitoring_shiftly}.");
+
         $monitoring_shiftly->delete();
+
         return redirect()->route('monitoring_shiftlies.index')->with('success', 'Monitoring Pershift berhasil dihapus.');
     }
 }

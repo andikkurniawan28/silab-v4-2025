@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Models\ActivityLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -86,6 +87,9 @@ class UserController extends Controller
             'phone'     => $request->phone,
         ]);
 
+        $data = json_encode($request->all());
+        ActivityLog::log(Auth()->user()->id, "Tambah User {$data}.");
+
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
     }
 
@@ -123,6 +127,8 @@ class UserController extends Controller
         // Update user utama
         $user->update($data);
 
+        ActivityLog::log(Auth()->user()->id, "Edit User {$data}.");
+
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');
     }
 
@@ -132,7 +138,10 @@ class UserController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus User {$user}.");
+
         $user->delete();
+
         return redirect()->route('users.index')->with('success', 'User berhasil dihapus.');
     }
 }

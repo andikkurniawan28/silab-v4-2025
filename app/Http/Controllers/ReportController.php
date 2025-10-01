@@ -6,82 +6,122 @@ use App\Models\Item;
 use App\Models\BagTest;
 use App\Models\Analysis;
 use App\Models\Material;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\ParameterMaterial;
-use App\Models\StockTransactionDetail;
 use Illuminate\Support\Facades\DB;
+use App\Models\StockTransactionDetail;
 
 class ReportController extends Controller
 {
-    public function analysis(){
+    public function analysis()
+    {
         if ($response = $this->checkIzin('akses_laporan_analisa')) {
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Analisa.");
+
         return view('reports.analysis.index');
     }
 
-    public function process(){
+    public function process()
+    {
         if ($response = $this->checkIzin('akses_laporan_proses')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Proses.");
+
         return view('reports.process.index');
     }
 
-    public function posbrix(){
+    public function posbrix()
+    {
         if ($response = $this->checkIzin('akses_laporan_posbrix')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Posbrix.");
+
         return view('reports.posbrix.index');
     }
 
-    public function coreSample(){
+    public function coreSample()
+    {
         if ($response = $this->checkIzin('akses_laporan_core_sample')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Core Sample.");
+
         return view('reports.coreSample.index');
     }
 
-    public function ariTimbangan(){
+    public function ariTimbangan()
+    {
         if ($response = $this->checkIzin('akses_laporan_ari_timbangan')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan ARI Timbangan.");
+
         return view('reports.ariTimbangan.index');
     }
 
-    public function penilaianMbs(){
+    public function penilaianMbs()
+    {
         if ($response = $this->checkIzin('akses_laporan_penilaian_mbs')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Penilaian MBS.");
+
         return view('reports.penilaianMbs.index');
     }
 
-    public function coaTetes(){
+    public function coaTetes()
+    {
         if ($response = $this->checkIzin('akses_coa_tetes')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses COA Tetes.");
+
         return view('reports.coa_tetes.index');
     }
 
-    public function coaKapur(){
+    public function coaKapur()
+    {
         if ($response = $this->checkIzin('akses_coa_kapur')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses COA Kapur.");
+
         return view('reports.coa_kapur.index');
     }
 
-    public function ujiKarung(){
+    public function ujiKarung()
+    {
         if ($response = $this->checkIzin('akses_laporan_uji_karung')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Uji Karung.");
+
         return view('reports.uji_karung.index');
     }
 
-    public function mutasiBarang(){
+    public function mutasiBarang()
+    {
         if ($response = $this->checkIzin('akses_laporan_mutasi_barang')) {
             return $response;
         }
         $items = Item::select(['id', 'name'])->get();
+
+        ActivityLog::log(Auth()->user()->id, "Akses Laporan Mutasi Barang.");
+
         return view('reports.mutasi_barang.index', compact('items'));
     }
 
@@ -207,8 +247,8 @@ class ReportController extends Controller
             $selects[] = DB::raw("(SELECT SUM(msl.`$col`)
                                 FROM monitoring_shiftlies msl
                                 WHERE msl.date = '{$date}'" .
-                                ($shift !== 'harian' ? " AND msl.shift = '{$shift}'" : "") .
-                                ")
+                ($shift !== 'harian' ? " AND msl.shift = '{$shift}'" : "") .
+                ")
                                 as `$alias`");
         }
 
@@ -325,12 +365,12 @@ class ReportController extends Controller
         $time_end = date("Y-m-d H:i", strtotime($time_start . "+24 hours"));
 
         $methods = ParameterMaterial::with('parameter')
-            ->whereIn("material_id", [96,97,98])
+            ->whereIn("material_id", [96, 97, 98])
             ->select("parameter_id")
             ->distinct()
             ->get();
 
-        $samples = Material::whereIn("id", [96,97,98])
+        $samples = Material::whereIn("id", [96, 97, 98])
             ->select([
                 "id as code",
                 "name",
@@ -360,7 +400,7 @@ class ReportController extends Controller
         if ($response = $this->checkIzin('akses_coa_kapur')) {
             return $response;
         }
-        $date["current"] = $request->tanggal_pengujian." 06:00";
+        $date["current"] = $request->tanggal_pengujian . " 06:00";
         $date["tomorrow"] = date("Y-m-d H:i", strtotime($date["current"] . "+24 hours"));
         $data = Analysis::whereBetween('created_at', [$date['current'], $date['tomorrow']])
             ->whereIn('material_id', [40, 41])->orderBy('created_at', 'asc')->where('is_verified', 1)->get();
@@ -376,7 +416,7 @@ class ReportController extends Controller
         $data = BagTest::where('arrival_date', $request->arrival_date)->where('test_date', $request->test_date)
             ->where('batch', $request->batch)->get();
 
-         $collection = collect($data);
+        $collection = collect($data);
 
         $fields = [
             'p_nilai_outer',
@@ -470,8 +510,8 @@ class ReportController extends Controller
                 'qty'           => $row->qty,
                 'running_saldo' => $running,
                 'user'          => $row->stockTransaction && $row->stockTransaction->user
-                                    ? ['name' => $row->stockTransaction->user->name]
-                                    : ['name' => '-'],
+                    ? ['name' => $row->stockTransaction->user->name]
+                    : ['name' => '-'],
             ];
         });
 
@@ -484,7 +524,8 @@ class ReportController extends Controller
         ]);
     }
 
-    private function determineShift($date, $shift){
+    private function determineShift($date, $shift)
+    {
         switch (strtolower($shift)) {
             case 'harian':
                 $start = "{$date} 06:00:00";
@@ -526,7 +567,6 @@ class ReportController extends Controller
             $carry += $d * $d;
         }
 
-        return number_format(sqrt($carry / ($sample ? ($n - 1) : $n)),2);
+        return number_format(sqrt($carry / ($sample ? ($n - 1) : $n)), 2);
     }
-
 }

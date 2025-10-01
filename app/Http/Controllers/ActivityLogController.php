@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ActivityLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class ActivityLogController extends Controller
 {
@@ -24,6 +25,11 @@ class ActivityLogController extends Controller
                 ->addColumn('created_at', function ($row) {
                     return $row->created_at
                         ? $row->created_at->format('d-m-Y H:i')
+                        : '-';
+                })
+                ->addColumn('description', function ($row) {
+                    return $row->description
+                        ? Str::limit($row->description, 75, '...')
                         : '-';
                 })
                 ->make(true);

@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\MonitoringHourly;
-use App\Models\MonitoringHourlySpot;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use App\Models\MonitoringHourly;
 use Yajra\DataTables\DataTables;
+use App\Models\MonitoringHourlySpot;
 
 class MonitoringHourlyController extends Controller
 {
@@ -93,6 +94,10 @@ class MonitoringHourlyController extends Controller
 
         MonitoringHourly::create($request->except(['date', 'time']));
 
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Monitoring Perjam {$data}.");
+
         return redirect()->route('monitoring_hourlies.index')->with('success', 'Monitoring Perjam berhasil diperbarui.');
     }
 
@@ -121,6 +126,8 @@ class MonitoringHourlyController extends Controller
 
         $monitoring_hourly->update($request->except(['_token', '_method', 'date', 'time']));
 
+        ActivityLog::log(Auth()->user()->id, "Edit Monitoring Perjam {$monitoring_hourly}.");
+
         return redirect()->route('monitoring_hourlies.index')->with('success', 'Monitoring Perjam berhasil diperbarui.');
     }
 
@@ -130,7 +137,10 @@ class MonitoringHourlyController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus Monitoring Perjam {$monitoring_hourly}.");
+
         $monitoring_hourly->delete();
+
         return redirect()->route('monitoring_hourlies.index')->with('success', 'Monitoring Perjam berhasil dihapus.');
     }
 }

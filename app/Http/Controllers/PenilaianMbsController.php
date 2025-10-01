@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\Impurity;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\AnalisaOnFarm;
-use App\Models\Impurity;
 use Yajra\DataTables\DataTables;
 
 class PenilaianMbsController extends Controller
@@ -92,6 +93,8 @@ class PenilaianMbsController extends Controller
         $penilaian_mbs = AnalisaOnFarm::findOrFail($id);
         $penilaian_mbs->update($request->except(['_token', '_method', 'id']));
 
+        ActivityLog::log(Auth()->user()->id, "Edit Penilaian MBS {$penilaian_mbs}.");
+
         return redirect()->route('penilaian_mbss.index')->with('success', 'Penilaian MBS berhasil diperbarui');
     }
 
@@ -102,6 +105,9 @@ class PenilaianMbsController extends Controller
         }
 
         $penilaian_mbs = AnalisaOnFarm::findOrFail($id);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Penilaian MBS {$penilaian_mbs}.");
+
         $penilaian_mbs->delete();
 
         return redirect()->route('penilaian_mbss.index')->with('success', 'Penilaian MBS berhasil dihapus');

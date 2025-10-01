@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\CoreCard;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -58,6 +59,9 @@ class CoreCardController extends Controller
 
         CoreCard::create($request->all());
 
+        $data = json_encode($request->all());
+        ActivityLog::log(Auth()->user()->id, "Input Gelas Core {$data}.");
+
         return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil ditambahkan.');
     }
 
@@ -82,6 +86,8 @@ class CoreCardController extends Controller
 
         $core_card->update($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Edit Gelas Core {$core_card}.");
+
         return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil diperbarui.');
     }
 
@@ -92,6 +98,9 @@ class CoreCardController extends Controller
         }
 
         $core_card->delete();
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Gelas Core {$core_card}.");
+
         return redirect()->route('core_cards.index')->with('success', 'Gelas Core berhasil dihapus.');
     }
 }

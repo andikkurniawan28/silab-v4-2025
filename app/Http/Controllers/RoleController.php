@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -74,6 +75,8 @@ class RoleController extends Controller
 
         Role::create($data);
 
+        ActivityLog::log(Auth()->user()->id, "Tambah Jabatan {$data}.");
+
         return redirect()->route('roles.index')->with('success', 'Jabatan berhasil ditambahkan.');
     }
 
@@ -106,6 +109,8 @@ class RoleController extends Controller
 
         $role->update($data);
 
+        ActivityLog::log(Auth()->user()->id, "Edit Jabatan {$data}.");
+
         return redirect()->route('roles.index')->with('success', 'Jabatan berhasil diperbarui.');
     }
 
@@ -114,6 +119,8 @@ class RoleController extends Controller
         if ($response = $this->checkIzin('akses_hapus_jabatan')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Jabatan {$role}.");
 
         $role->delete();
 

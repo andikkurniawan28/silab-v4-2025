@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\ActivityLog;
 use App\Models\SugarBagging;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -71,6 +72,10 @@ class SugarBaggingController extends Controller
         $request->request->add(['user_id' => Auth()->user()->id, 'time' => $formattedTime]);
         SugarBagging::create($request->all());
 
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Gula dikarungi {$data}.");
+
         return redirect()->route('sugar_baggings.index')->with('success', 'Gula Dikarungi berhasil diperbarui.');
     }
 
@@ -89,6 +94,8 @@ class SugarBaggingController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Edit Gula dikarungi {$sugar_bagging}.");
+
         $sugar_bagging->update($request->except(['_token', '_method']));
 
         return redirect()->route('sugar_baggings.index')->with('success', 'Gula Dikarungi berhasil diperbarui.');
@@ -100,7 +107,10 @@ class SugarBaggingController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus Gula dikarungi {$sugar_bagging}.");
+
         $sugar_bagging->delete();
+
         return redirect()->route('sugar_baggings.index')->with('success', 'Gula Dikarungi berhasil dihapus.');
     }
 }

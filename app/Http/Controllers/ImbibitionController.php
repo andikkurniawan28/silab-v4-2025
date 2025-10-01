@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Flow;
 use App\Models\FlowSpot;
 use App\Models\Imbibition;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -127,6 +128,10 @@ class ImbibitionController extends Controller
 
         Imbibition::create($request->except(['date', 'time']));
 
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Imbibisi {$data}.");
+
         return redirect()
             ->route('imbibisi.index')
             ->with('success', 'Imbibisi berhasil disimpan.');
@@ -177,6 +182,10 @@ class ImbibitionController extends Controller
             ]
         ));
 
+        $data = json_encode($flow);
+
+        ActivityLog::log(Auth()->user()->id, "Edit Imbibisi {$data}.");
+
         return redirect()
             ->route('imbibisi.index')
             ->with('success', 'Imbibisi berhasil diperbarui.');
@@ -190,6 +199,11 @@ class ImbibitionController extends Controller
         }
 
         $monitoring = Imbibition::findOrFail($id);
+
+        $data = json_encode($monitoring);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Imbibisi {$data}.");
+
         $monitoring->delete();
 
         return redirect()

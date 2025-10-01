@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\AnalisaOnFarm;
 use Yajra\DataTables\DataTables;
@@ -69,6 +70,8 @@ class CoreSampleController extends Controller
         $core_sample = AnalisaOnFarm::findOrFail($id);
         $core_sample->update($request->except(['_token', '_method', 'id']));
 
+        ActivityLog::log(Auth()->user()->id, "Edit Core Sample {$core_sample}.");
+
         return redirect()->route('core_samples.index')->with('success', 'Core Sample berhasil diperbarui');
     }
 
@@ -79,6 +82,9 @@ class CoreSampleController extends Controller
         }
 
         $core_sample = AnalisaOnFarm::findOrFail($id);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Core Sample {$core_sample}.");
+
         $core_sample->delete();
 
         return redirect()->route('core_samples.index')->with('success', 'Core Sample berhasil dihapus');

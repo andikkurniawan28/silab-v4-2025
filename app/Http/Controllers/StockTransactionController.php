@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\StockTransaction;
-use App\Models\StockTransactionDetail;
 use App\Models\Item;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use App\Models\StockTransaction;
 use Yajra\DataTables\DataTables;
+use App\Models\StockTransactionDetail;
 
 class StockTransactionController extends Controller
 {
@@ -96,6 +97,11 @@ class StockTransactionController extends Controller
             ]);
         }
 
+
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Transaksi Stok {$data}.");
+
         return redirect()
             ->route('stock_transactions.index')
             ->with('success', 'Transaksi stok berhasil disimpan.');
@@ -106,6 +112,8 @@ class StockTransactionController extends Controller
         if ($response = $this->checkIzin('akses_hapus_transaksi_stok')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Transaksi Stok {$stock_transaction}.");
 
         $stock_transaction->delete();
 

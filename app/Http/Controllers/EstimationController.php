@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Estimation;
-use App\Models\EstimationSpot;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use App\Models\EstimationSpot;
 use Yajra\DataTables\DataTables;
 
 class EstimationController extends Controller
@@ -75,6 +76,7 @@ class EstimationController extends Controller
         }
 
         $spots = EstimationSpot::orderBy('id')->get();
+
         return view('estimations.create', compact('spots'));
     }
 
@@ -85,7 +87,12 @@ class EstimationController extends Controller
         }
 
         $request->request->add(['user_id' => Auth()->user()->id]);
+
         Estimation::create($request->all());
+
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Taksasi Proses {$data}.");
 
         return redirect()->route('estimations.index')->with('success', 'Taksasi Proses berhasil diperbarui.');
     }
@@ -106,6 +113,8 @@ class EstimationController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Edit Taksasi Proses {$estimation}.");
+
         $estimation->update($request->except(['_token', '_method']));
 
         return redirect()->route('estimations.index')->with('success', 'Taksasi Proses berhasil diperbarui.');
@@ -117,7 +126,10 @@ class EstimationController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus Taksasi Proses {$estimation}.");
+
         $estimation->delete();
+
         return redirect()->route('estimations.index')->with('success', 'Taksasi Proses berhasil dihapus.');
     }
 }

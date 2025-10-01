@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\AriCard;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -58,6 +59,9 @@ class AriCardController extends Controller
 
         AriCard::create($request->all());
 
+        $data = json_encode($request->all());
+        ActivityLog::log(Auth()->user()->id, "Input Gelas ARI {$data}.");
+
         return redirect()->route('ari_cards.index')->with('success', 'Gelas Ari berhasil ditambahkan.');
     }
 
@@ -82,6 +86,8 @@ class AriCardController extends Controller
 
         $ari_card->update($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Edit Gelas ARI {$ari_card}.");
+
         return redirect()->route('ari_cards.index')->with('success', 'Gelas Ari berhasil diperbarui.');
     }
 
@@ -90,6 +96,8 @@ class AriCardController extends Controller
         if ($response = $this->checkIzin('akses_hapus_gelas_ari')) {
             return $response;
         }
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Gelas ARI {$ari_card}.");
 
         $ari_card->delete();
         return redirect()->route('ari_cards.index')->with('success', 'Gelas Ari berhasil dihapus.');

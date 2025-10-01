@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Kawalan;
 use App\Models\Variety;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use App\Models\AnalisaOnFarm;
 use Yajra\DataTables\DataTables;
@@ -79,6 +80,9 @@ class PosbrixController extends Controller
 
         AnalisaOnFarm::create($validated);
 
+        $data = json_encode($validated);
+        ActivityLog::log(Auth()->user()->id, "Input Posbrix {$data}.");
+
         return redirect()->route('posbrixes.index')->with('success', 'Posbrix berhasil disimpan');
     }
 
@@ -112,6 +116,8 @@ class PosbrixController extends Controller
         $posbrix = AnalisaOnFarm::findOrFail($id);
         $posbrix->update($validated);
 
+        ActivityLog::log(Auth()->user()->id, "Edit Posbrix {$posbrix}.");
+
         return redirect()->route('posbrixes.index')->with('success', 'Posbrix berhasil diperbarui');
     }
 
@@ -122,6 +128,9 @@ class PosbrixController extends Controller
         }
 
         $posbrix = AnalisaOnFarm::findOrFail($id);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Posbrix {$posbrix}.");
+
         $posbrix->delete();
 
         return redirect()->route('posbrixes.index')->with('success', 'Posbrix berhasil dihapus');
