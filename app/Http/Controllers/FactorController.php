@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Factor;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -67,6 +68,8 @@ class FactorController extends Controller
 
         Factor::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat faktor {$request->name} dengan nilai {$request->value}.");
+
         return redirect()->route('factors.index')->with('success', 'Faktor berhasil ditambahkan.');
     }
 
@@ -90,6 +93,8 @@ class FactorController extends Controller
             'value'         => 'required|numeric',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti faktor {$factor->name} ke {$request->value}.");
+
         $factor->update($request->all());
 
         return redirect()->route('factors.index')->with('success', 'Faktor berhasil diperbarui.');
@@ -101,7 +106,10 @@ class FactorController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus faktor {$factor->name}.");
+
         $factor->delete();
+
         return redirect()->route('factors.index')->with('success', 'Faktor berhasil dihapus.');
     }
 }

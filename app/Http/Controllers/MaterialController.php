@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\Station;
 use App\Models\Material;
 use App\Models\Parameter;
@@ -78,6 +79,7 @@ class MaterialController extends Controller
         }
 
         $stations = Station::pluck('name', 'id');
+
         $parameters = Parameter::all();
 
         return view('materials.create', compact('stations', 'parameters'));
@@ -103,10 +105,11 @@ class MaterialController extends Controller
             'is_active'  => $request->boolean('is_active', true),
         ]);
 
-        // simpan parameter ke pivot
         if ($request->has('parameters')) {
             $material->parameters()->sync($request->parameters);
         }
+
+        ActivityLog::log(Auth()->user()->id, "Membuat material {$request->name}.");
 
         return redirect()->route('materials.index')->with('success', 'Material berhasil ditambahkan.');
     }
@@ -118,7 +121,9 @@ class MaterialController extends Controller
         }
 
         $stations = Station::pluck('name', 'id');
+
         $parameters = Parameter::all();
+
         $selected   = $material->parameters->pluck('id')->toArray();
 
         return view('materials.edit', compact('material', 'stations', 'parameters', 'selected'));
@@ -139,6 +144,8 @@ class MaterialController extends Controller
             'parameters.*' => 'exists:parameters,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti material {$material->name} ke {$request->name}.");
+
         $material->update([
             'station_id' => $request->station_id,
             'name'       => $request->name,
@@ -157,7 +164,10 @@ class MaterialController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus material {$material->name}.");
+
         $material->parameters()->detach();
+
         $material->delete();
 
         return redirect()->route('materials.index')->with('success', 'Material berhasil dihapus.');

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\Station;
 use App\Models\Analysis;
 use App\Models\Material;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -39,6 +40,11 @@ class BarcodePrintingController extends Controller
             'user_id' => Auth()->user()->id,
             'created_at' => $createdAt,
         ]);
+
+        $material = Material::whereId($sample->material_id)->get()->last()->name;
+
+        ActivityLog::log(Auth()->user()->id, "Cetak barcode {$sample->id} - {$material}.");
+
         return view('barcode_printing.show', compact('sample'));
     }
 
@@ -48,6 +54,9 @@ class BarcodePrintingController extends Controller
         }
 
         $sample = Analysis::whereId($analysis_id)->get()->last();
+
+        ActivityLog::log(Auth()->user()->id, "Cetak ulang barcode {$analysis_id}.");
+
         return view('barcode_printing.show', compact('sample'));
     }
 
@@ -102,6 +111,8 @@ class BarcodePrintingController extends Controller
                 ->make(true);
         }
 
+        // ActivityLog::log(Auth()->user()->id, "Akses daftar barcode.");
+
         return view('barcode_printing.list');
     }
 
@@ -111,6 +122,7 @@ class BarcodePrintingController extends Controller
         }
 
         $sample = Analysis::select(['id', 'created_at'])->whereId($sample_id)->get()->last();
+
         return view('barcode_printing.edit_timestamp', compact('sample'));
     }
 
@@ -120,6 +132,9 @@ class BarcodePrintingController extends Controller
         }
 
         Analysis::whereId($sample_id)->update(['created_at' => $request->created_at]);
+
+        ActivityLog::log(Auth()->user()->id, "Edit timestamp barcode {$sample_id} ke {$request->created_at}.");
+
         return redirect()->route('barcode_printing.list')->with('success', 'Timestamp berhasil diupdate');
     }
 
@@ -134,6 +149,7 @@ class BarcodePrintingController extends Controller
             ->orderBy('id')->get();
 
         $sample = Analysis::select(['id', 'material_id'])->whereId($sample_id)->get()->last();
+
         return view('barcode_printing.edit_material', compact('materials', 'sample'));
     }
 
@@ -143,6 +159,11 @@ class BarcodePrintingController extends Controller
         }
 
         Analysis::whereId($sample_id)->update(['material_id' => $request->material_id]);
+
+        $material = Material::whereId($request->material_id)->get()->last()->name;
+
+        ActivityLog::log(Auth()->user()->id, "Edit material barcode {$sample_id} ke {$material}.");
+
         return redirect()->route('barcode_printing.list')->with('success', 'Material berhasil diupdate');
     }
 }

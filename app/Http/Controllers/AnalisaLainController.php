@@ -6,6 +6,7 @@ use App\Models\Factor;
 use App\Models\Analysis;
 use App\Models\Material;
 use App\Models\Parameter;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -84,6 +85,8 @@ class AnalisaLainController extends Controller
             $analysis->$fieldName = $request->$fieldName;
         }
         $analysis->save();
+        $data = json_encode($request);
+        ActivityLog::log(Auth()->user()->id, "Input Analisa Lain barcode {$request->id} {$data}.");
         return redirect()->route('analisa_lain.index')->with('success', 'Data berhasil disimpan');
     }
 }

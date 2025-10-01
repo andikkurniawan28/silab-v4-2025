@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MonitoringHourlySpot;
 use App\Models\Unit;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Models\MonitoringHourlySpot;
 
 class MonitoringHourlySpotController extends Controller
 {
@@ -55,6 +56,7 @@ class MonitoringHourlySpotController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('monitoring_hourly_spots.create', compact('units'));
     }
 
@@ -71,6 +73,8 @@ class MonitoringHourlySpotController extends Controller
 
         MonitoringHourlySpot::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat titik monitoring perjam {$request->name}.");
+
         return redirect()->route('monitoring_hourly_spots.index')->with('success', 'Titik Monitoring Perjam berhasil ditambahkan.');
     }
 
@@ -81,6 +85,7 @@ class MonitoringHourlySpotController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('monitoring_hourly_spots.edit', compact('monitoring_hourly_spot', 'units'));
     }
 
@@ -95,6 +100,8 @@ class MonitoringHourlySpotController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti titik monitoring perjam {$monitoring_hourly_spot->name} ke {$request->name}.");
+
         $monitoring_hourly_spot->update($request->all());
 
         return redirect()->route('monitoring_hourly_spots.index')->with('success', 'Titik Monitoring Perjam berhasil diperbarui.');
@@ -106,7 +113,10 @@ class MonitoringHourlySpotController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus titik monitoring perjam {$monitoring_hourly_spot->name}.");
+
         $monitoring_hourly_spot->delete();
+
         return redirect()->route('monitoring_hourly_spots.index')->with('success', 'Titik Monitoring Perjam berhasil dihapus.');
     }
 }

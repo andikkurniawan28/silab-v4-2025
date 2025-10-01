@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Factor;
 use App\Models\Analysis;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -79,6 +80,8 @@ class AnalisaAmpasMetodeDinginController extends Controller
             'p8' => $request->zat_kering,
             'p10' => $request->pol_ampas,
         ]);
+        $data = json_encode($request);
+        ActivityLog::log(Auth()->user()->id, "Input Analisa Ampas Metode John Payne barcode {$request->id} {$data}.");
         return redirect()->back()->with('success', 'Data berhasil disimpan');
     }
 }

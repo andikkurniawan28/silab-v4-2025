@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Kawalan;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,6 +67,8 @@ class KawalanController extends Controller
 
         Kawalan::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat kawalan tebu {$request->name}.");
+
         return redirect()->route('kawalans.index')->with('success', 'Kawalan Tebu berhasil ditambahkan.');
     }
 
@@ -88,6 +91,8 @@ class KawalanController extends Controller
             'name'          => 'required|string|max:255',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti kawalan tebu {$kawalan->name} ke {$request->name}.");
+
         $kawalan->update($request->all());
 
         return redirect()->route('kawalans.index')->with('success', 'Kawalan Tebu berhasil diperbarui.');
@@ -99,7 +104,10 @@ class KawalanController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus kawalan tebu {$kawalan->name}.");
+
         $kawalan->delete();
+
         return redirect()->route('kawalans.index')->with('success', 'Kawalan Tebu berhasil dihapus.');
     }
 }

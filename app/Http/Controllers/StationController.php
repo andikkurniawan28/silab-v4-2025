@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use Carbon\Carbon;
 use App\Models\Station;
 use Illuminate\Http\Request;
@@ -66,6 +67,8 @@ class StationController extends Controller
 
         Station::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat stasiun {$request->name}.");
+
         return redirect()->route('stations.index')->with('success', 'Stasiun berhasil ditambahkan.');
     }
 
@@ -84,11 +87,15 @@ class StationController extends Controller
             return $response;
         }
 
+        $old_data = Station::whereId($station->id)->get()->last();
+
         $request->validate([
             'name'          => 'required|string|max:255',
         ]);
 
         $station->update($request->all());
+
+        ActivityLog::log(Auth()->user()->id, "Ganti stasiun {$old_data->name} ke {$request->name}.");
 
         return redirect()->route('stations.index')->with('success', 'Stasiun berhasil diperbarui.');
     }
@@ -99,7 +106,12 @@ class StationController extends Controller
             return $response;
         }
 
+        $old_data = Station::whereId($station->id)->get()->last();
+
+        ActivityLog::log(Auth()->user()->id, "Hapus stasiun {$old_data->name}.");
+
         $station->delete();
+
         return redirect()->route('stations.index')->with('success', 'Stasiun berhasil dihapus.');
     }
 }

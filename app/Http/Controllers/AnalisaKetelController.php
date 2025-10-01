@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Analysis;
 use App\Models\Material;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -96,6 +97,9 @@ class AnalisaKetelController extends Controller
         }
 
         $analysis->update($updates);
+
+        $data = json_encode($request);
+        ActivityLog::log(Auth()->user()->id, "Input Analisa Ketel barcode {$request->id} {$data}.");
 
         return redirect()
             ->back()

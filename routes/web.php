@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -190,3 +191,4 @@ Route::get('analysis_change_request/{analysis}', [AnalysisChangeRequestControlle
 Route::post('analysis_change_request/{analysis}', [AnalysisChangeRequestController::class, 'process'])->name('analysisChangeRequest.process')->middleware(['auth']);
 Route::get('analysis_change_request/close/{id}', [AnalysisChangeRequestController::class, 'close'])->name('analysisChangeRequest.close');
 Route::get('analysis_change_request/closeAksesMobile/{id}', [AnalysisChangeRequestController::class, 'closeAksesMobile'])->name('analysisChangeRequest.closeAksesMobile');
+Route::get('activity_logs', [ActivityLogController::class, 'index'])->name('activityLogs.index');

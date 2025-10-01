@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +32,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+            ActivityLog::log(Auth()->user()->id, "Login ke sistem.");
             return redirect()->intended();
         }
 
@@ -40,6 +42,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        ActivityLog::log(Auth()->user()->id, "Logout dari sistem.");
         Auth::logout();
 
         $request->session()->invalidate();
@@ -55,6 +58,8 @@ class AuthController extends Controller
 
     public function changePasswordProcess(Request $request)
     {
+        ActivityLog::log(Auth()->user()->id, "Ganti password.");
+
         $request->validate([
             'password'              => 'required|string|min:8|confirmed',
         ], [

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Region;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,6 +67,8 @@ class RegionController extends Controller
 
         Region::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat wilayah {$request->name}.");
+
         return redirect()->route('regions.index')->with('success', 'Wilayah berhasil ditambahkan.');
     }
 
@@ -88,6 +91,8 @@ class RegionController extends Controller
             'name'          => 'required|string|max:255',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti wilayah {$region->name} ke {$request->name}.");
+
         $region->update($request->all());
 
         return redirect()->route('regions.index')->with('success', 'Wilayah berhasil diperbarui.');
@@ -99,7 +104,10 @@ class RegionController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus wilayah {$region->name}.");
+
         $region->delete();
+
         return redirect()->route('regions.index')->with('success', 'Wilayah berhasil dihapus.');
     }
 }

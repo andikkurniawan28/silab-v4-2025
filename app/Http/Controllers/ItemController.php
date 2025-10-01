@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use App\Models\Unit;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -61,6 +62,7 @@ class ItemController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('items.create', compact('units'));
     }
 
@@ -77,6 +79,8 @@ class ItemController extends Controller
 
         Item::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat barang {$request->name}.");
+
         return redirect()->route('items.index')->with('success', 'Barang berhasil ditambahkan.');
     }
 
@@ -87,6 +91,7 @@ class ItemController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('items.edit', compact('item', 'units'));
     }
 
@@ -101,6 +106,8 @@ class ItemController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti barang {$item->name} ke {$request->name}.");
+
         $item->update($request->all());
 
         return redirect()->route('items.index')->with('success', 'Barang berhasil diperbarui.');
@@ -112,7 +119,10 @@ class ItemController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus barang {$item->name}.");
+
         $item->delete();
+
         return redirect()->route('items.index')->with('success', 'Barang berhasil dihapus.');
     }
 }

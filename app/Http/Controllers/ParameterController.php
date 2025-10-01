@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Parameter;
 use App\Models\Unit;
+use App\Models\Parameter;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -55,6 +56,7 @@ class ParameterController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('parameters.create', compact('units'));
     }
 
@@ -71,6 +73,10 @@ class ParameterController extends Controller
 
         Parameter::create($request->all());
 
+        $unit = Unit::whereId($request->unit_id)->get()->last();
+
+        ActivityLog::log(Auth()->user()->id, "Membuat parameter {$request->name} dengan satuan {$unit->name}.");
+
         return redirect()->route('parameters.index')->with('success', 'Parameter berhasil ditambahkan.');
     }
 
@@ -81,6 +87,7 @@ class ParameterController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('parameters.edit', compact('parameter', 'units'));
     }
 
@@ -90,12 +97,18 @@ class ParameterController extends Controller
             return $response;
         }
 
+        $old_data = Parameter::with(['unit'])->whereId($parameter->id)->get()->last();
+
         $request->validate([
             'name'    => 'required|string|max:255',
             'unit_id' => 'required|exists:units,id',
         ]);
 
         $parameter->update($request->all());
+
+        $unit = Unit::whereId($request->unit_id)->get()->last();
+
+        ActivityLog::log(Auth()->user()->id, "Ganti parameter {$old_data->name} ke {$request->name}, satuan {$old_data->unit->name} ke {$unit->name}.");
 
         return redirect()->route('parameters.index')->with('success', 'Parameter berhasil diperbarui.');
     }
@@ -107,6 +120,9 @@ class ParameterController extends Controller
         }
 
         $parameter->delete();
+
+        ActivityLog::log(Auth()->user()->id, "Hapus parameter {$parameter->name}.");
+
         return redirect()->route('parameters.index')->with('success', 'Parameter berhasil dihapus.');
     }
 }

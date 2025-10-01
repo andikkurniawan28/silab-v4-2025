@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use App\Models\FlowSpot;
 use App\Models\Unit;
 use Illuminate\Http\Request;
@@ -69,6 +70,8 @@ class FlowSpotController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Membuat titik flow {$request->name}.");
+
         FlowSpot::create($request->all());
 
         return redirect()->route('flow_spots.index')->with('success', 'Titik Flow berhasil ditambahkan.');
@@ -81,6 +84,7 @@ class FlowSpotController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('flow_spots.edit', compact('flow_spot', 'units'));
     }
 
@@ -95,6 +99,8 @@ class FlowSpotController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti titik flow {$flow_spot->name} ke {$request->name}.");
+
         $flow_spot->update($request->all());
 
         return redirect()->route('flow_spots.index')->with('success', 'Titik Flow berhasil diperbarui.');
@@ -106,7 +112,10 @@ class FlowSpotController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus titik flow {$flow_spot->name}.");
+
         $flow_spot->delete();
+
         return redirect()->route('flow_spots.index')->with('success', 'Titik Flow berhasil dihapus.');
     }
 }

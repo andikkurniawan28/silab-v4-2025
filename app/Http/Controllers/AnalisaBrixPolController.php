@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Factor;
 use App\Models\Analysis;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -61,6 +62,8 @@ class AnalisaBrixPolController extends Controller
             'p3' => $request->p3,
             'p4' => $request->p4,
         ]);
+        $data = json_encode($request);
+        ActivityLog::log(Auth()->user()->id, "Input Analisa brix pol barcode {$request->id} {$data}.");
         return redirect()->route('analisa_brix_pol.index')->with('success', 'Data berhasil disimpan');
     }
 }

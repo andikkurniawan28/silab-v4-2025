@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EstimationSpot;
 use App\Models\Unit;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use App\Models\EstimationSpot;
 use Yajra\DataTables\DataTables;
 
 class EstimationSpotController extends Controller
@@ -71,6 +72,8 @@ class EstimationSpotController extends Controller
 
         EstimationSpot::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat titik taksasi {$request->name}.");
+
         return redirect()->route('estimation_spots.index')->with('success', 'Titik Taksasi berhasil ditambahkan.');
     }
 
@@ -81,6 +84,7 @@ class EstimationSpotController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('estimation_spots.edit', compact('estimation_spot', 'units'));
     }
 
@@ -95,6 +99,8 @@ class EstimationSpotController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti titik taksasi {$estimation_spot->name} ke {$request->name}.");
+
         $estimation_spot->update($request->all());
 
         return redirect()->route('estimation_spots.index')->with('success', 'Titik Taksasi berhasil diperbarui.');
@@ -106,7 +112,10 @@ class EstimationSpotController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus titik taksasi {$estimation_spot->name}.");
+
         $estimation_spot->delete();
+
         return redirect()->route('estimation_spots.index')->with('success', 'Titik Taksasi berhasil dihapus.');
     }
 }

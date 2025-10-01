@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\BagTest;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -180,6 +181,8 @@ class BagTestController extends Controller
                 'user_id' => auth()->id(),
             ]);
         }
+        $data = json_encode($request->dimensi);
+        ActivityLog::log(Auth()->user()->id, "Input Uji Karung {$data}.");
 
         return redirect()->route('bag_tests.index')->with('success', 'Uji Karung berhasil disimpan');
     }
@@ -201,6 +204,10 @@ class BagTestController extends Controller
 
         $bag_test->update($request->except(['_token', '_method']));
 
+        $data = json_encode($bag_test);
+
+        ActivityLog::log(Auth()->user()->id, "Edit Uji Karung {$data}.");
+
         return redirect()->route('bag_tests.index')->with('success', 'Uji Karung berhasil diperbarui.');
     }
 
@@ -209,6 +216,9 @@ class BagTestController extends Controller
         if ($response = $this->checkIzin('akses_hapus_uji_karung')) {
             return $response;
         }
+
+        $data = json_encode($bag_test);
+        ActivityLog::log(Auth()->user()->id, "Hapus Uji Karung {$data}.");
 
         $bag_test->delete();
         return redirect()->route('bag_tests.index')->with('success', 'Uji Karung berhasil dihapus.');

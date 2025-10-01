@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MonitoringShiftlySpot;
 use App\Models\Unit;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use App\Models\MonitoringShiftlySpot;
 
 class MonitoringShiftlySpotController extends Controller
 {
@@ -71,6 +72,8 @@ class MonitoringShiftlySpotController extends Controller
 
         MonitoringShiftlySpot::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat titik monitoring pershift {$request->name}.");
+
         return redirect()->route('monitoring_shiftly_spots.index')->with('success', 'Titik Monitoring Pershift berhasil ditambahkan.');
     }
 
@@ -81,6 +84,7 @@ class MonitoringShiftlySpotController extends Controller
         }
 
         $units = Unit::pluck('name', 'id');
+
         return view('monitoring_shiftly_spots.edit', compact('monitoring_shiftly_spot', 'units'));
     }
 
@@ -95,6 +99,8 @@ class MonitoringShiftlySpotController extends Controller
             'unit_id' => 'required|exists:units,id',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti titik monitoring pershift {$monitoring_shiftly_spot->name} ke {$request->name}.");
+
         $monitoring_shiftly_spot->update($request->all());
 
         return redirect()->route('monitoring_shiftly_spots.index')->with('success', 'Titik Monitoring Pershift berhasil diperbarui.');
@@ -106,7 +112,10 @@ class MonitoringShiftlySpotController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus titik monitoring pershift {$monitoring_shiftly_spot->name}.");
+
         $monitoring_shiftly_spot->delete();
+
         return redirect()->route('monitoring_shiftly_spots.index')->with('success', 'Titik Monitoring Pershift berhasil dihapus.');
     }
 }

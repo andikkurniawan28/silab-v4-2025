@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Factor;
 use App\Models\Analysis;
 use App\Models\Parameter;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -104,7 +105,7 @@ class AnalysisController extends Controller
         $analysis->reef = $request->input('reef');
         $analysis->nopol = $request->input('nopol');
 
-        $parameters = \App\Models\ParameterMaterial::where('material_id', $analysis->material_id)->get();
+        $parameters = ParameterMaterial::where('material_id', $analysis->material_id)->get();
 
         foreach ($parameters as $pm) {
             $colName = 'p' . $pm->parameter_id;
@@ -115,6 +116,8 @@ class AnalysisController extends Controller
 
         $analysis->save();
 
+        ActivityLog::log(Auth()->user()->id, "Edit analisa barcode {$analysis->id}.");
+
         return redirect()->route('analyses.index')->with('success', 'Analisa berhasil diperbarui.');
     }
 
@@ -124,7 +127,10 @@ class AnalysisController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus analisa barcode {$analysis->id}.");
+
         $analysis->delete();
+
         return redirect()->back()->with('success', 'Analisa berhasil dihapus.');
     }
 }

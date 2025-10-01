@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Station;
 use App\Models\Analysis;
 use App\Models\Material;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,9 @@ class ResultController extends Controller
         }
 
         $station = Station::findOrFail($station_id);
+
+        ActivityLog::log(Auth()->user()->id, "Akses hasil analisa {$station->name}.");
+
         return view('results.perstation', compact('station'));
     }
 
@@ -73,7 +77,11 @@ class ResultController extends Controller
         if ($response = $this->checkIzin('akses_hasil_analisa_per_material')) {
             return $response;
         }
+
         $material = Material::with('parameters')->findOrFail($material_id);
+
+        ActivityLog::log(Auth()->user()->id, "Akses hasil analisa {$material->name}.");
+
         return view('results.permaterial', compact('material'));
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Unit;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,6 +67,8 @@ class UnitController extends Controller
 
         Unit::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat satuan {$request->name}.");
+
         return redirect()->route('units.index')->with('success', 'Satuan berhasil ditambahkan.');
     }
 
@@ -84,9 +87,13 @@ class UnitController extends Controller
             return $response;
         }
 
+        $old_data = Unit::whereId($unit->id)->get()->last();
+
         $request->validate([
             'name'          => 'required|string|max:255',
         ]);
+
+        ActivityLog::log(Auth()->user()->id, "Ganti satuan {$old_data->name} ke {$request->name}.");
 
         $unit->update($request->all());
 
@@ -99,7 +106,12 @@ class UnitController extends Controller
             return $response;
         }
 
+        $old_data = Unit::whereId($unit->id)->get()->last();
+
+        ActivityLog::log(Auth()->user()->id, "Hapus satuan {$old_data->name}.");
+
         $unit->delete();
+
         return redirect()->route('units.index')->with('success', 'Satuan berhasil dihapus.');
     }
 }

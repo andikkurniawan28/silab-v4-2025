@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use App\Models\Flow;
-use Yajra\DataTables\DataTables;
 use App\Models\FlowSpot;
+use App\Models\ActivityLog;
+use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class FlowNMController extends Controller
 {
@@ -122,6 +123,10 @@ class FlowNMController extends Controller
 
         Flow::create($request->except(['date', 'time']));
 
+        $data = json_encode($request);
+
+        ActivityLog::log(Auth()->user()->id, "Input Flow {$data}.");
+
         return redirect()
             ->route('flow_nm.index')
             ->with('success', 'Flow NM berhasil disimpan.');
@@ -172,6 +177,10 @@ class FlowNMController extends Controller
             ]
         ));
 
+        $data = json_encode($flow);
+
+        ActivityLog::log(Auth()->user()->id, "Edit Flow {$data}.");
+
         return redirect()
             ->route('flow_nm.index')
             ->with('success', 'Flow NM berhasil diperbarui.');
@@ -184,6 +193,11 @@ class FlowNMController extends Controller
         }
 
         $monitoring = Flow::findOrFail($id);
+
+        $data = json_encode($monitoring);
+
+        ActivityLog::log(Auth()->user()->id, "Hapus Flow {$data}.");
+
         $monitoring->delete();
 
         return redirect()

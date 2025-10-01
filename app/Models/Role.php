@@ -178,6 +178,7 @@ class Role extends Model
             ['id' => 'akses_coa_kapur', 'name' => ucwords(str_replace('_', ' ', 'akses_coa_kapur'))],
             ['id' => 'akses_laporan_uji_karung', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_uji_karung'))],
             ['id' => 'akses_laporan_mutasi_barang', 'name' => ucwords(str_replace('_', ' ', 'akses_laporan_mutasi_barang'))],
+            ['id' => 'akses_daftar_log_aktifitas', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_log_aktifitas'))],
         ];
     }
 }

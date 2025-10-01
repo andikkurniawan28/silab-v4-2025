@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Impurity;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,6 +67,8 @@ class ImpurityController extends Controller
 
         Impurity::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat kotoran tebu {$request->name}.");
+
         return redirect()->route('impurities.index')->with('success', 'Kotoran Tebu berhasil ditambahkan.');
     }
 
@@ -88,6 +91,8 @@ class ImpurityController extends Controller
             'name'          => 'required|string|max:255',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti kotoran tebu {$impurity->name} ke {$request->name}.");
+
         $impurity->update($request->all());
 
         return redirect()->route('impurities.index')->with('success', 'Kotoran Tebu berhasil diperbarui.');
@@ -99,7 +104,10 @@ class ImpurityController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus kotoran tebu {$impurity->name}.");
+
         $impurity->delete();
+
         return redirect()->route('impurities.index')->with('success', 'Kotoran Tebu berhasil dihapus.');
     }
 }

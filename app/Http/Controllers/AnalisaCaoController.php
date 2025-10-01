@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Factor;
 use App\Models\Analysis;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -57,6 +58,8 @@ class AnalisaCaoController extends Controller
             return $response;
         }
         Analysis::whereId($request->id)->update(['p11' => $request->cao]);
+        $data = json_encode($request);
+        ActivityLog::log(Auth()->user()->id, "Input Analisa CaO barcode {$request->id} {$data}.");
         return redirect()->back()->with('success', 'Data berhasil disimpan');
     }
 }

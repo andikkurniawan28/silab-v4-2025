@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Factor;
 use App\Models\Analysis;
 use App\Models\Parameter;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use App\Models\ParameterMaterial;
@@ -112,6 +113,7 @@ class AnalysisChangeRequestController extends Controller
             ->get();
 
         $roles = Role::where('akses_setujui_revisi_analisa', 1)->select(['id'])->get();
+
         $users = User::whereIn('role_id', $roles)->select(['id', 'name'])->get();
 
         return view('analysis_change_requests.edit', compact('factors', 'analysis', 'parameters', 'users'));
@@ -125,6 +127,7 @@ class AnalysisChangeRequestController extends Controller
 
         AnalysisChangeRequest::create($request->all());
         // Nanti disini kirim tele
+        ActivityLog::log(Auth()->user()->id, "Pengajuan revisi analisa barcode {$request->analysis_id}.");
 
         return redirect()->route('analysisChangeRequest.index')->with('success', 'Revisi berhasil diajukan');
     }
@@ -154,7 +157,10 @@ class AnalysisChangeRequestController extends Controller
             $changeRequest->status = 1;
 
             $analysis->save();
+
             $changeRequest->save();
+
+            ActivityLog::log(Auth()->user()->id, "Menyetujui revisi analisa barcode {$changeRequest->analysis_id}.");
         });
 
         return redirect()->route('analysisChangeRequest.index')->with('success', 'Revisi berhasil disetujui');
@@ -186,6 +192,7 @@ class AnalysisChangeRequestController extends Controller
 
             $analysis->save();
             $changeRequest->save();
+            ActivityLog::log(Auth()->user()->id, "Menyetujui revisi analisa barcode {$changeRequest->analysis_id}.");
         });
 
         return 'Revisi berhasil disetujui';

@@ -251,6 +251,10 @@
                         <a class="collapse-item @yield('mutasi_barang-active')"
                             href="{{ route('reports.mutasiBarang.index') }}">Mutasi Barang</a>
                     @endif
+                    @if (Auth()->user()->role->akses_daftar_log_aktifitas)
+                        <a class="collapse-item @yield('activity_logs-active')"
+                            href="{{ route('activityLogs.index') }}">Log Aktifitas</a>
+                    @endif
 
                 </div>
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Variety;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -66,6 +67,8 @@ class VarietyController extends Controller
 
         Variety::create($request->all());
 
+        ActivityLog::log(Auth()->user()->id, "Membuat varietas tebu {$request->name}.");
+
         return redirect()->route('varieties.index')->with('success', 'Varietas Tebu berhasil ditambahkan.');
     }
 
@@ -88,6 +91,8 @@ class VarietyController extends Controller
             'name'          => 'required|string|max:255',
         ]);
 
+        ActivityLog::log(Auth()->user()->id, "Ganti varietas tebu {$variety->name} ke {$request->name}.");
+
         $variety->update($request->all());
 
         return redirect()->route('varieties.index')->with('success', 'Varietas Tebu berhasil diperbarui.');
@@ -99,7 +104,10 @@ class VarietyController extends Controller
             return $response;
         }
 
+        ActivityLog::log(Auth()->user()->id, "Hapus varietas tebu {$variety->name}.");
+
         $variety->delete();
+
         return redirect()->route('varieties.index')->with('success', 'Varietas Tebu berhasil dihapus.');
     }
 }

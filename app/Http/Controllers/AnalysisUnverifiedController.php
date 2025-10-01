@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Analysis;
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -81,10 +82,13 @@ class AnalysisUnverifiedController extends Controller
         $ids = $request->input('ids');
 
         if (empty($ids) || !is_array($ids)) {
+            ActivityLog::log(Auth()->user()->id, "Verifikasi analisa gagal.");
             return redirect()->back()->with('failed', 'Tidak ada data yang dipilih');
         }
 
         try {
+            $data = json_encode($ids);
+            ActivityLog::log(Auth()->user()->id, "Verifikasi analisa barcode {$data}.");
             Analysis::whereIn('id', $ids)->update([
                 'is_verified' => 1,
             ]);
