@@ -87,7 +87,7 @@ class UserController extends Controller
             'phone'     => $request->phone,
         ]);
 
-        $data = json_encode($request->all());
+        $data = json_encode($request->except(['_token', '_method']));
         ActivityLog::log(Auth()->user()->id, "Tambah User {$data}.");
 
         return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
@@ -127,6 +127,7 @@ class UserController extends Controller
         // Update user utama
         $user->update($data);
 
+        $data = json_encode($data);
         ActivityLog::log(Auth()->user()->id, "Edit User {$data}.");
 
         return redirect()->route('users.index')->with('success', 'User berhasil diperbarui.');

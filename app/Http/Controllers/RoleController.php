@@ -75,6 +75,7 @@ class RoleController extends Controller
 
         Role::create($data);
 
+        $data = json_encode($data);
         ActivityLog::log(Auth()->user()->id, "Tambah Jabatan {$data}.");
 
         return redirect()->route('roles.index')->with('success', 'Jabatan berhasil ditambahkan.');
@@ -109,6 +110,7 @@ class RoleController extends Controller
 
         $role->update($data);
 
+        $data = json_encode($data);
         ActivityLog::log(Auth()->user()->id, "Edit Jabatan {$data}.");
 
         return redirect()->route('roles.index')->with('success', 'Jabatan berhasil diperbarui.');

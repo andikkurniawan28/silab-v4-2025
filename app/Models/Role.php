@@ -83,6 +83,8 @@ class Role extends Model
             ['id' => 'akses_cetak_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_cetak_barcode'))],
             ['id' => 'akses_edit_timestamp_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_timestamp_barcode'))],
             ['id' => 'akses_edit_material_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_material_barcode'))],
+            ['id' => 'akses_edit_ronsel_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_ronsel_barcode'))],
+            ['id' => 'akses_edit_nopol_barcode', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_nopol_barcode'))],
             ['id' => 'akses_input_data', 'name' => ucwords(str_replace('_', ' ', 'akses_input_data'))],
             ['id' => 'akses_daftar_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_daftar_analisa'))],
             ['id' => 'akses_edit_analisa', 'name' => ucwords(str_replace('_', ' ', 'akses_edit_analisa'))],

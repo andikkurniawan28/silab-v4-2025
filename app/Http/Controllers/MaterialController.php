@@ -102,7 +102,7 @@ class MaterialController extends Controller
         $material = Material::create([
             'station_id' => $request->station_id,
             'name'       => $request->name,
-            'is_active'  => $request->boolean('is_active', true),
+            'is_active'  => 0,
         ]);
 
         if ($request->has('parameters')) {
@@ -149,7 +149,7 @@ class MaterialController extends Controller
         $material->update([
             'station_id' => $request->station_id,
             'name'       => $request->name,
-            'is_active'  => $request->boolean('is_active', true),
+            'is_active'  => $request->boolean('is_active', 0),
             'sampling_method'       => $request->sampling_method,
         ]);
 

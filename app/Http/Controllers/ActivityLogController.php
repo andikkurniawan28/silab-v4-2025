@@ -29,7 +29,7 @@ class ActivityLogController extends Controller
                 })
                 ->addColumn('description', function ($row) {
                     return $row->description
-                        ? Str::limit($row->description, 75, '...')
+                        ? Str::limit($row->description, 100, '...')
                         : '-';
                 })
                 ->make(true);

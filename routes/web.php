@@ -104,8 +104,12 @@ Route::get('barcode_printing', [BarcodePrintingController::class, 'list'])->name
 Route::get('barcode_printing/reprint/{analysis_id}', [BarcodePrintingController::class, 'reprint'])->name('barcode_printing.reprint')->middleware(['auth']);
 Route::get('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestamp'])->name('barcode_printing.editTimestamp')->middleware(['auth']);
 Route::get('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterial'])->name('barcode_printing.editMaterial')->middleware(['auth']);
+Route::get('barcode_printing/editRonsel/{analysis_id}', [BarcodePrintingController::class, 'editRonsel'])->name('barcode_printing.editRonsel')->middleware(['auth']);
+Route::get('barcode_printing/editNopol/{analysis_id}', [BarcodePrintingController::class, 'editNopol'])->name('barcode_printing.editNopol')->middleware(['auth']);
 Route::post('barcode_printing/editTimestamp/{analysis_id}', [BarcodePrintingController::class, 'editTimestampProcess'])->name('barcode_printing.editTimestampProcess')->middleware(['auth']);
 Route::post('barcode_printing/editMaterial/{analysis_id}', [BarcodePrintingController::class, 'editMaterialProcess'])->name('barcode_printing.editMaterialProcess')->middleware(['auth']);
+Route::post('barcode_printing/editRonsel/{analysis_id}', [BarcodePrintingController::class, 'editRonselProcess'])->name('barcode_printing.editRonselProcess')->middleware(['auth']);
+Route::post('barcode_printing/editNopol/{analysis_id}', [BarcodePrintingController::class, 'editNopolProcess'])->name('barcode_printing.editNopolProcess')->middleware(['auth']);
 Route::resource('analyses', AnalysisController::class)->middleware(['auth']);
 Route::get('analysis_unverified', [AnalysisUnverifiedController::class, 'index'])->name('analysis_unverified.index')->middleware(['auth']);
 Route::post('analysis_unverified/process', [AnalysisUnverifiedController::class, 'process'])->name('analysis_unverified.process')->middleware(['auth']);

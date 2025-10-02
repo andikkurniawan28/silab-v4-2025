@@ -128,8 +128,7 @@ class ImbibitionController extends Controller
 
         Imbibition::create($request->except(['date', 'time']));
 
-        $data = json_encode($request);
-
+        $data = json_encode($request->except(['_token', '_method']));
         ActivityLog::log(Auth()->user()->id, "Input Imbibisi {$data}.");
 
         return redirect()
@@ -183,7 +182,6 @@ class ImbibitionController extends Controller
         ));
 
         $data = json_encode($flow);
-
         ActivityLog::log(Auth()->user()->id, "Edit Imbibisi {$data}.");
 
         return redirect()
@@ -201,7 +199,6 @@ class ImbibitionController extends Controller
         $monitoring = Imbibition::findOrFail($id);
 
         $data = json_encode($monitoring);
-
         ActivityLog::log(Auth()->user()->id, "Hapus Imbibisi {$data}.");
 
         $monitoring->delete();

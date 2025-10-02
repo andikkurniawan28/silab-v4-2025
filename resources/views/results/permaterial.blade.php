@@ -62,6 +62,24 @@
                 order: [
                     [0, 'desc']
                 ],
+                dom: 'lBfrtip', // Tambahkan "l" untuk menampilkan dropdown untuk jumlah baris
+                buttons: [{
+                        extend: 'excelHtml5',
+                        title: 'Data Export - {{ strtoupper($material->name) }}'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data Export - {{ strtoupper($material->name) }}'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data Export - {{ strtoupper($material->name) }}'
+                    },
+                    {
+                        extend: 'print',
+                        title: 'Data Export - {{ strtoupper($material->name) }}'
+                    }
+                ],
                 language: {
                     emptyTable: "Tidak ada data tersedia",
                     processing: "Memuat..."

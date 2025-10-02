@@ -29,23 +29,69 @@
 @endsection
 
 @section('script')
-<script>
-    $(function() {
-        $('#analysesTable').DataTable({
-            processing: true,
-            serverSide: true,
-            ajax: "{{ route('analyses.index') }}",
-            order: [[0, 'desc']],
-            columns: [
-                { data: 'id', name: 'id' },
-                { data: 'created_at', name: 'created_at' },
-                { data: 'material', name: 'material.name' },
-                { data: 'result', name: 'result', orderable: false, searchable: false },
-                { data: 'status', name: 'status', orderable: false, searchable: false },
-                { data: 'user', name: 'user.name' },
-                { data: 'action', name: 'action', orderable: false, searchable: false }
-            ]
+    <script>
+        $(function() {
+            $('#analysesTable').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: "{{ route('analyses.index') }}",
+                order: [
+                    [0, 'desc']
+                ],
+                dom: 'lBfrtip', // Tambahkan "l" untuk menampilkan dropdown untuk jumlah baris
+                buttons: [{
+                        extend: 'excelHtml5',
+                        title: 'Data Export - Analisa'
+                    },
+                    {
+                        extend: 'csvHtml5',
+                        title: 'Data Export - Analisa'
+                    },
+                    {
+                        extend: 'pdfHtml5',
+                        title: 'Data Export - Analisa'
+                    },
+                    {
+                        extend: 'print',
+                        title: 'Data Export - Analisa'
+                    }
+                ],
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at'
+                    },
+                    {
+                        data: 'material',
+                        name: 'material.name'
+                    },
+                    {
+                        data: 'result',
+                        name: 'result',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'user',
+                        name: 'user.name'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
         });
-    });
-</script>
+    </script>
 @endsection

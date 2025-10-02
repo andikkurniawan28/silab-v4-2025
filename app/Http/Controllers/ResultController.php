@@ -32,6 +32,7 @@ class ResultController extends Controller
         // Ambil semua material + parameter sekaligus
         $materials = DB::table('materials')
             ->where('station_id', $station_id)
+            ->where('is_active', 1)
             ->get();
 
         $materialIds = $materials->pluck('id');

@@ -41,24 +41,42 @@ class BarcodePrintingController extends Controller
             'created_at' => $createdAt,
         ]);
 
+        $targetIds = [1, 6, 7];
+        $loop = $sample->material->parameters
+            ->whereIn('id', $targetIds)
+            ->count();
+
+        $loop = min($loop, 3);
+
         $material = Material::whereId($sample->material_id)->get()->last()->name;
 
         ActivityLog::log(Auth()->user()->id, "Cetak barcode {$sample->id} - {$material}.");
 
-        return view('barcode_printing.show', compact('sample'));
+        return view('barcode_printing.show', compact('sample', 'loop'));
     }
 
-    public function reprint($analysis_id){
+    public function reprint($analysis_id)
+    {
         if ($response = $this->checkIzin('akses_cetak_barcode')) {
             return $response;
         }
 
-        $sample = Analysis::whereId($analysis_id)->get()->last();
+        $sample = Analysis::with(['material.parameters'])
+            ->whereId($analysis_id)
+            ->first();
 
         ActivityLog::log(Auth()->user()->id, "Cetak ulang barcode {$analysis_id}.");
 
-        return view('barcode_printing.show', compact('sample'));
+        $targetIds = [1, 6, 7];
+        $loop = $sample->material->parameters
+            ->whereIn('id', $targetIds)
+            ->count();
+
+        $loop = min($loop, 3);
+
+        return view('barcode_printing.show', compact('sample', 'loop'));
     }
+
 
     public function list(Request $request){
         if ($response = $this->checkIzin('akses_daftar_barcode')) {
@@ -90,6 +108,14 @@ class BarcodePrintingController extends Controller
                     if (Auth()->user()->role->akses_edit_material_barcode) {
                         $editMaterial = route('barcode_printing.editMaterial', $row->id);
                         $buttons .= '<a href="' . $editMaterial . '" class="btn btn-sm btn-success">Edit Material</a>';
+                    }
+                    if (Auth()->user()->role->akses_edit_ronsel_barcode) {
+                        $editMaterial = route('barcode_printing.editRonsel', $row->id);
+                        $buttons .= '<a href="' . $editMaterial . '" class="btn btn-sm btn-primary">Edit Ronsel</a>';
+                    }
+                    if (Auth()->user()->role->akses_edit_nopol_barcode) {
+                        $editMaterial = route('barcode_printing.editNopol', $row->id);
+                        $buttons .= '<a href="' . $editMaterial . '" class="btn btn-sm btn-warning">Edit Nopol</a>';
                     }
                     if (Auth()->user()->role->akses_cetak_barcode) {
                         $reprintUrl = route('barcode_printing.reprint', $row->id);
@@ -165,5 +191,55 @@ class BarcodePrintingController extends Controller
         ActivityLog::log(Auth()->user()->id, "Edit material barcode {$sample_id} ke {$material}.");
 
         return redirect()->route('barcode_printing.list')->with('success', 'Material berhasil diupdate');
+    }
+
+    public function editRonsel($sample_id){
+        if ($response = $this->checkIzin('akses_edit_ronsel_barcode')) {
+            return $response;
+        }
+
+        $sample = Analysis::select(['id', 'created_at', 'volume', 'pan', 'reef'])->whereId($sample_id)->get()->last();
+
+        return view('barcode_printing.edit_ronsel', compact('sample'));
+    }
+
+    public function editRonselProcess(Request $request, $sample_id){
+        if ($response = $this->checkIzin('akses_edit_ronsel_barcode')) {
+            return $response;
+        }
+
+        Analysis::whereId($sample_id)->update([
+            'volume' => $request->volume,
+            'pan' => $request->pan,
+            'reef' => $request->reef,
+        ]);
+
+        ActivityLog::log(Auth()->user()->id, "Edit ronsel barcode {$sample_id} ke {$request->volume}, {$request->pan}, {$request->reef}.");
+
+        return redirect()->route('barcode_printing.list')->with('success', 'Ronsel berhasil diupdate');
+    }
+
+    public function editNopol($sample_id){
+        if ($response = $this->checkIzin('akses_edit_nopol_barcode')) {
+            return $response;
+        }
+
+        $sample = Analysis::select(['id', 'created_at', 'nopol'])->whereId($sample_id)->get()->last();
+
+        return view('barcode_printing.edit_nopol', compact('sample'));
+    }
+
+    public function editNopolProcess(Request $request, $sample_id){
+        if ($response = $this->checkIzin('akses_edit_nopol_barcode')) {
+            return $response;
+        }
+
+        Analysis::whereId($sample_id)->update([
+            'nopol' => $request->nopol,
+        ]);
+
+        ActivityLog::log(Auth()->user()->id, "Edit nopol barcode {$sample_id} ke {$request->nopol}.");
+
+        return redirect()->route('barcode_printing.list')->with('success', 'Nopol berhasil diupdate');
     }
 }
